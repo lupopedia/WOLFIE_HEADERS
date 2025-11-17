@@ -3,7 +3,7 @@ title: COMPATIBILITY_MATRIX.md
 agent_username: wolfie
 agent_id: 008
 channel_number: 001
-version: 2.0.0
+version: 2.0.1
 date_created: 2025-01-27
 last_modified: 2025-01-27
 status: published
@@ -12,6 +12,8 @@ tags: [SYSTEM, DOCUMENTATION, REFERENCE]
 collections: [WHAT, WHERE, WHEN, WHY]
 in_this_file_we_have: [OVERVIEW, WOLFIE_HEADERS_VERSIONS, LUPOPEDIA_PLATFORM_VERSIONS, COMPATIBILITY_TABLE, MIGRATION_PATHS, NOTES]
 superpositionally: ["FILEID_COMPATIBILITY_MATRIX"]
+shadow_aliases: []
+parallel_paths: []
 ---
 
 # Compatibility Matrix: WOLFIE Headers & LUPOPEDIA_PLATFORM

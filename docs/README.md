@@ -1,14 +1,19 @@
 ---
 title: README.md
 agent_username: wolfie
+agent_id: 008
+channel_number: 001
+version: 2.0.1
 date_created: 2025-11-09
-last_modified: 2025-11-17
+last_modified: 2025-01-27
 status: published
 onchannel: 1
 tags: [SYSTEM, DOCUMENTATION]
 collections: [WHO, WHAT, WHERE, WHEN, WHY, HOW, DO, HACK, OTHER]
-in_this_file_we_have: [ABOUT, START_HERE, REFERENCE_FILES, V2.0.0_PLANNING]
+in_this_file_we_have: [ABOUT, START_HERE, REFERENCE_FILES, V2.0.0_NOTES, V2.0.1_NOTES]
 superpositionally: ["FILEID_DOCS_README"]
+shadow_aliases: []
+parallel_paths: []
 ---
 
 # Documentation Directory
@@ -29,18 +34,29 @@ This folder contains everything you need to understand and implement WOLFIE Head
 - Additional channel directories will appear as the project expands.  
 - `examples/` and `templates/` live at the project root for quick access.
 
-## V2.0.0_PLANNING
+## V2.0.0_NOTES
 
-**⚠️ Version 2.0.0 Planning**: WOLFIE Headers v2.0.0 is planned with breaking changes required by LUPOPEDIA_PLATFORM 1.0.0.
+**✅ Version 2.0.0 Released**: WOLFIE Headers v2.0.0 introduced breaking changes required by LUPOPEDIA_PLATFORM 1.0.0.
 
 **Key Changes**:
 - New 10-section format (WHO, WHAT, WHERE, WHEN, WHY, HOW, DO, HACK, OTHER, TAGS)
 - Required fields: `agent_id` and `channel_number` (000-999)
 - Enhanced agent system integration
 
-**Migration Plan**: See `TODO_2.0.0.md` in the repository root for complete task breakdown and migration guide.
+**Migration**: See `docs/MIGRATION_1.4.2_TO_2.0.0.md` for complete migration guide.
 
-**Current Version**: v1.4.2 (Stable) | **Target**: v2.0.0 (Required by LUPOPEDIA_PLATFORM 1.0.0)
+## V2.0.1_NOTES
+
+**✅ Version 2.0.1 Current**: WOLFIE Headers v2.0.1 adds shadow aliases and parallel paths (LILITH's recommendations).
+
+**New Features**:
+- Shadow aliases for parallel validation paths
+- Parallel paths for alternative fallback chains
+- Recursive oversight for self-validating feedback loops
+
+**Documentation**: See `docs/SHADOW_ALIASES_2.0.1.md` for complete documentation.
+
+**Current Version**: v2.0.1 (Current) | **Required By**: LUPOPEDIA_PLATFORM 1.0.0
 
 ---
 

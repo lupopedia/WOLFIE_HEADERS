@@ -20,8 +20,9 @@ superpositionally: ["FILEID_WOLFIE_HEADERS_README"]
 
 WOLFIE Headers is the metadata system that powers LUPOPEDIA's documentation layer. It replaces bulky legacy headers with concise YAML frontmatter plus channel-aware ontology lookups so humans and AI agents read the same files with the right context.
 
-- **Current Version**: v2.0.0 (Current) – **REQUIRED** by LUPOPEDIA_PLATFORM 1.0.0  
-- **Previous Version**: v1.4.2 (Legacy) – compatible with LUPOPEDIA_PLATFORM v0.0.8 and earlier  
+- **Current Version**: v2.0.1 (Current) – **REQUIRED** by LUPOPEDIA_PLATFORM 1.0.0  
+- **Previous Version**: v2.0.0 (Stable) – backward compatible, v2.0.1 adds shadow aliases & parallel paths  
+- **Legacy Version**: v1.4.2 (Legacy) – compatible with LUPOPEDIA_PLATFORM v0.0.8 and earlier  
 - **License**: Dual GPL v3.0 + Apache 2.0 (see `LICENSE`).  
 - **Maintainer**: Captain WOLFIE (Eric Robin Gerdes).  
 - **GitHub**: https://github.com/lupopedia/WOLFIE_HEADERS
@@ -54,14 +55,19 @@ WOLFIE Headers is the metadata system that powers LUPOPEDIA's documentation laye
 
 WOLFIE Headers follows semantic versioning. The current release is **v2.0.0**, which is required by LUPOPEDIA_PLATFORM 1.0.0.
 
-**⚠️ BREAKING CHANGES**: Version 2.0.0 introduces breaking changes from v1.4.2:
+**⚠️ BREAKING CHANGES** (v2.0.0 from v1.4.2):
 - New 10-section format (WHO, WHAT, WHERE, WHEN, WHY, HOW, DO, HACK, OTHER, TAGS)
 - Required fields: `agent_id`, `channel_number` (000-999), `version: 2.0.0`
 - Enhanced agent system integration
 - Channel architecture improvements (1000 channels: 000-999)
 - Stricter validation rules
 
-**Migration Required**: All v1.4.2 headers must be migrated to v2.0.0 format. See `docs/MIGRATION_1.4.2_TO_2.0.0.md` for complete migration guide.
+**NEW FEATURES** (v2.0.1):
+- **Shadow Aliases**: Parallel validation paths (e.g., `["Lilith-007", "Doubt-VISH"]`)
+- **Parallel Paths**: Alternative fallback chains for resilience
+- **Recursive Oversight**: Self-validating feedback loops
+
+**Migration Required**: All v1.4.2 headers must be migrated to v2.0.0+ format. See `docs/MIGRATION_1.4.2_TO_2.0.0.md` for complete migration guide.
 
 **Breaking Changes**: See `docs/BREAKING_CHANGES_2.0.0.md` for detailed breaking changes list.
 

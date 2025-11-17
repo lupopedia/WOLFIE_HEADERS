@@ -3,15 +3,17 @@ title: WOLFIE_HEADER_SYSTEM_OVERVIEW.md
 agent_username: wolfie
 agent_id: 008
 channel_number: 001
-version: 2.0.0
+version: 2.0.1
 date_created: 2025-11-09
 last_modified: 2025-01-27
 status: published
 onchannel: 1
 tags: [SYSTEM, DOCUMENTATION]
 collections: [WHO, WHAT, WHERE, WHEN, WHY, HOW, DO, HACK, OTHER]
-in_this_file_we_have: [PURPOSE, ARCHITECTURE, FALLBACK_CHAIN, FILE_STRUCTURE, MIGRATION_NOTES, V2.0.0_NOTES]
+in_this_file_we_have: [PURPOSE, ARCHITECTURE, FALLBACK_CHAIN, FILE_STRUCTURE, MIGRATION_NOTES, V2.0.0_NOTES, V2.0.1_NOTES]
 superpositionally: ["FILEID_WHS_OVERVIEW"]
+shadow_aliases: ["Lilith-007"]
+parallel_paths: ["heterodox_validation"]
 ---
 
 # WOLFIE Header System Overview
@@ -56,20 +58,36 @@ If a definition is missing at all levels, validation flags the header before rel
 
 ## V2.0.0_NOTES
 
-**✅ Version 2.0.0 Released**: WOLFIE Headers v2.0.0 is now the current version with breaking changes required by LUPOPEDIA_PLATFORM 1.0.0.
+**✅ Version 2.0.0 Released**: WOLFIE Headers v2.0.0 introduced breaking changes required by LUPOPEDIA_PLATFORM 1.0.0.
 
-**Current Changes**:
+**v2.0.0 Changes**:
 - **10-Section Format**: Standard collections (WHO, WHAT, WHERE, WHEN, WHY, HOW, DO, HACK, OTHER, TAGS)
 - **Required Fields**: `agent_id` and `channel_number` (000-999) are now required
 - **1000-Channel Support**: Enhanced channel architecture for 1000 channels (000-999)
 - **Agent System Integration**: Direct integration with LUPOPEDIA agent routing system
-- **Version Field**: All headers must include `version: 2.0.0`
+- **Version Field**: All headers must include `version: 2.0.0` or higher
 
-**Migration**: All v1.4.2 headers must be migrated to v2.0.0 format. See `docs/MIGRATION_1.4.2_TO_2.0.0.md` for complete migration guide.
-
-**Current Status**: v2.0.0 (Current) | **Required By**: LUPOPEDIA_PLATFORM 1.0.0
+**Migration**: All v1.4.2 headers must be migrated to v2.0.0+ format. See `docs/MIGRATION_1.4.2_TO_2.0.0.md` for complete migration guide.
 
 **Breaking Changes**: See `docs/BREAKING_CHANGES_2.0.0.md` for detailed breaking changes list.
+
+## V2.0.1_NOTES
+
+**✅ Version 2.0.1 Released**: WOLFIE Headers v2.0.1 adds shadow aliases and parallel paths (LILITH's recommendations implemented).
+
+**Current Version**: v2.0.1 (Current) | **Required By**: LUPOPEDIA_PLATFORM 1.0.0
+
+**v2.0.1 New Features**:
+- **Shadow Aliases**: Optional `shadow_aliases` field for parallel validation paths (e.g., `["Lilith-007", "Doubt-VISH"]`)
+- **Parallel Paths**: Optional `parallel_paths` field for alternative fallback chains (e.g., `["heterodox_validation", "recursive_check"]`)
+- **Recursive Oversight**: Automatic validation loops when shadow aliases are present
+- **Enhanced Resilience**: Structure (brittle chain) + chaos (parallel paths) = unbreakable system
+
+**Philosophy**: The hierarchy isn't afraid of its shadow—it *uses* its shadow to become unbreakable. Brittleness stays (predictable, traceable), but parallel paths add resilience.
+
+**Backward Compatibility**: v2.0.1 is fully backward compatible with v2.0.0. Shadow aliases and parallel paths are optional enhancements.
+
+**Documentation**: See `docs/SHADOW_ALIASES_2.0.1.md` for complete shadow alias system documentation.
 
 ---
 

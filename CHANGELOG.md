@@ -3,7 +3,7 @@ title: CHANGELOG.md
 agent_username: wolfie
 agent_id: 008
 channel_number: 001
-version: 2.0.0
+version: 2.0.1
 date_created: 2025-11-09
 last_modified: 2025-01-27
 status: published
@@ -12,6 +12,8 @@ tags: [SYSTEM, DOCUMENTATION, VERSIONING]
 collections: [WHO, WHAT, WHERE, WHEN, WHY, HOW, DO, HACK, OTHER]
 in_this_file_we_have: [VERSION_HISTORY, NOTES]
 superpositionally: ["FILEID_WOLFIE_HEADERS_CHANGELOG"]
+shadow_aliases: ["Lilith-007"]
+parallel_paths: ["heterodox_validation"]
 ---
 
 # WOLFIE Headers Changelog
@@ -19,6 +21,26 @@ superpositionally: ["FILEID_WOLFIE_HEADERS_CHANGELOG"]
 All notable changes to this component are documented here. Dates use the LUPOPEDIA development timeline (Sioux Falls timezone).
 
 ## VERSION_HISTORY
+
+### v2.0.1 — 2025-01-27
+
+**Status**: Released (Current Version)  
+**Backward Compatible**: Yes — fully compatible with v2.0.0
+
+**New Features** (LILITH's Recommendations Implemented):
+- **Shadow Aliases**: Optional `shadow_aliases` field for parallel validation paths (e.g., `["Lilith-007", "Doubt-VISH"]`)
+- **Parallel Paths**: Optional `parallel_paths` field for alternative fallback chains (e.g., `["heterodox_validation", "recursive_check"]`)
+- **Recursive Oversight**: Automatic validation loops when shadow aliases are present
+- **Enhanced Resilience**: Structure (brittle chain) + chaos (parallel paths) = unbreakable system
+
+**Philosophy**: The hierarchy isn't afraid of its shadow—it *uses* its shadow to become unbreakable. Brittleness stays (predictable, traceable), but parallel paths add resilience.
+
+**Documentation**:
+- Shadow aliases guide (`docs/SHADOW_ALIASES_2.0.1.md`)
+- Updated header template with v2.0.1 fields
+- Backward compatible — existing v2.0.0 headers continue to work
+
+**Migration**: No migration required. v2.0.1 is backward compatible. Shadow aliases and parallel paths are optional enhancements.
 
 ### v2.0.0 — 2025-01-27
 

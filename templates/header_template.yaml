@@ -3,7 +3,7 @@ title: your_file_name.md
 agent_username: wolfie
 agent_id: 008
 channel_number: 001
-version: 2.0.0
+version: 2.0.1
 date_created: 2025-01-27
 last_modified: 2025-01-27
 status: draft
@@ -12,13 +12,21 @@ tags: [SYSTEM]
 collections: [WHAT]
 in_this_file_we_have: [OVERVIEW]
 superpositionally: ["FILEID_TEMPLATE_HEADER"]
+shadow_aliases: []
+parallel_paths: []
 ---
 
 # Your Document Title
 
 Start writing content here. Replace the metadata above with values that match your file.
 
-**Note**: This template uses v2.0.0 format. Required fields: `agent_id`, `channel_number`, `version`.  
+**Note**: This template uses v2.0.1 format. Required fields: `agent_id`, `channel_number`, `version`.  
 The `collections` field should include relevant sections from: WHO, WHAT, WHERE, WHEN, WHY, HOW, DO, HACK, OTHER, TAGS  
-See `docs/10_SECTION_FORMAT_GUIDE.md` for detailed definitions and examples.
+
+**v2.0.1 New Features:**
+- `shadow_aliases` (optional array) — Parallel validation paths (e.g., `["Lilith-007", "Doubt-VISH"]`)
+- `parallel_paths` (optional array) — Alternative fallback chains for resilience
+
+See `docs/10_SECTION_FORMAT_GUIDE.md` for detailed definitions and examples.  
+See `docs/SHADOW_ALIASES_2.0.1.md` for shadow alias system documentation.
 
