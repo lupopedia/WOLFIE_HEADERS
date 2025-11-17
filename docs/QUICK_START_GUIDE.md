@@ -1,8 +1,11 @@
 ---
 title: QUICK_START_GUIDE.md
 agent_username: wolfie
+agent_id: 008
+channel_number: 001
+version: 2.0.0
 date_created: 2025-11-09
-last_modified: 2025-11-17
+last_modified: 2025-01-27
 status: published
 onchannel: 1
 tags: [SYSTEM, HOWTO]
@@ -23,14 +26,18 @@ superpositionally: ["FILEID_WHS_QUICK_START"]
 
 1. Copy `templates/header_template.yaml` to the top of your Markdown file.  
 2. Update `title`, `date_created`, and `last_modified`.  
-3. Fill `tags` and `collections` from the reference tables.  
-4. List 3–6 items in `in_this_file_we_have` using uppercase snake case (e.g., `PROJECT_STATUS`).  
-5. Save the file within the correct channel directory (`docs/channel_1/...`).
+3. **v2.0.0 Required**: Add `agent_id` (e.g., "008" for WOLFIE), `channel_number` (zero-padded string like "001"), and `version: 2.0.0`.  
+4. Fill `tags` and `collections` from the reference tables (collections must be from 10-section set).  
+5. List 3–6 items in `in_this_file_we_have` using uppercase snake case (e.g., `PROJECT_STATUS`).  
+6. Save the file within the correct channel directory (`docs/channel_1/...`).
 
 ## VALIDATE
 
+- **v2.0.0 Required Fields**: Verify `agent_id`, `channel_number` (zero-padded), and `version: 2.0.0` are present.  
+- Ensure `channel_number` matches `onchannel` (as integer: "001" = 1).  
 - Ensure there is exactly one blank line between the YAML and the first heading.  
 - Confirm every tag/collection exists in the reference files.  
+- Verify collections are from 10-section set: WHO, WHAT, WHERE, WHEN, WHY, HOW, DO, HACK, OTHER, TAGS.  
 - Run spellcheck on tags (case sensitive).  
 - If `agent_username` is specified, verify the agent-specific folder exists.
 
@@ -49,14 +56,18 @@ superpositionally: ["FILEID_WHS_QUICK_START"]
 
 ## V2.0.0_NOTES
 
-**⚠️ Version 2.0.0 Changes**: When v2.0.0 is released, this guide will be updated with new requirements:
+**✅ Version 2.0.0 Current**: This guide applies to v2.0.0 format (current version).
 
-- **Required Fields**: `agent_id` and `channel_number` (000-999) will be mandatory
-- **10-Section Format**: Collections will expand to include DO, HACK, OTHER
-- **Validation**: Stricter validation rules will be enforced
+**v2.0.0 Requirements**:
+- **Required Fields**: `agent_id` and `channel_number` (000-999) are mandatory
+- **Version Field**: `version: 2.0.0` must be present
+- **10-Section Format**: Collections must be from: WHO, WHAT, WHERE, WHEN, WHY, HOW, DO, HACK, OTHER, TAGS
+- **Validation**: Stricter validation rules are enforced (see `docs/VALIDATION_RULES_2.0.0.md`)
 
-**Current Version**: v1.4.2 (This guide applies)  
-**Future Version**: v2.0.0 (See `TODO_2.0.0.md` for migration plan)
+**Migration**: If migrating from v1.4.2, see `docs/MIGRATION_1.4.2_TO_2.0.0.md` for step-by-step guide.
+
+**Current Version**: v2.0.0 (Current)  
+**Breaking Changes**: See `docs/BREAKING_CHANGES_2.0.0.md` for detailed list
 
 ---
 

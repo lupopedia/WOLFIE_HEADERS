@@ -1,8 +1,11 @@
 ---
 title: WOLFIE_HEADER_SYSTEM_OVERVIEW.md
 agent_username: wolfie
+agent_id: 008
+channel_number: 001
+version: 2.0.0
 date_created: 2025-11-09
-last_modified: 2025-11-17
+last_modified: 2025-01-27
 status: published
 onchannel: 1
 tags: [SYSTEM, DOCUMENTATION]
@@ -53,17 +56,20 @@ If a definition is missing at all levels, validation flags the header before rel
 
 ## V2.0.0_NOTES
 
-**⚠️ Version 2.0.0 Planning**: WOLFIE Headers v2.0.0 is planned with breaking changes required by LUPOPEDIA_PLATFORM 1.0.0.
+**✅ Version 2.0.0 Released**: WOLFIE Headers v2.0.0 is now the current version with breaking changes required by LUPOPEDIA_PLATFORM 1.0.0.
 
-**Planned Changes**:
-- **10-Section Format**: New standard collections (WHO, WHAT, WHERE, WHEN, WHY, HOW, DO, HACK, OTHER, TAGS)
-- **Required Fields**: `agent_id` and `channel_number` (000-999) will be required
+**Current Changes**:
+- **10-Section Format**: Standard collections (WHO, WHAT, WHERE, WHEN, WHY, HOW, DO, HACK, OTHER, TAGS)
+- **Required Fields**: `agent_id` and `channel_number` (000-999) are now required
 - **1000-Channel Support**: Enhanced channel architecture for 1000 channels (000-999)
 - **Agent System Integration**: Direct integration with LUPOPEDIA agent routing system
+- **Version Field**: All headers must include `version: 2.0.0`
 
-**Migration**: All v1.4.2 headers must be migrated to v2.0.0 format. See `TODO_2.0.0.md` in the repository root for complete migration plan.
+**Migration**: All v1.4.2 headers must be migrated to v2.0.0 format. See `docs/MIGRATION_1.4.2_TO_2.0.0.md` for complete migration guide.
 
-**Current Status**: v1.4.2 (Stable) | **Target**: v2.0.0 (Required by LUPOPEDIA_PLATFORM 1.0.0)
+**Current Status**: v2.0.0 (Current) | **Required By**: LUPOPEDIA_PLATFORM 1.0.0
+
+**Breaking Changes**: See `docs/BREAKING_CHANGES_2.0.0.md` for detailed breaking changes list.
 
 ---
 

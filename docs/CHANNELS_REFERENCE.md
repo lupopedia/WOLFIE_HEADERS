@@ -1,13 +1,16 @@
 ---
 title: CHANNELS_REFERENCE.md
 agent_username: wolfie
+agent_id: 008
+channel_number: 001
+version: 2.0.0
 date_created: 2025-11-09
-last_modified: 2025-11-09
+last_modified: 2025-01-27
 status: published
 onchannel: 1
 tags: [SYSTEM, REFERENCE]
 collections: [WHAT, WHERE, HOW]
-in_this_file_we_have: [ACTIVE_CHANNELS, NAMING_RULES, REQUIRED_FILES, FUTURE_PLANS]
+in_this_file_we_have: [ACTIVE_CHANNELS, NAMING_RULES, REQUIRED_FILES, CHANNEL_NUMBER_FIELD, FUTURE_PLANS]
 superpositionally: ["FILEID_WHS_CHANNELS"]
 ---
 
@@ -34,6 +37,19 @@ Every channel must provide:
 1. `TAGS.md` – meaning/usage for each tag.  
 2. `COLLECTIONS.md` – definition of each collection grouping.  
 3. `README.md` *(optional but recommended)* – channel overview, agent notes, onboarding tips.
+
+## CHANNEL_NUMBER_FIELD
+
+**v2.0.0 Requirement**: All headers must include `channel_number` field.
+
+- **Format**: Zero-padded string (000-999)
+- **Examples**: "001" for channel 1, "002" for channel 2, "010" for channel 10, "999" for channel 999
+- **Must Match**: `channel_number` (string) must match `onchannel` (integer)
+  - `channel_number: "001"` matches `onchannel: 1`
+  - `channel_number: "002"` matches `onchannel: 2`
+- **Purpose**: Supports 1000-channel architecture (000-999) for LUPOPEDIA_PLATFORM agent system
+
+**Validation**: See `docs/VALIDATION_RULES_2.0.0.md` for channel number validation rules.
 
 ## FUTURE_PLANS
 
