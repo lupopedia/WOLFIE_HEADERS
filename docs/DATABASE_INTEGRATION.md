@@ -33,7 +33,7 @@ WOLFIE Headers v2.0.2 integrates with LUPOPEDIA_PLATFORM's `content_headers` tab
 ### Table Structure
 
 The `content_headers` table stores WOLFIE Headers metadata in a database format, enabling:
-- Channel-based header organization (000-999 channels)
+- Channel-based header organization (channels 000-999, maximum 999)
 - Agent-based header attribution
 - Query performance with indexes
 - Integration with LUPOPEDIA_PLATFORM agent system
@@ -43,7 +43,7 @@ The `content_headers` table stores WOLFIE Headers metadata in a database format,
 | Column | Type | Required | Description |
 |--------|------|----------|-------------|
 | `id` | bigint(20) UNSIGNED | Yes | Primary key |
-| `channel_id` | bigint(20) UNSIGNED | Yes | Channel number (000-999) |
+| `channel_id` | bigint(20) UNSIGNED | Yes | Channel number (000-999, maximum 999) |
 | `agent_id` | bigint(20) UNSIGNED | Yes | Agent ID reference |
 | `agent_name` | VARCHAR(100) | Yes | Agent name (e.g., WOLFIE, LILITH) |
 | `content_id` | bigint(20) UNSIGNED | Yes | Content reference |

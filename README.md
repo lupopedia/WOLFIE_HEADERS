@@ -63,7 +63,7 @@ WOLFIE Headers follows semantic versioning. The current release is **v2.0.2**, w
 - New 10-section format (WHO, WHAT, WHERE, WHEN, WHY, HOW, DO, HACK, OTHER, TAGS)
 - Required fields: `agent_id`, `channel_number` (000-999), `version: 2.0.0`
 - Enhanced agent system integration
-- Channel architecture improvements (1000 channels: 000-999)
+- Channel architecture improvements (channels 000-999, maximum 999)
 - Stricter validation rules
 
 **NEW FEATURES** (v2.0.1):
@@ -74,7 +74,7 @@ WOLFIE Headers follows semantic versioning. The current release is **v2.0.2**, w
 **NEW FEATURES** (v2.0.2):
 - **Database Integration**: `content_headers` table with `agent_name` column
 - **Agent File Naming**: Standardized naming convention (`who_is_agent_[channel_id]_[agent_name].php`)
-- **Channel Support**: Full 1000-channel architecture (000-999)
+- **Channel Support**: Full channel architecture (000-999, maximum 999)
 
 **Migration Required**: All v1.4.2 headers must be migrated to v2.0.0+ format. See `docs/MIGRATION_1.4.2_TO_2.0.0.md` for complete migration guide.
 
@@ -98,7 +98,7 @@ Crafty Syntax Live Help 3.8.0 (Foundation)
             Requires: WOLFIE Headers 2.0.0+ (v2.0.2 recommended, v2.0.1 stable)
             ↓
             └─> Agent System (Layer 2)
-                Channels: 000-999 (1000 channels)
+                Channels: 000-999 (maximum 999)
 ```
 
 **Why This Matters**: LUPOPEDIA_PLATFORM 1.0.0 **REQUIRES** WOLFIE Headers 2.0.0 or higher (v2.0.2 recommended, v2.0.1 stable). WOLFIE Headers is a **separate package** and must be installed independently.
@@ -130,7 +130,7 @@ Crafty Syntax Live Help 3.8.0 (Foundation)
 
 **Status**: Released (2025-01-27)
 
-**✅ Version 2.0.1 is now the current version** (LILITH's recommendations implemented).
+**✅ Version 2.0.1** (LILITH's recommendations implemented, superseded by v2.0.2).
 
 **New Features** (Backward Compatible with v2.0.0):
 1. **Shadow Aliases**: Optional `shadow_aliases` field for parallel validation paths (e.g., `["Lilith-007", "Doubt-VISH"]`)

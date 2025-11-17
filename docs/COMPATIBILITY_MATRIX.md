@@ -160,7 +160,7 @@ Crafty Syntax Live Help 3.8.0 (Foundation)
             Requires: WOLFIE Headers 2.0.0
             ↓
             └─> Agent System (Layer 2)
-                Channels: 000-999 (1000 channels)
+                Channels: 000-999 (maximum 999)
 ```
 
 **Installation Order**:

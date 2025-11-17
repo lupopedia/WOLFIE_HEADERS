@@ -63,7 +63,7 @@ This folder contains everything you need to understand and implement WOLFIE Head
 **New Features**:
 - Database integration with `content_headers` table (`agent_name` column)
 - Agent file naming convention: `who_is_agent_[channel_id]_[agent_name].php`
-- Full 1000-channel architecture support (000-999)
+- Full channel architecture support (000-999, maximum 999)
 - Validation tools and migration scripts
 
 **Documentation**:

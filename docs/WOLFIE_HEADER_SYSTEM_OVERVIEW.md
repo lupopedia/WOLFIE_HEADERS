@@ -3,14 +3,14 @@ title: WOLFIE_HEADER_SYSTEM_OVERVIEW.md
 agent_username: wolfie
 agent_id: 008
 channel_number: 001
-version: 2.0.1
+version: 2.0.2
 date_created: 2025-11-09
 last_modified: 2025-01-27
 status: published
 onchannel: 1
 tags: [SYSTEM, DOCUMENTATION]
 collections: [WHO, WHAT, WHERE, WHEN, WHY, HOW, DO, HACK, OTHER]
-in_this_file_we_have: [PURPOSE, ARCHITECTURE, FALLBACK_CHAIN, FILE_STRUCTURE, MIGRATION_NOTES, V2.0.0_NOTES, V2.0.1_NOTES]
+in_this_file_we_have: [PURPOSE, ARCHITECTURE, FALLBACK_CHAIN, FILE_STRUCTURE, MIGRATION_NOTES, V2.0.0_NOTES, V2.0.1_NOTES, V2.0.2_NOTES]
 superpositionally: ["FILEID_WHS_OVERVIEW"]
 shadow_aliases: ["Lilith-007"]
 parallel_paths: ["heterodox_validation"]
@@ -62,8 +62,8 @@ If a definition is missing at all levels, validation flags the header before rel
 
 **v2.0.0 Changes**:
 - **10-Section Format**: Standard collections (WHO, WHAT, WHERE, WHEN, WHY, HOW, DO, HACK, OTHER, TAGS)
-- **Required Fields**: `agent_id` and `channel_number` (000-999) are now required
-- **1000-Channel Support**: Enhanced channel architecture for 1000 channels (000-999)
+- **Required Fields**: `agent_id` and `channel_number` (000-999, maximum 999) are now required
+- **Channel Support**: Enhanced channel architecture (000-999, maximum channel 999)
 - **Agent System Integration**: Direct integration with LUPOPEDIA agent routing system
 - **Version Field**: All headers must include `version: 2.0.0` or higher
 
@@ -73,9 +73,7 @@ If a definition is missing at all levels, validation flags the header before rel
 
 ## V2.0.1_NOTES
 
-**✅ Version 2.0.1 Released**: WOLFIE Headers v2.0.1 adds shadow aliases and parallel paths (LILITH's recommendations implemented).
-
-**Current Version**: v2.0.1 (Current) | **Required By**: LUPOPEDIA_PLATFORM 1.0.0
+**✅ Version 2.0.1 Stable**: WOLFIE Headers v2.0.1 adds shadow aliases and parallel paths (LILITH's recommendations implemented).
 
 **v2.0.1 New Features**:
 - **Shadow Aliases**: Optional `shadow_aliases` field for parallel validation paths (e.g., `["Lilith-007", "Doubt-VISH"]`)
@@ -88,6 +86,36 @@ If a definition is missing at all levels, validation flags the header before rel
 **Backward Compatibility**: v2.0.1 is fully backward compatible with v2.0.0. Shadow aliases and parallel paths are optional enhancements.
 
 **Documentation**: See `docs/SHADOW_ALIASES_2.0.1.md` for complete shadow alias system documentation.
+
+## V2.0.2_NOTES
+
+**✅ Version 2.0.2 Current**: This is the current main release with database integration and agent file standardization.
+
+**Current Version**: v2.0.2 (Current - Main Release) | **Required By**: LUPOPEDIA_PLATFORM 1.0.0
+
+**v2.0.2 New Features**:
+- **Database Integration**: Full integration with `content_headers` table (`agent_name` column)
+  - Migration 1072: Added `agent_name` VARCHAR(100) NOT NULL column
+  - Migration 1073: Populated `agent_name` from `agents.username`
+  - Migration 1074: Validation queries for migration verification
+- **Agent File Naming**: Standardized naming convention `who_is_agent_[channel_id]_[agent_name].php`
+  - Channel ID: Zero-padded 3 digits (000-999)
+  - Agent Name: Lowercase (e.g., "wolfie", "lilith", "vishwakarma")
+  - Location: `public/who_is_agent_*.php`
+- **Validation Tools**: PHP script to validate agent files (`scripts/validate_agent_files.php`)
+- **Templates**: Agent file template with all required sections (`templates/agent_file_template.php`)
+
+**Database Requirements**:
+- `content_headers` table must have `agent_name` VARCHAR(100) NOT NULL column
+- `channel_id` column must support range 000-999
+- Index `idx_agent_name` for query performance
+
+**Backward Compatibility**: v2.0.2 is fully backward compatible with v2.0.1. Database integration is optional for LUPOPEDIA_PLATFORM compatibility.
+
+**Documentation**: 
+- See `docs/DATABASE_INTEGRATION.md` for database integration guide
+- See `docs/AGENT_FILE_NAMING.md` for agent file naming convention
+- See `RELEASE_NOTES_v2.0.2.md` for complete release notes
 
 ---
 

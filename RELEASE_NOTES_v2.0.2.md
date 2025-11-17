@@ -1,6 +1,6 @@
 # WOLFIE Headers v2.0.2 Release Notes
 
-**Release Date**: 2025-01-27  
+**Release Date**: 2025-11-17  
 **Status**: Current Version  
 **Backward Compatible**: Yes — fully compatible with v2.0.1  
 **Repository**: https://github.com/lupopedia/WOLFIE_HEADERS

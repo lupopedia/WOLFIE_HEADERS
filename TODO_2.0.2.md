@@ -18,7 +18,7 @@ parallel_paths: []
 
 # WOLFIE Headers 2.0.2 TODO Plan
 
-**Current Version**: v2.0.1 (Current)  
+**Current Version**: v2.0.2 (Current) - Main Release  
 **Target Version**: v2.0.2 (Database Integration)  
 **Required By**: LUPOPEDIA_PLATFORM 1.0.0  
 **GitHub Repository**: https://github.com/lupopedia/WOLFIE_HEADERS  
@@ -76,7 +76,7 @@ ADD INDEX `idx_agent_name` (`agent_name`);
 **Current State:**
 - `channel_id` exists as `bigint(20) UNSIGNED`
 - Default value: `1`
-- Range: Should support 000-999 (1000 channels)
+- Range: Should support 000-999 (maximum 999)
 
 **Required Changes:**
 - [ ] **Validate channel_id range** (000-999)

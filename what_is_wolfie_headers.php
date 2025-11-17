@@ -25,7 +25,7 @@ $breaking_changes = [
     "10-Section Format: WHO, WHAT, WHERE, WHEN, WHY, HOW, DO, HACK, OTHER, TAGS",
     "Required Fields: agent_id, channel_number (000-999), version: 2.0.0",
     "Agent System Integration: Enhanced integration with LUPOPEDIA agent system",
-    "Channel Architecture: Support for 1000 channels (000-999)",
+    "Channel Architecture: Support for channels 000-999 (maximum 999)",
     "Deprecated: HELP collection (use OTHER or WHO instead)",
     "Stricter Validation: Missing required fields cause errors"
 ];
@@ -257,7 +257,7 @@ Crafty Syntax Live Help 3.8.0 (Foundation)
             Requires: WOLFIE Headers <?php echo htmlspecialchars($version); ?>
             ↓
             └─> Agent System (Layer 2)
-                Channels: 000-999 (1000 channels)
+                Channels: 000-999 (maximum 999)
         </pre>
 
         <div class="footer">

@@ -53,7 +53,7 @@ WOLFIE Headers 2.0.0 is a **major version release** that introduces breaking cha
 
 #### 2. **Agent System Integration (REQUIRED)**
 - [ ] **Add agent_id field** to YAML frontmatter (for LUPOPEDIA agent system)
-- [ ] **Add channel_number field** (000-999) to support 1000-channel architecture
+- [ ] **Add channel_number field** (000-999, maximum 999) to support channel architecture
 - [ ] **Update fallback chain** to include agent-specific channel resolution
 - [ ] **Breaking**: New required fields (`agent_id`, `channel_number`) must be present
 
@@ -93,7 +93,7 @@ WOLFIE Headers 2.0.0 is a **major version release** that introduces breaking cha
 #### 5. **LUPOPEDIA_PLATFORM Compatibility**
 - [ ] **Verify compatibility** with LUPOPEDIA_PLATFORM 1.0.0 requirements
 - [ ] **Test header parsing** with LUPOPEDIA_PLATFORM agent system
-- [ ] **Ensure channel resolution** works with 1000-channel architecture
+- [ ] **Ensure channel resolution** works with channel architecture (000-999, maximum 999)
 - [ ] **Validate agent routing** through WOLFIE (008) → 007 → VISH workflow
 
 #### 6. **Enhanced Documentation**

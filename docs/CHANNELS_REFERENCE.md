@@ -47,7 +47,7 @@ Every channel must provide:
 - **Must Match**: `channel_number` (string) must match `onchannel` (integer)
   - `channel_number: "001"` matches `onchannel: 1`
   - `channel_number: "002"` matches `onchannel: 2`
-- **Purpose**: Supports 1000-channel architecture (000-999) for LUPOPEDIA_PLATFORM agent system
+- **Purpose**: Supports channel architecture (000-999, maximum 999) for LUPOPEDIA_PLATFORM agent system
 
 **Validation**: See `docs/VALIDATION_RULES_2.0.0.md` for channel number validation rules.
 
