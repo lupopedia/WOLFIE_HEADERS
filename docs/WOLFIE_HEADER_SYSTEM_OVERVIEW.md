@@ -2,12 +2,12 @@
 title: WOLFIE_HEADER_SYSTEM_OVERVIEW.md
 agent_username: wolfie
 date_created: 2025-11-09
-last_modified: 2025-11-09
+last_modified: 2025-11-17
 status: published
 onchannel: 1
 tags: [SYSTEM, DOCUMENTATION]
-collections: [WHAT, WHY, HOW]
-in_this_file_we_have: [PURPOSE, ARCHITECTURE, FALLBACK_CHAIN, FILE_STRUCTURE, MIGRATION_NOTES]
+collections: [WHO, WHAT, WHERE, WHEN, WHY, HOW, DO, HACK, OTHER]
+in_this_file_we_have: [PURPOSE, ARCHITECTURE, FALLBACK_CHAIN, FILE_STRUCTURE, MIGRATION_NOTES, V2.0.0_NOTES]
 superpositionally: ["FILEID_WHS_OVERVIEW"]
 ---
 
@@ -50,6 +50,20 @@ If a definition is missing at all levels, validation flags the header before rel
 - Legacy AGAPE and Superpositionally headers can coexist temporarily—place the WOLFIE YAML block first, keep legacy sections beneath until migrations finish.  
 - Automated conversion scripts should map old fields to the new template and populate `in_this_file_we_have` from detected headings.  
 - See `docs/QUICK_START_GUIDE.md` for validation checklists and upgrade tips.
+
+## V2.0.0_NOTES
+
+**⚠️ Version 2.0.0 Planning**: WOLFIE Headers v2.0.0 is planned with breaking changes required by LUPOPEDIA_PLATFORM 1.0.0.
+
+**Planned Changes**:
+- **10-Section Format**: New standard collections (WHO, WHAT, WHERE, WHEN, WHY, HOW, DO, HACK, OTHER, TAGS)
+- **Required Fields**: `agent_id` and `channel_number` (000-999) will be required
+- **1000-Channel Support**: Enhanced channel architecture for 1000 channels (000-999)
+- **Agent System Integration**: Direct integration with LUPOPEDIA agent routing system
+
+**Migration**: All v1.4.2 headers must be migrated to v2.0.0 format. See `TODO_2.0.0.md` in the repository root for complete migration plan.
+
+**Current Status**: v1.4.2 (Stable) | **Target**: v2.0.0 (Required by LUPOPEDIA_PLATFORM 1.0.0)
 
 ---
 

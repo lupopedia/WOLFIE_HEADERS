@@ -2,12 +2,12 @@
 title: README.md
 agent_username: wolfie
 date_created: 2025-11-09
-last_modified: 2025-11-09
+last_modified: 2025-11-17
 status: published
 onchannel: 1
 tags: [SYSTEM, DOCUMENTATION]
-collections: [WHO, WHAT, WHY, HOW, HELP]
-in_this_file_we_have: [OVERVIEW, QUICK_START, CORE_CONCEPTS, DIRECTORY_MAP, VERSIONING, SUPPORT]
+collections: [WHO, WHAT, WHERE, WHEN, WHY, HOW, DO, HACK, OTHER, TAGS]
+in_this_file_we_have: [OVERVIEW, QUICK_START, CORE_CONCEPTS, DIRECTORY_MAP, VERSIONING, DEPENDENCY_CHAIN, V2.0.0_PLANNING, SUPPORT]
 superpositionally: ["FILEID_WOLFIE_HEADERS_README"]
 ---
 
@@ -15,11 +15,13 @@ superpositionally: ["FILEID_WOLFIE_HEADERS_README"]
 
 ## OVERVIEW
 
-WOLFIE Headers is the metadata system that powers LUPOPEDIA’s documentation layer. It replaces bulky legacy headers with concise YAML frontmatter plus channel-aware ontology lookups so humans and AI agents read the same files with the right context.
+WOLFIE Headers is the metadata system that powers LUPOPEDIA's documentation layer. It replaces bulky legacy headers with concise YAML frontmatter plus channel-aware ontology lookups so humans and AI agents read the same files with the right context.
 
-- **Status**: Stable (v1.4.2) – shipping in production with LUPOPEDIA deployments.  
+- **Current Version**: v1.4.2 (Stable) – shipping in production with LUPOPEDIA deployments.  
+- **Next Version**: v2.0.0 (Planned) – **REQUIRED** by LUPOPEDIA_PLATFORM 1.0.0 (breaking changes)  
 - **License**: Dual GPL v3.0 + Apache 2.0 (see `LICENSE`).  
-- **Maintainer**: Captain WOLFIE (Eric Robin Gerdes).
+- **Maintainer**: Captain WOLFIE (Eric Robin Gerdes).  
+- **GitHub**: https://github.com/lupopedia/WOLFIE_HEADERS
 
 ## QUICK_START
 
@@ -42,11 +44,56 @@ WOLFIE Headers is the metadata system that powers LUPOPEDIA’s documentation la
 - `examples/` – ready-to-copy samples demonstrating best practices.  
 - `templates/` – boilerplate YAML frontmatter.  
 - `CHANGELOG.md` – release history for WOLFIE Headers.  
+- `TODO_2.0.0.md` – **v2.0.0 migration plan and task breakdown** (NEW).  
 - `LICENSE` – combined GPL v3 + Apache 2.0 text.
 
 ## VERSIONING
 
 WOLFIE Headers follows semantic versioning. The current release (v1.4.2) matches LUPOPEDIA platform v0.0.8. Future updates will stay backward-compatible within the `1.x` line; breaking structural changes will bump to `2.0.0`.
+
+**⚠️ IMPORTANT**: LUPOPEDIA_PLATFORM 1.0.0 **REQUIRES** WOLFIE Headers 2.0.0. Version 2.0.0 introduces breaking changes including:
+- New 10-section format (WHO, WHAT, WHERE, WHEN, WHY, HOW, DO, HACK, OTHER, TAGS)
+- Required fields: `agent_id`, `channel_number` (000-999)
+- Enhanced agent system integration
+- Channel architecture improvements
+
+See `TODO_2.0.0.md` for the complete migration plan.
+
+## DEPENDENCY_CHAIN
+
+**WOLFIE Headers is a required dependency for LUPOPEDIA_PLATFORM:**
+
+```
+Crafty Syntax Live Help 3.8.0 (Foundation)
+    ↓
+    └─> WOLFIE Headers 2.0.0 (REQUIRED - separate package)
+        GitHub: https://github.com/lupopedia/WOLFIE_HEADERS
+        Current: v1.4.2 | Target: v2.0.0
+        ↓
+        └─> LUPOPEDIA_PLATFORM 1.0.0 (Layer 1)
+            GitHub: https://github.com/lupopedia/LUPOPEDIA_PLATFORM
+            Current: v0.0.8 | Target: v1.0.0
+            Requires: WOLFIE Headers 2.0.0
+            ↓
+            └─> Agent System (Layer 2)
+                Channels: 000-999 (1000 channels)
+```
+
+**Why This Matters**: LUPOPEDIA_PLATFORM cannot be released at v1.0.0 until WOLFIE Headers 2.0.0 is complete. WOLFIE Headers 2.0.0 is a **separate package** and must be installed independently.
+
+## V2.0.0_PLANNING
+
+**Status**: Planning Phase (2025-11-17)
+
+**Breaking Changes Planned**:
+1. **10-Section Format**: New standard format (WHO, WHAT, WHERE, WHEN, WHY, HOW, DO, HACK, OTHER, TAGS)
+2. **Required Fields**: `agent_id` and `channel_number` (000-999) will be required
+3. **Agent System Integration**: Enhanced integration with LUPOPEDIA agent system
+4. **Collection Updates**: New collections (DO, HACK, OTHER) added to standard set
+
+**Migration Required**: All v1.4.2 headers must be migrated to v2.0.0 format. See `TODO_2.0.0.md` for complete migration plan.
+
+**Timeline**: Target completion before LUPOPEDIA_PLATFORM 1.0.0 release.
 
 ## SUPPORT
 

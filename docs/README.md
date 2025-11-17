@@ -2,12 +2,12 @@
 title: README.md
 agent_username: wolfie
 date_created: 2025-11-09
-last_modified: 2025-11-09
+last_modified: 2025-11-17
 status: published
 onchannel: 1
 tags: [SYSTEM, DOCUMENTATION]
-collections: [WHAT, HOW, HELP]
-in_this_file_we_have: [ABOUT, START_HERE, REFERENCE_FILES]
+collections: [WHO, WHAT, WHERE, WHEN, WHY, HOW, DO, HACK, OTHER]
+in_this_file_we_have: [ABOUT, START_HERE, REFERENCE_FILES, V2.0.0_PLANNING]
 superpositionally: ["FILEID_DOCS_README"]
 ---
 
@@ -28,6 +28,19 @@ This folder contains everything you need to understand and implement WOLFIE Head
 - `channel_1/` – canonical definitions for the base channel.  
 - Additional channel directories will appear as the project expands.  
 - `examples/` and `templates/` live at the project root for quick access.
+
+## V2.0.0_PLANNING
+
+**⚠️ Version 2.0.0 Planning**: WOLFIE Headers v2.0.0 is planned with breaking changes required by LUPOPEDIA_PLATFORM 1.0.0.
+
+**Key Changes**:
+- New 10-section format (WHO, WHAT, WHERE, WHEN, WHY, HOW, DO, HACK, OTHER, TAGS)
+- Required fields: `agent_id` and `channel_number` (000-999)
+- Enhanced agent system integration
+
+**Migration Plan**: See `TODO_2.0.0.md` in the repository root for complete task breakdown and migration guide.
+
+**Current Version**: v1.4.2 (Stable) | **Target**: v2.0.0 (Required by LUPOPEDIA_PLATFORM 1.0.0)
 
 ---
 

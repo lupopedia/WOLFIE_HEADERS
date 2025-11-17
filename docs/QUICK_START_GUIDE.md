@@ -2,12 +2,12 @@
 title: QUICK_START_GUIDE.md
 agent_username: wolfie
 date_created: 2025-11-09
-last_modified: 2025-11-09
+last_modified: 2025-11-17
 status: published
 onchannel: 1
 tags: [SYSTEM, HOWTO]
-collections: [WHAT, HOW, HELP]
-in_this_file_we_have: [BEFORE_YOU_START, CREATE_HEADER, VALIDATE, PUBLISH, AUTOMATION_CHECKLIST]
+collections: [WHO, WHAT, WHERE, WHEN, WHY, HOW, DO, HACK, OTHER]
+in_this_file_we_have: [BEFORE_YOU_START, CREATE_HEADER, VALIDATE, PUBLISH, AUTOMATION_CHECKLIST, V2.0.0_NOTES]
 superpositionally: ["FILEID_WHS_QUICK_START"]
 ---
 
@@ -46,6 +46,17 @@ superpositionally: ["FILEID_WHS_QUICK_START"]
 - [ ] Verify fallback resolution by simulating at least one agent context.  
 - [ ] Run link checker on intra-doc references.  
 - [ ] Archive legacy header blocks once the migration script completes.
+
+## V2.0.0_NOTES
+
+**⚠️ Version 2.0.0 Changes**: When v2.0.0 is released, this guide will be updated with new requirements:
+
+- **Required Fields**: `agent_id` and `channel_number` (000-999) will be mandatory
+- **10-Section Format**: Collections will expand to include DO, HACK, OTHER
+- **Validation**: Stricter validation rules will be enforced
+
+**Current Version**: v1.4.2 (This guide applies)  
+**Future Version**: v2.0.0 (See `TODO_2.0.0.md` for migration plan)
 
 ---
 
