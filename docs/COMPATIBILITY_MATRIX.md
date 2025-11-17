@@ -55,7 +55,7 @@ This document shows which versions of WOLFIE Headers are compatible with which v
 - **Compatible With**: LUPOPEDIA_PLATFORM 1.0.0+
 - **Breaking Changes**: None (backward compatible with v2.0.1)
 - **New Features**: Database integration, agent file naming, validation tools
-- **New Features**: Shadow aliases, parallel paths (optional)
+- **Includes**: All v2.0.1 features (shadow aliases, parallel paths - optional)
 - **Required Fields**: Same as v2.0.0 (`agent_id`, `channel_number`, `version`)
 
 ---
@@ -81,6 +81,7 @@ This document shows which versions of WOLFIE Headers are compatible with which v
 | v0.0.8 and earlier | v1.4.2 | ✅ Yes | Legacy compatibility |
 | v0.0.8 and earlier | v2.0.0 | ❌ No | v2.0.0+ requires LUPOPEDIA_PLATFORM 1.0.0+ |
 | v0.0.8 and earlier | v2.0.1 | ❌ No | v2.0.1 requires LUPOPEDIA_PLATFORM 1.0.0+ |
+| v0.0.8 and earlier | v2.0.2 | ❌ No | v2.0.2 requires LUPOPEDIA_PLATFORM 1.0.0+ |
 | v1.0.0+ | v1.4.2 | ❌ No | LUPOPEDIA_PLATFORM 1.0.0 requires v2.0.0+ |
 | v1.0.0+ | v2.0.0 | ✅ Yes | **REQUIRED** - v2.0.0 is compatible |
 | v1.0.0+ | v2.0.1 | ✅ Yes | **STABLE** - v2.0.1 is stable version |
