@@ -3,7 +3,7 @@ title: COMPATIBILITY_MATRIX.md
 agent_username: wolfie
 agent_id: 008
 channel_number: 001
-version: 2.0.1
+version: 2.0.2
 date_created: 2025-01-27
 last_modified: 2025-01-27
 status: published
@@ -25,7 +25,7 @@ This document shows which versions of WOLFIE Headers are compatible with which v
 **Key Points**:
 - LUPOPEDIA_PLATFORM 1.0.0 **REQUIRES** WOLFIE Headers 2.0.0 or higher
 - WOLFIE Headers 2.0.0+ is **NOT** backward compatible with v1.4.2
-- WOLFIE Headers 2.0.1 is **backward compatible** with v2.0.0 (adds optional features)
+- WOLFIE Headers 2.0.1 and 2.0.2 are **backward compatible** with v2.0.0 (add optional features)
 - Migration is required when upgrading from v1.4.2 to v2.0.0+
 
 ---
@@ -44,10 +44,17 @@ This document shows which versions of WOLFIE Headers are compatible with which v
 - **Breaking Changes**: Yes (from v1.4.2)
 - **Required Fields**: `agent_id`, `channel_number`, `version`
 
-### v2.0.1 (Current)
-- **Status**: Current version, required by LUPOPEDIA_PLATFORM 1.0.0
+### v2.0.1 (Stable)
+- **Status**: Stable, superseded by v2.0.2
 - **Compatible With**: LUPOPEDIA_PLATFORM 1.0.0+
 - **Breaking Changes**: None (backward compatible with v2.0.0)
+- **New Features**: Shadow aliases, parallel paths, recursive oversight
+
+### v2.0.2 (Current)
+- **Status**: Current version, required by LUPOPEDIA_PLATFORM 1.0.0
+- **Compatible With**: LUPOPEDIA_PLATFORM 1.0.0+
+- **Breaking Changes**: None (backward compatible with v2.0.1)
+- **New Features**: Database integration, agent file naming, validation tools
 - **New Features**: Shadow aliases, parallel paths (optional)
 - **Required Fields**: Same as v2.0.0 (`agent_id`, `channel_number`, `version`)
 
@@ -61,8 +68,8 @@ This document shows which versions of WOLFIE Headers are compatible with which v
 - **Upgrade Path**: Migrate to LUPOPEDIA_PLATFORM 1.0.0 + WOLFIE Headers 2.0.0
 
 ### v1.0.0 (Planned/Current)
-- **WOLFIE Headers Required**: v2.0.0 or v2.0.1 (REQUIRED)
-- **Status**: Requires WOLFIE Headers 2.0.0+ (v2.0.1 recommended)
+- **WOLFIE Headers Required**: v2.0.0+ (REQUIRED)
+- **Status**: Requires WOLFIE Headers 2.0.0+ (v2.0.2 recommended, v2.0.1 stable)
 - **Breaking Changes**: Yes (from v0.0.8)
 
 ---
@@ -76,15 +83,16 @@ This document shows which versions of WOLFIE Headers are compatible with which v
 | v0.0.8 and earlier | v2.0.1 | ❌ No | v2.0.1 requires LUPOPEDIA_PLATFORM 1.0.0+ |
 | v1.0.0+ | v1.4.2 | ❌ No | LUPOPEDIA_PLATFORM 1.0.0 requires v2.0.0+ |
 | v1.0.0+ | v2.0.0 | ✅ Yes | **REQUIRED** - v2.0.0 is compatible |
-| v1.0.0+ | v2.0.1 | ✅ Yes | **RECOMMENDED** - v2.0.1 is current version |
+| v1.0.0+ | v2.0.1 | ✅ Yes | **STABLE** - v2.0.1 is stable version |
+| v1.0.0+ | v2.0.2 | ✅ Yes | **RECOMMENDED** - v2.0.2 is current version |
 
 ### Compatibility Rules
 
 1. **LUPOPEDIA_PLATFORM v0.0.8 and earlier**: Use WOLFIE Headers v1.4.2
-2. **LUPOPEDIA_PLATFORM v1.0.0+**: **MUST** use WOLFIE Headers v2.0.0 or v2.0.1 (v2.0.1 recommended)
+2. **LUPOPEDIA_PLATFORM v1.0.0+**: **MUST** use WOLFIE Headers v2.0.0+ (v2.0.2 recommended, v2.0.1 stable)
 3. **No Cross-Compatibility**: v1.4.2 headers will not work with LUPOPEDIA_PLATFORM 1.0.0
 4. **No Backward Compatibility**: v2.0.0+ headers will not work with LUPOPEDIA_PLATFORM v0.0.8
-5. **v2.0.1 Backward Compatible**: v2.0.1 headers work with v2.0.0 systems (adds optional features)
+5. **v2.0.1 & v2.0.2 Backward Compatible**: v2.0.1 and v2.0.2 headers work with v2.0.0 systems (add optional features)
 
 ---
 

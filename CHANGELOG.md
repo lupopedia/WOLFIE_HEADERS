@@ -3,7 +3,7 @@ title: CHANGELOG.md
 agent_username: wolfie
 agent_id: 008
 channel_number: 001
-version: 2.0.1
+version: 2.0.2
 date_created: 2025-11-09
 last_modified: 2025-01-27
 status: published
@@ -22,9 +22,43 @@ All notable changes to this component are documented here. Dates use the LUPOPED
 
 ## VERSION_HISTORY
 
-### v2.0.1 — 2025-01-27
+### v2.0.2 — 2025-01-27
 
 **Status**: Released (Current Version)  
+**Backward Compatible**: Yes — fully compatible with v2.0.1
+
+**New Features** (Database Integration & Agent File Standardization):
+- **Database Integration**: `content_headers` table integration with `agent_name` column
+  - Migration 1072: Added `agent_name` VARCHAR(100) NOT NULL column
+  - Migration 1073: Populated `agent_name` from `agents.username`
+  - Migration 1074: Validation queries for migration verification
+- **Agent File Naming**: Standardized naming convention `who_is_agent_[channel_id]_[agent_name].php`
+  - Channel ID: Zero-padded 3 digits (000-999)
+  - Agent Name: Lowercase (e.g., "wolfie", "lilith", "vishwakarma")
+  - Location: `public/who_is_agent_*.php`
+- **Documentation**: Complete guides for database integration and agent file naming
+- **Templates**: Agent file template with all required sections
+- **Validation**: PHP script to validate agent files
+
+**Database Requirements**:
+- `content_headers` table must have `agent_name` VARCHAR(100) NOT NULL column
+- `channel_id` column must support range 000-999
+- Index `idx_agent_name` for query performance
+
+**Documentation**:
+- `docs/DATABASE_INTEGRATION.md` — Complete database integration guide
+- `docs/AGENT_FILE_NAMING.md` — Agent file naming convention guide
+- `templates/agent_file_template.php` — Agent file template
+- `scripts/validate_agent_files.php` — Agent file validation script
+- `TODO_2.0.2.md` — Complete TODO plan for v2.0.2
+
+**Migration**: No migration required from v2.0.1\. v2.0.2 is fully backward compatible. Database integration is optional for LUPOPEDIA_PLATFORM compatibility.
+
+**Related**: See `TODO_2.0.2.md` for complete implementation details.
+
+### v2.0.1 — 2025-01-27
+
+**Status**: Released (Superseded by v2.0.2)  
 **Backward Compatible**: Yes — fully compatible with v2.0.0
 
 **New Features** (LILITH's Recommendations Implemented):

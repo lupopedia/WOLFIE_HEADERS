@@ -3,14 +3,14 @@ title: README.md
 agent_username: wolfie
 agent_id: 008
 channel_number: 001
-version: 2.0.1
+version: 2.0.2
 date_created: 2025-11-09
 last_modified: 2025-01-27
 status: published
 onchannel: 1
 tags: [SYSTEM, DOCUMENTATION]
 collections: [WHO, WHAT, WHERE, WHEN, WHY, HOW, DO, HACK, OTHER, TAGS]
-in_this_file_we_have: [OVERVIEW, QUICK_START, CORE_CONCEPTS, DIRECTORY_MAP, VERSIONING, DEPENDENCY_CHAIN, V2.0.0_RELEASE, V2.0.1_RELEASE, SUPPORT]
+in_this_file_we_have: [OVERVIEW, QUICK_START, CORE_CONCEPTS, DIRECTORY_MAP, VERSIONING, DEPENDENCY_CHAIN, V2.0.0_RELEASE, V2.0.1_RELEASE, V2.0.2_RELEASE, SUPPORT]
 superpositionally: ["FILEID_WOLFIE_HEADERS_README"]
 shadow_aliases: []
 parallel_paths: []
@@ -22,8 +22,8 @@ parallel_paths: []
 
 WOLFIE Headers is the metadata system that powers LUPOPEDIA's documentation layer. It replaces bulky legacy headers with concise YAML frontmatter plus channel-aware ontology lookups so humans and AI agents read the same files with the right context.
 
-- **Current Version**: v2.0.1 (Current) – **REQUIRED** by LUPOPEDIA_PLATFORM 1.0.0  
-- **Previous Version**: v2.0.0 (Stable) – backward compatible, v2.0.1 adds shadow aliases & parallel paths  
+- **Current Version**: v2.0.2 (Current) – **REQUIRED** by LUPOPEDIA_PLATFORM 1.0.0  
+- **Previous Version**: v2.0.1 (Stable) – backward compatible, v2.0.2 adds database integration  
 - **Legacy Version**: v1.4.2 (Legacy) – compatible with LUPOPEDIA_PLATFORM v0.0.8 and earlier  
 - **License**: Dual GPL v3.0 + Apache 2.0 (see `LICENSE`).  
 - **Maintainer**: Captain WOLFIE (Eric Robin Gerdes).  
@@ -48,14 +48,16 @@ WOLFIE Headers is the metadata system that powers LUPOPEDIA's documentation laye
 
 - `docs/` – architecture notes, quick starts, reference tables.  
 - `examples/` – ready-to-copy samples demonstrating best practices.  
-- `templates/` – boilerplate YAML frontmatter.  
+- `templates/` – boilerplate YAML frontmatter and agent file templates.  
+- `scripts/` – validation scripts for agent files and migrations.  
 - `CHANGELOG.md` – release history for WOLFIE Headers.  
-- `TODO_2.0.0.md` – **v2.0.0 migration plan and task breakdown** (NEW).  
+- `TODO_2.0.0.md` – **v2.0.0 migration plan and task breakdown**.  
+- `TODO_2.0.2.md` – **v2.0.2 database integration plan** (NEW).  
 - `LICENSE` – combined GPL v3 + Apache 2.0 text.
 
 ## VERSIONING
 
-WOLFIE Headers follows semantic versioning. The current release is **v2.0.1**, which is required by LUPOPEDIA_PLATFORM 1.0.0.
+WOLFIE Headers follows semantic versioning. The current release is **v2.0.2**, which is required by LUPOPEDIA_PLATFORM 1.0.0.
 
 **⚠️ BREAKING CHANGES** (v2.0.0 from v1.4.2):
 - New 10-section format (WHO, WHAT, WHERE, WHEN, WHY, HOW, DO, HACK, OTHER, TAGS)
@@ -68,6 +70,11 @@ WOLFIE Headers follows semantic versioning. The current release is **v2.0.1**, w
 - **Shadow Aliases**: Parallel validation paths (e.g., `["Lilith-007", "Doubt-VISH"]`)
 - **Parallel Paths**: Alternative fallback chains for resilience
 - **Recursive Oversight**: Self-validating feedback loops
+
+**NEW FEATURES** (v2.0.2):
+- **Database Integration**: `content_headers` table with `agent_name` column
+- **Agent File Naming**: Standardized naming convention (`who_is_agent_[channel_id]_[agent_name].php`)
+- **Channel Support**: Full 1000-channel architecture (000-999)
 
 **Migration Required**: All v1.4.2 headers must be migrated to v2.0.0+ format. See `docs/MIGRATION_1.4.2_TO_2.0.0.md` for complete migration guide.
 
@@ -82,19 +89,19 @@ WOLFIE Headers follows semantic versioning. The current release is **v2.0.1**, w
 ```
 Crafty Syntax Live Help 3.8.0 (Foundation)
     ↓
-    └─> WOLFIE Headers 2.0.0 (REQUIRED - separate package)
+    └─> WOLFIE Headers 2.0.0+ (REQUIRED - separate package)
         GitHub: https://github.com/lupopedia/WOLFIE_HEADERS
-        Current: v2.0.1
+        Current: v2.0.2 (v2.0.1 stable, v2.0.0 minimum)
         ↓
         └─> LUPOPEDIA_PLATFORM 1.0.0 (Layer 1)
             GitHub: https://github.com/lupopedia/LUPOPEDIA_PLATFORM
-            Requires: WOLFIE Headers 2.0.0+ (v2.0.1 recommended)
+            Requires: WOLFIE Headers 2.0.0+ (v2.0.2 recommended, v2.0.1 stable)
             ↓
             └─> Agent System (Layer 2)
                 Channels: 000-999 (1000 channels)
 ```
 
-**Why This Matters**: LUPOPEDIA_PLATFORM 1.0.0 **REQUIRES** WOLFIE Headers 2.0.0 or higher (v2.0.1 recommended). WOLFIE Headers is a **separate package** and must be installed independently.
+**Why This Matters**: LUPOPEDIA_PLATFORM 1.0.0 **REQUIRES** WOLFIE Headers 2.0.0 or higher (v2.0.2 recommended, v2.0.1 stable). WOLFIE Headers is a **separate package** and must be installed independently.
 
 ## V2.0.0_RELEASE
 
@@ -139,6 +146,39 @@ Crafty Syntax Live Help 3.8.0 (Foundation)
 - **Shadow Aliases Guide**: `docs/SHADOW_ALIASES_2.0.1.md`
 - **Updated Template**: `templates/header_template.yaml` (now includes v2.0.1 fields)
 - **Compatibility**: See `docs/COMPATIBILITY_MATRIX.md` for version compatibility
+
+## V2.0.2_RELEASE
+
+**Status**: Released (2025-01-27)
+
+**✅ Version 2.0.2 is now the current version** (Database Integration & Agent File Standardization).
+
+**New Features** (Backward Compatible with v2.0.1):
+1. **Database Integration**: `content_headers` table integration with `agent_name` column
+   - Migration 1072: Added `agent_name` VARCHAR(100) NOT NULL column
+   - Migration 1073: Populated `agent_name` from `agents.username`
+   - Migration 1074: Validation queries for migration verification
+2. **Agent File Naming**: Standardized naming convention `who_is_agent_[channel_id]_[agent_name].php`
+   - Channel ID: Zero-padded 3 digits (000-999)
+   - Agent Name: Lowercase (e.g., "wolfie", "lilith", "vishwakarma")
+   - Location: `public/who_is_agent_*.php`
+3. **Documentation**: Complete guides for database integration and agent file naming
+4. **Templates**: Agent file template with all required sections
+5. **Validation**: PHP script to validate agent files
+
+**Database Requirements**:
+- `content_headers` table must have `agent_name` VARCHAR(100) NOT NULL column
+- `channel_id` column must support range 000-999
+- Index `idx_agent_name` for query performance
+
+**Migration**: No migration required from v2.0.1\. v2.0.2 is fully backward compatible. Database integration is optional for LUPOPEDIA_PLATFORM compatibility.
+
+**Documentation**:
+- **Database Integration Guide**: `docs/DATABASE_INTEGRATION.md`
+- **Agent File Naming Guide**: `docs/AGENT_FILE_NAMING.md`
+- **Agent File Template**: `templates/agent_file_template.php`
+- **Validation Script**: `scripts/validate_agent_files.php`
+- **TODO Plan**: `TODO_2.0.2.md`
 
 ## SUPPORT
 
