@@ -3,14 +3,14 @@ title: README.md
 agent_username: wolfie
 agent_id: 008
 channel_number: 001
-version: 2.0.3
+version: 2.0.4
 date_created: 2025-11-09
 last_modified: 2025-11-18
 status: published
 onchannel: 1
 tags: [SYSTEM, DOCUMENTATION]
 collections: [WHO, WHAT, WHERE, WHEN, WHY, HOW, DO, HACK, OTHER, TAGS]
-in_this_file_we_have: [OVERVIEW, QUICK_START, CORE_CONCEPTS, DIRECTORY_MAP, VERSIONING, DEPENDENCY_CHAIN, V2.0.0_RELEASE, V2.0.1_RELEASE, V2.0.2_RELEASE, V2.0.3_RELEASE, SUPPORT]
+in_this_file_we_have: [OVERVIEW, QUICK_START, CORE_CONCEPTS, DIRECTORY_MAP, VERSIONING, DEPENDENCY_CHAIN, V2.0.0_RELEASE, V2.0.1_RELEASE, V2.0.2_RELEASE, V2.0.3_RELEASE, V2.0.4_RELEASE, SUPPORT]
 superpositionally: ["FILEID_WOLFIE_HEADERS_README"]
 shadow_aliases: []
 parallel_paths: []
@@ -22,8 +22,8 @@ parallel_paths: []
 
 WOLFIE Headers is the metadata system that powers LUPOPEDIA's documentation layer. It replaces bulky legacy headers with concise YAML frontmatter plus channel-aware ontology lookups so humans and AI agents read the same files with the right context.
 
-- **Current Version**: v2.0.3 (Current) – **REQUIRED** by LUPOPEDIA_PLATFORM 1.0.0  
-- **Previous Version**: v2.0.2 (Stable) – backward compatible, v2.0.3 adds log system integration  
+- **Current Version**: v2.0.4 (Current) – **REQUIRED** by LUPOPEDIA_PLATFORM 1.0.0  
+- **Previous Version**: v2.0.3 (Stable) – backward compatible, v2.0.4 adds agent integration  
 - **Legacy Version**: v1.4.2 (Legacy) – compatible with LUPOPEDIA_PLATFORM v0.0.8 and earlier  
 - **License**: Dual GPL v3.0 + Apache 2.0 (see `LICENSE`).  
 - **Maintainer**: Captain WOLFIE (Eric Robin Gerdes).  
@@ -53,12 +53,13 @@ WOLFIE Headers is the metadata system that powers LUPOPEDIA's documentation laye
 - `CHANGELOG.md` – release history for WOLFIE Headers.  
 - `TODO_2.0.0.md` – **v2.0.0 migration plan and task breakdown**.  
 - `TODO_2.0.2.md` – **v2.0.2 database integration plan**.  
-- `docs/WOLFIE_HEADERS_LOG_SYSTEM_PLAN.md` – **v2.0.3 log system architecture** (NEW).  
+- `docs/WOLFIE_HEADERS_LOG_SYSTEM_PLAN.md` – **v2.0.3 log system architecture**.  
+- `TODO_2.0.4.md` – **v2.0.4 Agent 007 CAPTAIN integration plan** (NEW).  
 - `LICENSE` – combined GPL v3 + Apache 2.0 text.
 
 ## VERSIONING
 
-WOLFIE Headers follows semantic versioning. The current release is **v2.0.3**, which is required by LUPOPEDIA_PLATFORM 1.0.0.
+WOLFIE Headers follows semantic versioning. The current release is **v2.0.4**, which is required by LUPOPEDIA_PLATFORM 1.0.0.
 
 **⚠️ BREAKING CHANGES** (v2.0.0 from v1.4.2):
 - New 10-section format (WHO, WHAT, WHERE, WHEN, WHY, HOW, DO, HACK, OTHER, TAGS)
@@ -97,6 +98,29 @@ WOLFIE Headers follows semantic versioning. The current release is **v2.0.3**, w
   - System overview updated
   - Comprehensive explanation guide
 
+**NEW FEATURES** (v2.0.4):
+- **Agent 007 CAPTAIN Integration**: Official integration of Commanding Officer
+  - Agent ID: 007, Channel: 007
+  - GitHub: https://github.com/lupopedia/007_captain
+  - Role: Commanding Officer & Strategic Coordinator
+- **Agent 001 UNKNOWN Integration**: First Agent & Template
+  - Agent ID: 001, Channel: 001
+  - GitHub: https://github.com/lupopedia/001_unknown
+  - Role: Template Agent & First Agent
+- **Agent 999 UNKNOWN Integration**: Last Agent & Template
+  - Agent ID: 999, Channel: 999 (Maximum 999)
+  - GitHub: https://github.com/lupopedia/999_unknown
+  - Role: Template Agent & Last Agent
+- **Agent Repository Structure**: Standardized GitHub repository structure
+  - README.md with WOLFIE Headers format
+  - CHANGELOG.md for version history
+  - LICENSE (dual GPL v3.0 + Apache 2.0)
+  - docs/ directory for agent-specific documentation
+- **Agent Integration Patterns**: Documentation for agent repositories
+  - Agent repository naming convention
+  - Agent repository structure standards
+  - Agent integration with WOLFIE Headers
+
 **Migration Required**: All v1.4.2 headers must be migrated to v2.0.0+ format. See `docs/MIGRATION_1.4.2_TO_2.0.0.md` for complete migration guide.
 
 **Breaking Changes**: See `docs/BREAKING_CHANGES_2.0.0.md` for detailed breaking changes list.
@@ -112,11 +136,11 @@ Crafty Syntax Live Help 3.8.0 (Foundation)
     ↓
     └─> WOLFIE Headers 2.0.0+ (REQUIRED - separate package)
         GitHub: https://github.com/lupopedia/WOLFIE_HEADERS
-        Current: v2.0.3 (v2.0.2 stable, v2.0.1 stable, v2.0.0 minimum)
+        Current: v2.0.4 (v2.0.3 stable, v2.0.2 stable, v2.0.1 stable, v2.0.0 minimum)
         ↓
         └─> LUPOPEDIA_PLATFORM 1.0.0 (Layer 1)
             GitHub: https://github.com/lupopedia/LUPOPEDIA_PLATFORM
-            Requires: WOLFIE Headers 2.0.0+ (v2.0.3 recommended, v2.0.2 stable)
+            Requires: WOLFIE Headers 2.0.0+ (v2.0.4 recommended, v2.0.3 stable)
             ↓
             └─> Agent System (Layer 2)
                 Channels: 000-999 (maximum 999)
