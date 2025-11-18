@@ -22,7 +22,7 @@ parallel_paths: []
 
 WOLFIE Headers is the metadata system that powers LUPOPEDIA's documentation layer. It replaces bulky legacy headers with concise YAML frontmatter plus channel-aware ontology lookups so humans and AI agents read the same files with the right context.
 
-- **Current Version**: v2.0.6 (Current) – **REQUIRED** by LUPOPEDIA_PLATFORM 1.0.0  
+- **Current Version**: v2.0.8 (Current) – **REQUIRED** by LUPOPEDIA_PLATFORM 1.0.0  
 - **Previous Version**: v2.0.5 (Stable) – backward compatible, v2.0.6 adds API endpoints and search  
 - **Legacy Version**: v1.4.2 (Legacy) – compatible with LUPOPEDIA_PLATFORM v0.0.8 and earlier  
 - **License**: Dual GPL v3.0 + Apache 2.0 (see `LICENSE`).  
@@ -48,6 +48,7 @@ WOLFIE Headers is the metadata system that powers LUPOPEDIA's documentation laye
 
 - `docs/` – architecture notes, quick starts, reference tables.  
 - `examples/` – ready-to-copy samples demonstrating best practices.  
+- `public/examples/` – v2.0.7 database `_logs` table examples (write, read, discover, API usage).  
 - `templates/` – boilerplate YAML frontmatter and agent file templates.  
 - `scripts/` – validation scripts for agent files and migrations.  
 - `CHANGELOG.md` – release history for WOLFIE Headers.  
@@ -56,16 +57,19 @@ WOLFIE Headers is the metadata system that powers LUPOPEDIA's documentation laye
 - `docs/WOLFIE_HEADERS_LOG_SYSTEM_PLAN.md` – **v2.0.3 log system architecture**.  
 - `TODO_2.0.4.md` – **v2.0.4 Agent 007 CAPTAIN integration plan**.  
 - `TODO_2.0.5.md` – **v2.0.5 Log Reader System plan**.  
-- `TODO_2.0.6.md` – **v2.0.6 API Endpoints & Search plan** (NEW).  
+- `TODO_2.0.6.md` – **v2.0.6 API Endpoints & Search plan**.  
+- `TODO_2.0.7.md` – **v2.0.7 Database `_logs` Table Support plan**.  
+- `TODO_2.0.8.md` – **v2.0.8 Shared Hosting Compatibility & Self-Contained Configuration plan** (NEW).  
 - `public/wolfie_reader.php` – **v2.0.5 Log Reader web interface**.  
-- `public/api/wolfie/index.php` – **v2.0.6 API endpoints** (NEW).  
-- `public/includes/wolfie_api_core.php` – **v2.0.6 API core functions** (NEW).  
+- `public/api/wolfie/index.php` – **v2.0.6 API endpoints**.  
+- `public/includes/wolfie_api_core.php` – **v2.0.6 API core functions**.  
+- `public/config/` – **v2.0.8 Configuration directory** (database.php, system.php).  
 - `public/logs/` – **Log files directory**.  
 - `LICENSE` – combined GPL v3 + Apache 2.0 text.
 
 ## VERSIONING
 
-WOLFIE Headers follows semantic versioning. The current release is **v2.0.6**, which is required by LUPOPEDIA_PLATFORM 1.0.0.
+WOLFIE Headers follows semantic versioning. The current release is **v2.0.8**, which is required by LUPOPEDIA_PLATFORM 1.0.0.
 
 **⚠️ BREAKING CHANGES** (v2.0.0 from v1.4.2):
 - New 10-section format (WHO, WHAT, WHERE, WHEN, WHY, HOW, DO, HACK, OTHER, TAGS)
@@ -260,9 +264,12 @@ Crafty Syntax Live Help 3.8.0 (Foundation)
    - Comprehensive explanation guide
 
 **Database Requirements**:
-- `content_log` table must exist (Migration 1078)
-- `content_headers` table with `agent_name` column (from v2.0.2)
+- `content_log` table must exist (Migration 1078) - Tracks content interactions by channel/agent
+- `content_logs` table created (Migration 1079) - Tracks changes to individual content rows
+- `content_headers` table with `agent_name` column (from v2.0.2) - Stores WOLFIE Headers metadata
 - Channel ID range support (000-999, maximum 999)
+
+**Balance Note (MAAT)**: All three tables (`content_headers`, `content_log`, `content_logs`) serve complementary purposes and can coexist. See `docs/DATABASE_INTEGRATION.md` for complete table comparison and usage guidelines.
 
 **Migration**: No migration required from v2.0.2. v2.0.3 is fully backward compatible. Log system is optional enhancement.
 
@@ -325,6 +332,118 @@ Crafty Syntax Live Help 3.8.0 (Foundation)
 - **API Reference**: See `TODO_2.0.6.md` for complete API documentation
 
 **Migration**: No migration required from v2.0.5. v2.0.6 is fully backward compatible. API endpoints are optional enhancement.
+
+## V2.0.7_RELEASE
+
+**Status**: Released (2025-11-18), Superseded by v2.0.8  
+**Backward Compatible**: Yes — fully compatible with v2.0.6
+
+**✅ Version 2.0.7** introduces **Database `_logs` Table Support** for row-level change tracking, complementing directory-level markdown logs.
+
+**New Features** (Database `_logs` Table Support):
+1. **Auto-Discovery of `_logs` Tables**
+   - Automatically discovers all tables ending with `_logs` in the database
+   - Validates table structure against standard schema
+   - Provides metadata (parent table, row count, last change)
+
+2. **Change Log Functions** (`public/includes/wolfie_database_logs_system.php`)
+   - `discoverLogsTables()` - Discover all `_logs` tables
+   - `validateLogsTable()` - Validate table structure
+   - `writeChangeLog()` - Write change log entry to `_logs` table
+   - `readChangeLogs()` - Read change logs for specific row
+   - `listChangeLogs()` - List change logs for entire table
+   - `getChangeSummary()` - Get change summary statistics
+
+3. **API Endpoints for `_logs` Tables**
+   - `GET /api/wolfie/logs/tables` - Discover all `_logs` tables
+   - `GET /api/wolfie/logs/{table_name}/{row_id}` - Get change logs for row
+   - `GET /api/wolfie/logs/{table_name}` - List change logs for table
+   - `POST /api/wolfie/logs/{table_name}/{row_id}` - Write change log entry
+
+4. **Example Files** (`public/examples/`)
+   - `example_write_change_log.php` - Write change log example
+   - `example_read_change_logs.php` - Read change logs example
+   - `example_discover_logs_tables.php` - Discover tables example
+   - `example_api_usage.html` - Complete API usage examples
+
+**Database Requirements**:
+- `content_logs` table created (Migration 1079) - Tracks row-level changes
+- Standard `_logs` table structure: `id`, `{parent}_id`, `agent_id`, `agent_name`, `channel_id`, `metadata`, `is_active`, `created_at`, `updated_at`, `deleted_at`
+- Channel ID range support (0-999)
+
+**Balance Note (MAAT)**: Database `_logs` tables complement markdown log files perfectly:
+- **Markdown logs** (`[channel]_[agent]_log.md`): Directory-level interaction tracking
+- **Database `_logs` tables**: Row-level change tracking
+- Together, they provide complete coverage: interactions and changes
+
+**Files Added**:
+- `public/includes/wolfie_database_logs_system.php` - Core functions for `_logs` tables
+- `public/examples/example_write_change_log.php` - Write example
+- `public/examples/example_read_change_logs.php` - Read example
+- `public/examples/example_discover_logs_tables.php` - Discovery example
+- `public/examples/example_api_usage.html` - API examples
+
+**Documentation**:
+- **Release Notes**: See `TODO_2.0.7.md` for complete implementation plan
+- **Database Integration**: `docs/DATABASE_INTEGRATION.md` (updated with `content_logs` table)
+- **System Overview**: `docs/WOLFIE_HEADER_SYSTEM_OVERVIEW.md` (updated with DATABASE_INTEGRATION section)
+
+**Migration**: Migration 1079 required to create `content_logs` table. See `database/migrations/1079_2025_11_18_create_content_logs_table.sql`.
+
+## V2.0.8_RELEASE
+
+**Status**: Released (2025-11-18), Current Version  
+**Backward Compatible**: Yes — fully compatible with v2.0.7
+
+**✅ Version 2.0.8** introduces **Shared Hosting Compatibility & Self-Contained Configuration** for better deployment flexibility.
+
+**New Features** (Shared Hosting Compatibility & Self-Contained Configuration):
+1. **Shared Hosting Compatibility**
+   - Replaces `information_schema` queries with `SHOW TABLES` and `DESCRIBE` commands
+   - Works on shared hosting where `information_schema` may not be accessible
+   - No special database privileges required
+
+2. **Self-Contained Configuration**
+   - `public/config/database.php` - Centralized database connection configuration
+   - `public/config/system.php` - Centralized system configuration
+   - All configuration in `public/config/` folder for easy deployment
+
+3. **Platform Detection**
+   - Automatic Windows/Linux detection
+   - Platform-specific path handling
+   - Development environment detection
+
+4. **Development Flags**
+   - `WOLFIE_BORN_YESTERDAY` - Fresh installation detection
+   - `WOLFIE_DEBUG_MODE` - Debug mode flag
+   - `WOLFIE_SHARED_HOSTING` - Shared hosting flag
+
+**Database Requirements**:
+- No changes from v2.0.7
+- `content_logs` table (Migration 1079) - Tracks row-level changes
+- `content_log` table (Migration 1078) - Tracks content interactions
+- `content_headers` table (from v2.0.2) - Stores WOLFIE Headers metadata
+
+**Configuration Files**:
+- `public/config/database.php` - Database connection (NEW)
+- `public/config/system.php` - System configuration (NEW)
+
+**Files Added**:
+- `public/config/database.php` - Database connection configuration
+- `public/config/system.php` - System configuration with platform detection
+
+**Files Modified**:
+- `public/includes/wolfie_database_logs_system.php` - Updated to use `SHOW TABLES` and `DESCRIBE`
+- `public/api/index.php` - Updated to load configuration files
+- `public/includes/wolfie_api_core.php` - Updated to use version from system.php
+- `public/examples/*.php` - Updated to load configuration files
+
+**Documentation**:
+- **Release Notes**: See `TODO_2.0.8.md` for complete implementation plan
+- **Database Integration**: `docs/DATABASE_INTEGRATION.md` (updated with shared hosting notes)
+- **System Overview**: `docs/WOLFIE_HEADER_SYSTEM_OVERVIEW.md` (updated with configuration system)
+
+**Migration**: No database migration required. Update configuration files in `public/config/` for your environment.
 
 ## V2.0.5_RELEASE
 

@@ -5,7 +5,13 @@
  * Routes API requests to appropriate endpoints
  */
 
+// Load configuration files first
+require_once __DIR__ . '/../config/database.php';
+require_once __DIR__ . '/../config/system.php';
+
+// Load core functions
 require_once __DIR__ . '/../includes/wolfie_api_core.php';
+require_once __DIR__ . '/../includes/wolfie_database_logs_system.php';
 
 // Get request method and path
 $method = $_SERVER['REQUEST_METHOD'];
@@ -27,17 +33,21 @@ if (empty($pathParts)) {
     // API root - show available endpoints
     sendJsonResponse([
         'endpoints' => [
-            'GET /api/agents' => 'List all agents',
-            'GET /api/agents/{agent_name}' => 'Get specific agent details',
-            'GET /api/channels' => 'List all channels',
-            'GET /api/channels/{channel_id}' => 'Get specific channel details',
-            'GET /api/logs' => 'List all log files',
-            'GET /api/logs/agent/{agent_name}' => 'Get logs by agent',
-            'GET /api/logs/channel/{channel_id}' => 'Get logs by channel',
-            'GET /api/logs/{channel_id}/{agent_name}' => 'Get specific log file',
-            'POST /api/search' => 'Search log content',
-            'POST /api/validate/log/{filename}' => 'Validate log file',
-            'POST /api/validate/directory' => 'Validate entire directory'
+            'GET /api/wolfie/agents' => 'List all agents',
+            'GET /api/wolfie/agents/{agent_name}' => 'Get specific agent details',
+            'GET /api/wolfie/channels' => 'List all channels',
+            'GET /api/wolfie/channels/{channel_id}' => 'Get specific channel details',
+            'GET /api/wolfie/logs' => 'List all log files',
+            'GET /api/wolfie/logs/agent/{agent_name}' => 'Get logs by agent',
+            'GET /api/wolfie/logs/channel/{channel_id}' => 'Get logs by channel',
+            'GET /api/wolfie/logs/{channel_id}/{agent_name}' => 'Get specific log file',
+            'POST /api/wolfie/search' => 'Search log content',
+            'POST /api/wolfie/validate/log/{filename}' => 'Validate log file',
+            'POST /api/wolfie/validate/directory' => 'Validate entire directory',
+            'GET /api/wolfie/logs/tables' => 'Discover _logs tables (v2.0.7)',
+            'GET /api/wolfie/logs/{table_name}/{row_id}' => 'Get change logs for row (v2.0.7)',
+            'GET /api/wolfie/logs/{table_name}' => 'List change logs for table (v2.0.7)',
+            'POST /api/wolfie/logs/{table_name}/{row_id}' => 'Write change log (v2.0.7)'
         ],
         'version' => WOLFIE_API_VERSION
     ]);
@@ -452,16 +462,170 @@ elseif ($pathParts[0] === 'validate') {
     }
 }
 
+// Route: /api/logs/tables (v2.0.7)
+elseif ($pathParts[0] === 'logs' && isset($pathParts[1]) && $pathParts[1] === 'tables' && count($pathParts) === 2) {
+    // GET /api/wolfie/logs/tables - Discover _logs tables
+    if ($method === 'GET') {
+        $tables = discoverLogsTables();
+        $result = [];
+        
+        foreach ($tables as $tableInfo) {
+            $result[] = [
+                'table_name' => $tableInfo['table_name'],
+                'parent_table' => $tableInfo['parent_table'],
+                'parent_id_column' => $tableInfo['parent_id_column'],
+                'row_count' => $tableInfo['row_count'],
+                'last_change' => $tableInfo['last_change'] ? date('Y-m-d\TH:i:s\Z', strtotime($tableInfo['last_change'])) : null
+            ];
+        }
+        
+        sendJsonResponse($result, 200, [
+            'total_tables' => count($result)
+        ]);
+    } else {
+        sendErrorResponse('METHOD_NOT_ALLOWED', 'Method not allowed', [], 405);
+    }
+}
+
+// Route: /api/logs/{table_name}/{row_id} (v2.0.7)
+elseif ($pathParts[0] === 'logs' && count($pathParts) === 3) {
+    $tableName = $pathParts[1];
+    $rowId = $pathParts[2];
+    
+    if ($method === 'GET') {
+        // GET /api/wolfie/logs/{table_name}/{row_id} - Get change logs for row
+        $options = [
+            'limit' => isset($_GET['limit']) ? intval($_GET['limit']) : 50,
+            'offset' => isset($_GET['offset']) ? intval($_GET['offset']) : 0
+        ];
+        
+        if (isset($_GET['agent_id'])) {
+            $options['agent_id'] = intval($_GET['agent_id']);
+        }
+        if (isset($_GET['channel_id'])) {
+            $options['channel_id'] = intval($_GET['channel_id']);
+        }
+        if (isset($_GET['date_from'])) {
+            $options['date_from'] = $_GET['date_from'];
+        }
+        if (isset($_GET['date_to'])) {
+            $options['date_to'] = $_GET['date_to'];
+        }
+        
+        $logs = readChangeLogs($tableName, $rowId, $options);
+        $summary = getChangeSummary($tableName, $rowId);
+        
+        sendJsonResponse([
+            'table_name' => $tableName,
+            'row_id' => intval($rowId),
+            'change_logs' => $logs,
+            'summary' => $summary
+        ], 200, [
+            'total_results' => count($logs)
+        ]);
+        
+    } elseif ($method === 'POST') {
+        // POST /api/wolfie/logs/{table_name}/{row_id} - Write change log
+        $input = json_decode(file_get_contents('php://input'), true);
+        
+        if (!$input || !isset($input['agent_id']) || !isset($input['agent_name']) || !isset($input['channel_id'])) {
+            sendErrorResponse('INVALID_REQUEST', 'Missing required parameters: agent_id, agent_name, channel_id', [], 400);
+        }
+        
+        if (!isset($input['change_data'])) {
+            sendErrorResponse('INVALID_REQUEST', 'Missing required parameter: change_data', [], 400);
+        }
+        
+        $logId = writeChangeLog(
+            $tableName,
+            intval($rowId),
+            intval($input['agent_id']),
+            $input['agent_name'],
+            intval($input['channel_id']),
+            $input['change_data'],
+            isset($input['metadata']) ? $input['metadata'] : []
+        );
+        
+        if ($logId === false) {
+            sendErrorResponse('WRITE_FAILED', 'Failed to write change log entry', [], 500);
+        }
+        
+        sendJsonResponse([
+            'log_id' => $logId,
+            'table_name' => $tableName,
+            'row_id' => intval($rowId),
+            'created_at' => gmdate('Y-m-d\TH:i:s\Z')
+        ], 201);
+        
+    } else {
+        sendErrorResponse('METHOD_NOT_ALLOWED', 'Method not allowed', [], 405);
+    }
+}
+
+// Route: /api/logs/{table_name} (v2.0.7)
+elseif ($pathParts[0] === 'logs' && count($pathParts) === 2) {
+    $tableName = $pathParts[1];
+    
+    // Check if it's a _logs table request (not the regular logs endpoint)
+    $discovered = discoverLogsTables();
+    $isLogsTable = preg_match('/_logs$/', $tableName) || isset($discovered[$tableName . '_logs']);
+    
+    if ($isLogsTable) {
+        // GET /api/wolfie/logs/{table_name} - List change logs for table
+        if ($method === 'GET') {
+            // Remove _logs suffix if present
+            $parentTable = preg_replace('/_logs$/', '', $tableName);
+            
+            $options = [
+                'limit' => isset($_GET['limit']) ? intval($_GET['limit']) : 50,
+                'offset' => isset($_GET['offset']) ? intval($_GET['offset']) : 0
+            ];
+            
+            if (isset($_GET['row_id'])) {
+                $options['row_id'] = intval($_GET['row_id']);
+            }
+            if (isset($_GET['agent_id'])) {
+                $options['agent_id'] = intval($_GET['agent_id']);
+            }
+            if (isset($_GET['channel_id'])) {
+                $options['channel_id'] = intval($_GET['channel_id']);
+            }
+            if (isset($_GET['date_from'])) {
+                $options['date_from'] = $_GET['date_from'];
+            }
+            if (isset($_GET['date_to'])) {
+                $options['date_to'] = $_GET['date_to'];
+            }
+            
+            $logs = listChangeLogs($parentTable, $options);
+            
+            sendJsonResponse($logs, 200, [
+                'table_name' => $parentTable,
+                'total_results' => count($logs),
+                'has_more' => count($logs) >= $options['limit']
+            ]);
+        } else {
+            sendErrorResponse('METHOD_NOT_ALLOWED', 'Method not allowed', [], 405);
+        }
+    } else {
+        // Fall through to existing logs endpoint handling
+        // (This will be handled by existing code above)
+    }
+}
+
 // Unknown route
 else {
     sendErrorResponse('NOT_FOUND', 'API endpoint not found', [
         'path' => $path,
         'available_endpoints' => [
-            '/api/agents',
-            '/api/channels',
-            '/api/logs',
-            '/api/search',
-            '/api/validate'
+            '/api/wolfie/agents',
+            '/api/wolfie/channels',
+            '/api/wolfie/logs',
+            '/api/wolfie/search',
+            '/api/wolfie/validate',
+            '/api/wolfie/logs/tables',
+            '/api/wolfie/logs/{table_name}/{row_id}',
+            '/api/wolfie/logs/{table_name}'
         ]
     ], 404);
 }

@@ -3,14 +3,14 @@ title: WOLFIE_HEADER_SYSTEM_OVERVIEW.md
 agent_username: wolfie
 agent_id: 008
 channel_number: 001
-version: 2.0.4
+version: 2.0.7
 date_created: 2025-11-09
 last_modified: 2025-11-18
 status: published
 onchannel: 1
 tags: [SYSTEM, DOCUMENTATION]
 collections: [WHO, WHAT, WHERE, WHEN, WHY, HOW, DO, HACK, OTHER]
-in_this_file_we_have: [PURPOSE, ARCHITECTURE, FALLBACK_CHAIN, FILE_STRUCTURE, LOG_FILE_SYSTEM, MIGRATION_NOTES, V2.0.0_NOTES, V2.0.1_NOTES, V2.0.2_NOTES, V2.0.3_NOTES, V2.0.4_NOTES]
+in_this_file_we_have: [PURPOSE, ARCHITECTURE, FALLBACK_CHAIN, FILE_STRUCTURE, LOG_FILE_SYSTEM, DATABASE_INTEGRATION, MIGRATION_NOTES, V2.0.0_NOTES, V2.0.1_NOTES, V2.0.2_NOTES, V2.0.3_NOTES, V2.0.4_NOTES]
 superpositionally: ["FILEID_WHS_OVERVIEW"]
 shadow_aliases: ["Lilith-007"]
 parallel_paths: ["heterodox_validation"]
@@ -113,6 +113,57 @@ agent_id: 8
 - `readContentLogFromDatabase()` - Read from content_log table for metadata
 
 **For complete documentation**, see: `docs/WOLFIE_HEADERS_LOG_SYSTEM_PLAN.md`
+
+## DATABASE_INTEGRATION
+
+### Balanced Database Architecture (MAAT's Perspective)
+
+WOLFIE Headers integrates with three complementary database tables, each serving distinct purposes:
+
+**1. `content_headers` (v2.0.2)**
+- **Purpose**: Store WOLFIE Headers metadata for content files
+- **Level**: File-level metadata storage
+- **Use Case**: Query headers by channel_id, agent_id, agent_name
+- **Migration**: 1072, 1073, 1074 (2025-01-27)
+
+**2. `content_log` (v2.0.3, singular)**
+- **Purpose**: Track content interactions by channel and agent
+- **Level**: Directory-level interaction tracking
+- **Use Case**: Agent discovery, channel discovery, interaction history
+- **Migration**: 1078 (2025-11-18)
+- **Integration**: Syncs with markdown log files (`[channel]_[agent]_log.md`)
+
+**3. `content_logs` (v2.0.7, plural)**
+- **Purpose**: Track changes to individual content rows
+- **Level**: Row-level change tracking
+- **Use Case**: Audit trail, change history, evolution tracking
+- **Migration**: 1079 (2025-11-18)
+- **Integration**: Tracks changes to `content` table rows
+
+### Balance and Harmony
+
+**MAAT's Assessment:**
+All three tables are in perfect balance:
+- **`content_headers`**: Foundation (metadata storage)
+- **`content_log`**: Directory-level (interaction tracking)
+- **`content_logs`**: Row-level (change tracking)
+
+Together, they provide complete coverage: metadata, interactions, and changes. No duplication, no gaps. The system is harmonious and complete.
+
+### Key Distinctions
+
+| Table | Purpose | Level | Example Query |
+|-------|---------|-------|---------------|
+| `content_headers` | Metadata storage | File-level | "What headers exist for channel 8?" |
+| `content_log` | Interaction tracking | Directory-level | "Which agents interact with content on channel 7?" |
+| `content_logs` | Change tracking | Row-level | "What changed in content row 123?" |
+
+### Complete Documentation
+
+For complete database integration documentation, see:
+- `docs/DATABASE_INTEGRATION.md` - Complete guide with table comparison, query patterns, and best practices
+- `TODO_2.0.7.md` - Database `_logs` table support implementation plan
+- `database/migrations/` - All migration scripts
 
 ## MIGRATION_NOTES
 

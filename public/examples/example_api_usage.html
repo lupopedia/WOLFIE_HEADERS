@@ -1,0 +1,199 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>WOLFIE Headers v2.0.8 - API Examples</title>
+    <style>
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 20px;
+            background: #f5f5f5;
+        }
+        h1 {
+            color: #2c3e50;
+            border-bottom: 3px solid #3498db;
+            padding-bottom: 10px;
+        }
+        h2 {
+            color: #34495e;
+            margin-top: 30px;
+        }
+        .example {
+            background: white;
+            padding: 20px;
+            margin: 20px 0;
+            border-radius: 5px;
+            box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+        }
+        code {
+            background: #f4f4f4;
+            padding: 2px 6px;
+            border-radius: 3px;
+            font-family: 'Courier New', monospace;
+        }
+        pre {
+            background: #2c3e50;
+            color: #ecf0f1;
+            padding: 15px;
+            border-radius: 5px;
+            overflow-x: auto;
+        }
+        .endpoint {
+            color: #3498db;
+            font-weight: bold;
+        }
+        .method {
+            display: inline-block;
+            padding: 3px 8px;
+            border-radius: 3px;
+            font-weight: bold;
+            margin-right: 10px;
+        }
+        .method.get {
+            background: #27ae60;
+            color: white;
+        }
+        .method.post {
+            background: #e67e22;
+            color: white;
+        }
+        .note {
+            background: #fff3cd;
+            border-left: 4px solid #ffc107;
+            padding: 10px;
+            margin: 10px 0;
+        }
+    </style>
+</head>
+<body>
+    <h1>WOLFIE Headers v2.0.8 - API Examples</h1>
+    
+    <div class="note">
+        <strong>MAAT's Balance Note:</strong> All API endpoints are in harmony. Directory-level logs (markdown files) and row-level logs (database _logs tables) complement each other perfectly. v2.0.8 adds shared hosting compatibility using SHOW TABLES and DESCRIBE instead of information_schema.
+    </div>
+    
+    <h2>1. Discover _logs Tables</h2>
+    <div class="example">
+        <p><span class="method get">GET</span> <span class="endpoint">/api/wolfie/logs/tables</span></p>
+        <p>Discover all <code>_logs</code> tables in the database.</p>
+        <pre><code>fetch('/api/wolfie/logs/tables')
+  .then(response => response.json())
+  .then(data => {
+    console.log('Discovered tables:', data.data);
+    console.log('Total tables:', data.metadata.total_tables);
+  });</code></pre>
+    </div>
+    
+    <h2>2. Get Change Logs for Row</h2>
+    <div class="example">
+        <p><span class="method get">GET</span> <span class="endpoint">/api/wolfie/logs/{table_name}/{row_id}</span></p>
+        <p>Get all change log entries for a specific database row.</p>
+        <pre><code>// Get change logs for content row 123
+fetch('/api/wolfie/logs/content/123?limit=20&agent_id=8')
+  .then(response => response.json())
+  .then(data => {
+    console.log('Change logs:', data.data.change_logs);
+    console.log('Summary:', data.data.summary);
+  });</code></pre>
+    </div>
+    
+    <h2>3. Write Change Log Entry</h2>
+    <div class="example">
+        <p><span class="method post">POST</span> <span class="endpoint">/api/wolfie/logs/{table_name}/{row_id}</span></p>
+        <p>Write a new change log entry to track row-level changes.</p>
+        <pre><code>fetch('/api/wolfie/logs/content/123', {
+  method: 'POST',
+  headers: {
+    'Content-Type': 'application/json'
+  },
+  body: JSON.stringify({
+    agent_id: 8,
+    agent_name: 'WOLFIE',
+    channel_id: 7,
+    change_data: {
+      change_type: 'update',
+      changed_fields: ['title', 'status'],
+      old_values: {
+        title: 'Old Title',
+        status: 'draft'
+      },
+      new_values: {
+        title: 'New Title',
+        status: 'published'
+      }
+    },
+    metadata: {
+      change_reason: 'User requested title update',
+      change_summary: 'Updated title and published content'
+    }
+  })
+})
+  .then(response => response.json())
+  .then(data => {
+    console.log('Change log created:', data.data);
+  });</code></pre>
+    </div>
+    
+    <h2>4. List Change Logs for Table</h2>
+    <div class="example">
+        <p><span class="method get">GET</span> <span class="endpoint">/api/wolfie/logs/{table_name}</span></p>
+        <p>List all change log entries for a table (across all rows).</p>
+        <pre><code>// List all change logs for content table
+fetch('/api/wolfie/logs/content?limit=50&channel_id=7')
+  .then(response => response.json())
+  .then(data => {
+    console.log('Change logs:', data.data);
+    console.log('Total results:', data.metadata.total_results);
+  });</code></pre>
+    </div>
+    
+    <h2>Complete Example</h2>
+    <div class="example">
+        <p>Complete workflow: Discover tables, write change log, read change logs.</p>
+        <pre><code>// 1. Discover _logs tables
+const tables = await fetch('/api/wolfie/logs/tables')
+  .then(r => r.json())
+  .then(d => d.data);
+
+console.log('Available tables:', tables);
+
+// 2. Write a change log entry
+const logEntry = await fetch('/api/wolfie/logs/content/123', {
+  method: 'POST',
+  headers: { 'Content-Type': 'application/json' },
+  body: JSON.stringify({
+    agent_id: 8,
+    agent_name: 'WOLFIE',
+    channel_id: 7,
+    change_data: {
+      change_type: 'update',
+      changed_fields: ['title'],
+      old_values: { title: 'Old' },
+      new_values: { title: 'New' }
+    }
+  })
+}).then(r => r.json());
+
+console.log('Created log entry:', logEntry.data);
+
+// 3. Read change logs
+const logs = await fetch('/api/wolfie/logs/content/123')
+  .then(r => r.json())
+  .then(d => d.data);
+
+console.log('Change logs:', logs.change_logs);
+console.log('Summary:', logs.summary);</code></pre>
+    </div>
+    
+    <div class="note">
+        <strong>Version:</strong> WOLFIE Headers v2.0.8<br>
+        <strong>Documentation Review:</strong> MAAT (Agent 009) - Balance verified, completeness confirmed<br>
+        <strong>Last Updated:</strong> 2025-11-18<br>
+        <strong>Shared Hosting:</strong> Compatible - uses SHOW TABLES and DESCRIBE
+    </div>
+</body>
+</html>
+

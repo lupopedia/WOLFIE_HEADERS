@@ -3,7 +3,7 @@ title: CHANGELOG.md
 agent_username: wolfie
 agent_id: 008
 channel_number: 001
-version: 2.0.6
+version: 2.0.8
 date_created: 2025-11-09
 last_modified: 2025-11-18
 status: published
@@ -22,9 +22,95 @@ All notable changes to this component are documented here. Dates use the LUPOPED
 
 ## VERSION_HISTORY
 
+### v2.0.8 — 2025-11-18
+
+**Status**: Current Version  
+**Backward Compatible**: Yes — fully compatible with v2.0.7
+
+**New Features** (Shared Hosting Compatibility & Self-Contained Configuration):
+- **Shared Hosting Compatibility**: Replaces `information_schema` queries with `SHOW TABLES` and `DESCRIBE` commands
+- **Self-Contained Configuration**: Centralized configuration in `public/config/` folder
+  - `public/config/database.php` - Database connection configuration
+  - `public/config/system.php` - System configuration with platform detection
+- **Platform Detection**: Automatic Windows/Linux detection
+- **Development Flags**: `WOLFIE_BORN_YESTERDAY`, `WOLFIE_DEBUG_MODE`, `WOLFIE_SHARED_HOSTING`
+
+**Files Added**:
+- `public/config/database.php` - Database connection configuration
+- `public/config/system.php` - System configuration with platform detection
+
+**Files Modified**:
+- `public/includes/wolfie_database_logs_system.php` - Updated to use `SHOW TABLES` and `DESCRIBE` instead of `information_schema`
+- `public/api/index.php` - Updated to load configuration files
+- `public/includes/wolfie_api_core.php` - Updated to use version from system.php
+- `public/examples/*.php` - Updated to load configuration files
+
+**Database Changes**: None - no migration required
+
+**Breaking Changes**: None - fully backward compatible
+
+**Related**: See `TODO_2.0.8.md` for complete implementation plan.
+
+---
+
+### v2.0.7 — 2025-11-18
+
+**Status**: Released (Superseded by v2.0.8)  
+**Backward Compatible**: Yes — fully compatible with v2.0.6
+
+**New Features** (Database `_logs` Table Support):
+- **Auto-Discovery of `_logs` Tables**: Automatically discovers all tables ending with `_logs` in the database
+- **Change Log Functions**: Core functions for row-level change tracking
+  - `discoverLogsTables()` - Discover all `_logs` tables
+  - `validateLogsTable()` - Validate table structure
+  - `writeChangeLog()` - Write change log entry
+  - `readChangeLogs()` - Read change logs for specific row
+  - `listChangeLogs()` - List change logs for entire table
+  - `getChangeSummary()` - Get change summary statistics
+- **API Endpoints for `_logs` Tables**:
+  - `GET /api/wolfie/logs/tables` - Discover all `_logs` tables
+  - `GET /api/wolfie/logs/{table_name}/{row_id}` - Get change logs for row
+  - `GET /api/wolfie/logs/{table_name}` - List change logs for table
+  - `POST /api/wolfie/logs/{table_name}/{row_id}` - Write change log entry
+- **Example Files**: Complete examples in `public/examples/`
+  - `example_write_change_log.php` - Write change log example
+  - `example_read_change_logs.php` - Read change logs example
+  - `example_discover_logs_tables.php` - Discover tables example
+  - `example_api_usage.html` - Complete API usage examples
+
+**Files Added**:
+- `public/includes/wolfie_database_logs_system.php` - Core functions for `_logs` tables
+- `public/examples/example_write_change_log.php` - Write example
+- `public/examples/example_read_change_logs.php` - Read example
+- `public/examples/example_discover_logs_tables.php` - Discovery example
+- `public/examples/example_api_usage.html` - API examples
+
+**Documentation**:
+- `docs/DATABASE_INTEGRATION.md` - Updated with `content_logs` table documentation and MAAT's balance review
+- `docs/WOLFIE_HEADER_SYSTEM_OVERVIEW.md` - Updated with DATABASE_INTEGRATION section
+- `README.md` - Updated with v2.0.7 release notes
+- `TODO_2.0.7.md` - Complete implementation plan
+
+**Database Migration**:
+- Migration 1079 (2025-11-18): Created `content_logs` table for row-level change tracking
+- Table structure: `id`, `content_id`, `agent_id`, `agent_name`, `channel_id`, `metadata`, `is_active`, `created_at`, `updated_at`, `deleted_at`
+- Purpose: Track changes to individual content rows (complement to directory-level `content_log` table)
+
+**Balance Assessment (MAAT)**:
+All three database tables are in perfect balance:
+- `content_headers`: Foundation (metadata storage)
+- `content_log`: Directory-level (interaction tracking)
+- `content_logs`: Row-level (change tracking)
+
+Together, they provide complete coverage: metadata, interactions, and changes. No duplication, no gaps. The system is harmonious and complete.
+
+**Related**: See `TODO_2.0.7.md` for complete implementation plan and `docs/DATABASE_INTEGRATION.md` for table comparison.
+
+---
+
 ### v2.0.6 — 2025-11-18
 
-**Status**: Released (Current Version)  
+**Status**: Released (Superseded by v2.0.7)  
 **Backward Compatible**: Yes — fully compatible with v2.0.5
 
 **New Features** (API Endpoints & Search Functionality):
@@ -67,6 +153,8 @@ All notable changes to this component are documented here. Dates use the LUPOPED
 - Purpose: Track changes to individual content rows (different from `content_log` which tracks content interactions)
 - Status: Migration completed, table ready for use
 - Related: WOLFIE Headers v2.0.7 planning (see `TODO_2.0.7.md`)
+- Documentation: Complete documentation added to `docs/DATABASE_INTEGRATION.md` with MAAT's balance review
+- Balance Assessment (MAAT): All three tables (`content_headers`, `content_log`, `content_logs`) are in harmony, each serving distinct purposes
 
 **Related**: See `TODO_2.0.6.md` for complete implementation details and LILITH's critical analysis. See `TODO_2.0.7.md` for database `_logs` table support planning.
 

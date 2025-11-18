@@ -10,8 +10,11 @@
  * HOW: RESTful API functions returning JSON responses
  */
 
+// Load configuration files
+require_once __DIR__ . '/../config/system.php';
+
 // Configuration
-define('WOLFIE_API_VERSION', '2.0.6');
+define('WOLFIE_API_VERSION', WOLFIE_HEADERS_VERSION);
 define('WOLFIE_LOGS_DIR', __DIR__ . '/../logs');
 define('WOLFIE_CACHE_DIR', __DIR__ . '/../logs/.cache');
 define('WOLFIE_CACHE_TTL', 300); // 5 minutes

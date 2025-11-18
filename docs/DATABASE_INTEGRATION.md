@@ -20,11 +20,32 @@ parallel_paths: []
 
 ## OVERVIEW
 
-WOLFIE Headers v2.0.2 integrates with LUPOPEDIA_PLATFORM's `content_headers` table to enable database-driven header storage and retrieval. This guide documents the table structure, column requirements, and query patterns.
+WOLFIE Headers integrates with LUPOPEDIA_PLATFORM's database tables to enable database-driven header storage, log tracking, and change management. This guide documents the table structures, column requirements, and query patterns for all integrated tables.
 
 **Version**: v2.0.7  
 **Required By**: LUPOPEDIA_PLATFORM 1.0.0  
-**Status**: Current
+**Status**: Current  
+**Documentation Review**: MAAT (Agent 009) - Balance, Truth, Completeness
+
+### Database Tables Overview
+
+WOLFIE Headers integrates with three primary database tables, each serving distinct purposes:
+
+1. **`content_headers`** (v2.0.2): Stores WOLFIE Headers metadata for content files
+   - Purpose: Header storage and retrieval by channel and agent
+   - Use Case: Query headers by channel_id, agent_id, agent_name
+
+2. **`content_log`** (v2.0.3, singular): Tracks content interactions by channel and agent
+   - Purpose: Directory-level log tracking (which agents interact with content on which channels)
+   - Use Case: Agent discovery, channel discovery, interaction history
+   - Migration: 1078 (2025-11-18)
+
+3. **`content_logs`** (v2.0.7, plural): Tracks changes to individual content rows
+   - Purpose: Row-level change tracking (what changed, when, why for each content row)
+   - Use Case: Audit trail, change history, evolution tracking
+   - Migration: 1079 (2025-11-18)
+
+**Balance Note (MAAT)**: All three tables serve complementary purposes and can coexist. Each table addresses a different aspect of content management: metadata storage (`content_headers`), interaction tracking (`content_log`), and change tracking (`content_logs`).
 
 ---
 
@@ -209,10 +230,11 @@ The `content_logs` table (plural) stores row-level change logs for individual co
 - Understanding evolution of database records over time
 - Different purpose from `content_log` (singular) which tracks content interactions by channel and agent
 
-**Note**: This is different from `content_log` (singular):
+**Balance Note (MAAT)**: This table is different from `content_log` (singular):
 - `content_log` (singular): Tracks content interactions by channel and agent (directory-level)
 - `content_logs` (plural): Tracks changes to individual content rows (row-level)
 - Both tables can coexist (different purposes)
+- Together with `content_headers`, these three tables provide complete coverage: metadata storage, interaction tracking, and change tracking
 
 ### Key Columns for WOLFIE Headers v2.0.7
 
@@ -652,19 +674,77 @@ Run migration 1074 validation queries to verify:
 
 ---
 
+## TABLE_COMPARISON
+
+### Balanced Overview (MAAT's Perspective)
+
+To ensure clarity and prevent confusion, here is a balanced comparison of all three database tables:
+
+| Aspect | `content_headers` | `content_log` (singular) | `content_logs` (plural) |
+|--------|-------------------|-------------------------|------------------------|
+| **Purpose** | Store WOLFIE Headers metadata | Track content interactions | Track row-level changes |
+| **Level** | File-level metadata | Directory-level interactions | Row-level changes |
+| **Use Case** | Query headers by channel/agent | Agent discovery, channel discovery | Audit trail, change history |
+| **Version** | v2.0.2 | v2.0.3 | v2.0.7 |
+| **Migration** | 1072, 1073, 1074 | 1078 | 1079 |
+| **Key Columns** | channel_id, agent_id, agent_name, value | content_id, channel_id, agent_id, agent_name | content_id, agent_id, agent_name, channel_id |
+| **Metadata** | Header values, SOT types | Log entry counts, file paths | Change types, old/new values |
+| **Relationship** | Links to content files | Links to log markdown files | Links to content table rows |
+| **Query Pattern** | "What headers exist?" | "Which agents interact with content?" | "What changed in this row?" |
+
+### When to Use Which Table
+
+**Use `content_headers` when:**
+- You need to query WOLFIE Headers metadata
+- You need to find headers by channel or agent
+- You need to construct agent file paths
+- You need header values for content files
+
+**Use `content_log` (singular) when:**
+- You need to discover which agents interact with content
+- You need to find content on specific channels
+- You need directory-level log metadata
+- You need to sync with markdown log files
+
+**Use `content_logs` (plural) when:**
+- You need to track changes to a specific content row
+- You need an audit trail of what changed, when, why
+- You need to understand evolution of database records
+- You need row-level change history
+
+### Balance and Harmony
+
+**MAAT's Assessment:**
+All three tables are in balance. Each serves a distinct purpose:
+- `content_headers`: Metadata storage (foundation)
+- `content_log`: Interaction tracking (directory-level)
+- `content_logs`: Change tracking (row-level)
+
+Together, they provide complete coverage: metadata, interactions, and changes. No table duplicates another's purpose. The system is harmonious and complete.
+
+---
+
 ## RELATED_DOCUMENTATION
 
 - `docs/AGENT_FILE_NAMING.md` - Agent file naming convention
 - `docs/MIGRATION_2.0.1_TO_2.0.2.md` - Migration guide
-- `TODO_2.0.2.md` - Complete TODO plan
+- `TODO_2.0.2.md` - Complete TODO plan for v2.0.2
+- `TODO_2.0.7.md` - Complete TODO plan for v2.0.7 (database `_logs` table support)
 - `database/migrations/` - Migration scripts
+  - `1072_2025_01_27_add_agent_name_to_content_headers.sql` - Added agent_name column
+  - `1073_2025_01_27_populate_agent_name_in_content_headers.sql` - Populated agent_name
+  - `1074_2025_01_27_validate_agent_name_migration.sql` - Validated migration
+  - `1078_2025_11_18_create_content_log_table.sql` - Created content_log table
+  - `1079_2025_11_18_create_content_logs_table.sql` - Created content_logs table
 - `docs/WOLFIE_HEADERS_LOG_SYSTEM_PLAN.md` - Log system architecture and implementation plan
+- `docs/DATABASE_INTEGRATION.md` - This file (complete database integration guide)
 
 ---
 
 **Last Updated**: 2025-11-18  
-**Version**: 2.0.3  
-**Status**: Current
+**Version**: 2.0.7  
+**Status**: Current  
+**Documentation Review**: MAAT (Agent 009) - Balance verified, completeness confirmed, truth maintained
 
 ---
 
