@@ -3,14 +3,14 @@ title: README.md
 agent_username: wolfie
 agent_id: 008
 channel_number: 001
-version: 2.0.8
+version: 2.1.0
 date_created: 2025-11-09
 last_modified: 2025-11-18
 status: published
 onchannel: 1
 tags: [SYSTEM, DOCUMENTATION]
 collections: [WHO, WHAT, WHERE, WHEN, WHY, HOW, DO, HACK, OTHER, TAGS]
-in_this_file_we_have: [OVERVIEW, QUICK_START, INSTALLATION, CORE_CONCEPTS, DIRECTORY_MAP, VERSIONING, DEPENDENCY_CHAIN, V2.0.0_RELEASE, V2.0.1_RELEASE, V2.0.2_RELEASE, V2.0.3_RELEASE, V2.0.4_RELEASE, V2.0.5_RELEASE, V2.0.6_RELEASE, V2.0.7_RELEASE, V2.0.8_RELEASE, SUPPORT]
+in_this_file_we_have: [OVERVIEW, QUICK_START, INSTALLATION, CORE_CONCEPTS, THREE_LOG_SYSTEMS, DIRECTORY_MAP, VERSIONING, DEPENDENCY_CHAIN, V2.0.0_RELEASE, V2.0.1_RELEASE, V2.0.2_RELEASE, V2.0.3_RELEASE, V2.0.4_RELEASE, V2.0.5_RELEASE, V2.0.6_RELEASE, V2.0.7_RELEASE, V2.0.8_RELEASE, V2.0.9_RELEASE, V2.1.0_RELEASE, SUPPORT]
 superpositionally: ["FILEID_WOLFIE_HEADERS_README"]
 shadow_aliases: []
 parallel_paths: []
@@ -18,7 +18,7 @@ parallel_paths: []
 
 # WOLFIE Headers
 
-**Version 2.0.8** (Current Release - 2025-11-18)
+**Version 2.1.0** (Current Release - 2025-11-18)
 
 ---
 
@@ -28,28 +28,55 @@ WOLFIE Headers is the metadata system that powers LUPOPEDIA's documentation laye
 
 ### Version Information
 
-- **Current Version**: **v2.0.8** (Released 2025-11-18) – **REQUIRED** by LUPOPEDIA_PLATFORM 1.0.0  
-- **Stable Versions**: v2.0.7, v2.0.6, v2.0.5, v2.0.4, v2.0.3, v2.0.2, v2.0.1 (all backward compatible)  
+- **Current Version**: **v2.1.0** (Released 2025-11-18) – **REQUIRED** by LUPOPEDIA_PLATFORM 1.0.0  
+- **Previous Stable Versions**: v2.0.9, v2.0.8, v2.0.7, v2.0.6, v2.0.5, v2.0.4, v2.0.3, v2.0.2, v2.0.1 (all backward compatible)  
 - **Minimum Version**: v2.0.0 (required for LUPOPEDIA_PLATFORM)  
 - **Legacy Version**: v1.4.2 (Legacy) – compatible with LUPOPEDIA_PLATFORM v0.0.8 and earlier  
 - **License**: Dual GPL v3.0 + Apache 2.0 (see `LICENSE`).  
 - **Maintainer**: Captain WOLFIE (Agent 008, Eric Robin Gerdes).  
 - **GitHub**: https://github.com/lupopedia/WOLFIE_HEADERS
 
+### What's New in v2.1.0
+
+**v2.1.0** (Released 2025-11-18) focuses on **polish, performance, and usability** based on LILITH & MAAT's joint review:
+
+**Critical Improvements**:
+- ✅ **API Consistency & Security**: Standardized endpoint patterns, input validation for all parameters
+- ✅ **User Onboarding**: Simplified "choose your path" guide (`docs/QUICK_START_CHOOSE_YOUR_PATH.md`)
+- ✅ **Error Handling**: Standard error response format with helpful suggestions
+
+**High Priority Improvements**:
+- ✅ **Complete API Documentation**: Comprehensive API reference (`docs/API_REFERENCE.md`)
+- ✅ **Troubleshooting Guide**: Common issues and solutions (`docs/TROUBLESHOOTING_GUIDE.md`)
+- ✅ **Standard Error Handler**: New `wolfie_error_handler.php` with validation functions
+
+**Key Features**:
+- Standardized API endpoints (e.g., `/api/wolfie/logs/agents/{agent_name}`)
+- Input validation for all API parameters (channel_id, agent_id, agent_name, table_name, row_id)
+- Standard error response format with error codes, messages, details, and suggestions
+- Comprehensive examples for both agent log files and database `_logs` tables
+
+**All previous features from v2.0.0 through v2.0.9 are fully supported and backward compatible.**
+
+### What's New in v2.0.9
+
+**v2.0.9** (Released 2025-11-18) focused on **better documentation and explanation** of the three distinct log/documentation systems:
+
+- ✅ **Three Log Systems Documentation**: Comprehensive explanation of:
+  - Agent Log Files (`[channel]_[agent]_log.md` in `public/logs/`)
+  - Database `_log`/`_logs` Tables (interaction and change tracking)
+  - md_files Directory (`[channel]_[agent]_[type]` in `md_files/`)
+- ✅ **System Comparison Table**: Clear comparison showing when to use which system
+- ✅ **How They Work Together**: Examples showing all three systems in action
+
 ### What's New in v2.0.8
 
-**v2.0.8** (Current - Released 2025-11-18) introduces **Shared Hosting Compatibility & Self-Contained Configuration**:
+**v2.0.8** (Released 2025-11-18) introduced **Shared Hosting Compatibility & Self-Contained Configuration**:
 
 - ✅ **Shared Hosting Compatible**: Uses `SHOW TABLES` and `DESCRIBE` instead of `information_schema` queries
 - ✅ **Self-Contained Configuration**: All configuration in `public/config/` folder
-  - `public/config/database.php` - Database connection configuration
-  - `public/config/system.php` - System configuration with platform detection
 - ✅ **Platform Detection**: Automatic Windows/Linux detection
 - ✅ **Development Flags**: `WOLFIE_BORN_YESTERDAY`, `WOLFIE_DEBUG_MODE`, `WOLFIE_SHARED_HOSTING`
-- ✅ **No Special Privileges**: Works on shared hosting without `information_schema` access
-- ✅ **Easy Deployment**: Just copy `public/` folder and configure
-
-**All previous features from v2.0.0 through v2.0.7 are fully supported and backward compatible.**
 
 ## INSTALLATION
 
@@ -120,8 +147,31 @@ These create the required database tables for log tracking.
 
 - **Channel architecture**: Documentation is organized by channels (e.g., `1_wolfie/`). Agents resolve tags/collections by walking `{channel}_{agent}/ → {channel}_wolfie_wolfie/ → {channel}_wolfie/`.
 - **Source-of-truth files**: Tags, collections, and ontology notes live in shared markdown references so individual files stay light.
-- **Fallback philosophy**: “Always works” design borrowed from Crafty Syntax—if agent-specific context is missing, the system gracefully falls back to base definitions.
+- **Fallback philosophy**: "Always works" design borrowed from Crafty Syntax—if agent-specific context is missing, the system gracefully falls back to base definitions.
 - **Dual licensing**: GPL ensures freedom to modify, Apache 2.0 grants explicit patent rights for enterprise adopters.
+
+### Three Log/Documentation Systems (v2.0.9)
+
+WOLFIE Headers has **three distinct systems** for tracking and organizing information:
+
+1. **Agent Log Files** (`[channel]_[agent]_log.md` in `public/logs/`)
+   - Purpose: Agent activity logs, decision tracking, system evolution
+   - Storage: Markdown files (source of truth) + `content_log` database table (metadata)
+   - Example: `007_CAPTAIN_log.md`, `008_WOLFIE_log.md`
+
+2. **Database `_log` and `_logs` Tables**
+   - Purpose: 
+     - `_log` (singular): Interaction tracking (who interacted with what, when, on which channel)
+     - `_logs` (plural): Row-level change tracking (what changed in a specific database row)
+   - Storage: Database only (fast queries, metadata storage)
+   - Examples: `content_log`, `content_logs`, `user_logs`
+
+3. **md_files Directory** (`[channel]_[agent]_[type]` in `md_files/`)
+   - Purpose: Source-of-truth definitions (tags, collections, context)
+   - Storage: Markdown files only (human-readable, version-controlled)
+   - Example: `1_wolfie_wolfie/TAGS.md`, `1_wolfie_rose/COLLECTIONS.md`
+
+**See**: `docs/WOLFIE_HEADER_SYSTEM_OVERVIEW.md` for complete explanation of all three systems.
 
 ## DIRECTORY_MAP
 
@@ -150,24 +200,36 @@ These create the required database tables for log tracking.
 
 WOLFIE Headers follows semantic versioning. 
 
-### Current Version: v2.0.8
+### Current Version: v2.1.0
 
-**✅ CURRENT RELEASE**: **v2.0.8** (Released 2025-11-18)  
+**✅ CURRENT RELEASE**: **v2.1.0** (Released 2025-11-18)  
 **📦 Required By**: LUPOPEDIA_PLATFORM 1.0.0  
 **🚀 Status**: **PRODUCTION-READY** - Fully released and stable
 
-**Key Features in v2.0.8**:
-- ✅ Shared hosting compatibility (SHOW TABLES/DESCRIBE)
-- ✅ Self-contained configuration (`public/config/`)
-- ✅ Platform detection (Windows/Linux automatic)
-- ✅ Development flags (WOLFIE_BORN_YESTERDAY, etc.)
-- ✅ No special database privileges required
+**Key Features in v2.1.0**:
+- ✅ API Consistency & Security (standardized endpoints, input validation)
+- ✅ User Onboarding (simplified "choose your path" guide)
+- ✅ Error Handling Standardization (standard error response format)
+- ✅ Complete API Documentation (comprehensive API reference)
+- ✅ Troubleshooting Guide (common issues and solutions)
+- ✅ Standard Error Handler (validation functions)
+
+**Previous Versions**:
+- **v2.0.9** (Stable): Three log systems documentation
+- **v2.0.8** (Stable): Shared hosting compatibility, self-contained configuration
+- **v2.0.7** (Stable): Database `_logs` table support
+- **v2.0.6** (Stable): API endpoints, search, caching
+- **v2.0.5** (Stable): Log reader system
+- **v2.0.4** (Stable): Agent integration (007, 001, 999)
+- **v2.0.3** (Stable): Log file system
 
 ### Version History
 
 | Version | Release Date | Status | Key Features |
 |---------|--------------|--------|--------------|
-| **v2.0.8** | 2025-11-18 | ✅ **CURRENT** | Shared hosting compatibility, self-contained config |
+| **v2.1.0** | 2025-11-18 | ✅ **CURRENT** | API consistency, error handling, user onboarding |
+| **v2.0.9** | 2025-11-18 | Stable | Three log systems documentation |
+| **v2.0.8** | 2025-11-18 | Stable | Shared hosting compatibility, self-contained config |
 | v2.0.7 | 2025-11-18 | Stable | Database `_logs` table support |
 | v2.0.6 | 2025-11-18 | Stable | API endpoints, search, caching |
 | v2.0.5 | 2025-11-18 | Stable | Log reader system |
@@ -178,7 +240,7 @@ WOLFIE Headers follows semantic versioning.
 | v2.0.0 | 2025-11-09 | Minimum | Initial 10-section format |
 | v1.4.2 | Legacy | Legacy | Compatible with LUPOPEDIA_PLATFORM v0.0.8 |
 
-**All versions from v2.0.0 through v2.0.8 are backward compatible.**
+**All versions from v2.0.0 through v2.1.0 are backward compatible.**
 
 ### Breaking Changes & Migration
 
@@ -572,6 +634,52 @@ Crafty Syntax Live Help 3.8.0 (Foundation)
 - **Release Notes**: See `TODO_2.0.8.md` for complete implementation plan
 - **Database Integration**: `docs/DATABASE_INTEGRATION.md` (updated with shared hosting notes)
 - **System Overview**: `docs/WOLFIE_HEADER_SYSTEM_OVERVIEW.md` (updated with configuration system)
+
+## V2.0.9_RELEASE
+
+**Status**: Planning Phase (2025-11-18)  
+**Backward Compatible**: Yes — documentation enhancement only, no code changes
+
+**✅ Version 2.0.9** focuses on **better documentation and explanation** of the three distinct log/documentation systems in WOLFIE Headers.
+
+**New Documentation** (Three Log Systems Explanation):
+1. **Agent Log Files** (`[channel]_[agent]_log.md`)
+   - Location: `public/logs/`
+   - Purpose: Agent activity logs, decision tracking, system evolution
+   - Storage: Markdown files (source of truth) + `content_log` database table (metadata)
+   - Introduced: v2.0.3
+
+2. **Database `_log` and `_logs` Tables**
+   - Location: Database tables ending with `_log` or `_logs`
+   - Purpose: 
+     - `_log` (singular): Interaction tracking (who interacted with what, when, on which channel)
+     - `_logs` (plural): Row-level change tracking (what changed in a specific database row)
+   - Storage: Database only (fast queries, metadata storage)
+   - Introduced: v2.0.3 (singular), v2.0.7 (plural)
+
+3. **md_files Directory Structure** (`[channel]_[agent]_[type]`)
+   - Location: `md_files/` directory
+   - Purpose: Source-of-truth definitions (tags, collections, context)
+   - Storage: Markdown files only (human-readable, version-controlled)
+   - Introduced: v2.0.0 (foundation of WOLFIE Headers)
+
+**System Comparison**: Clear comparison table showing when to use which system.
+
+**How They Work Together**: Examples showing all three systems in action.
+
+**Files Updated**:
+- `README.md` - Added "Three Log Systems" section
+- `docs/WOLFIE_HEADER_SYSTEM_OVERVIEW.md` - Comprehensive explanation
+- `docs/DATABASE_INTEGRATION.md` - Clarified distinctions
+- `public/what_is_wolfie_headers.php` - Visual comparison
+- `public/what_are_wolfie_headers.php` - Explanation and examples
+
+**Documentation**:
+- **Release Notes**: See `TODO_2.0.9.md` for complete documentation plan
+- **System Overview**: `docs/WOLFIE_HEADER_SYSTEM_OVERVIEW.md` (updated with three systems explanation)
+- **Database Integration**: `docs/DATABASE_INTEGRATION.md` (updated with system distinctions)
+
+**Migration**: No migration required. This is a documentation-only release.
 
 ## V2.0.5_RELEASE
 

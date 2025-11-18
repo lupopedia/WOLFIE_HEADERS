@@ -3,14 +3,14 @@ title: CHANGELOG.md
 agent_username: wolfie
 agent_id: 008
 channel_number: 001
-version: 2.0.8
+version: 2.1.0
 date_created: 2025-11-09
 last_modified: 2025-11-18
 status: published
 onchannel: 1
 tags: [SYSTEM, DOCUMENTATION, VERSIONING]
 collections: [WHO, WHAT, WHERE, WHEN, WHY, HOW, DO, HACK, OTHER]
-in_this_file_we_have: [VERSION_HISTORY, NOTES]
+in_this_file_we_have: [VERSION_HISTORY, NOTES, THREE_LOG_SYSTEMS, V2.1.0_RELEASE]
 superpositionally: ["FILEID_WOLFIE_HEADERS_CHANGELOG"]
 shadow_aliases: ["Lilith-007"]
 parallel_paths: ["heterodox_validation"]
@@ -21,6 +21,87 @@ parallel_paths: ["heterodox_validation"]
 All notable changes to this component are documented here. Dates use the LUPOPEDIA development timeline (Sioux Falls timezone).
 
 ## VERSION_HISTORY
+
+### v2.1.0 — 2025-11-18
+
+**Status**: Current Version (Released)  
+**Backward Compatible**: Yes — fully compatible with v2.0.9
+
+**Critical Improvements** (Based on LILITH & MAAT Review):
+1. **API Consistency & Security**
+   - Standardized endpoint patterns (e.g., `/api/wolfie/logs/agents/{agent_name}`)
+   - Input validation for all API parameters (channel_id, agent_id, agent_name, table_name, row_id)
+   - Security improvements (SQL injection protection, input sanitization)
+   - New `wolfie_error_handler.php` with validation functions
+
+2. **User Onboarding & Workflow**
+   - Simplified "choose your path" guide (`docs/QUICK_START_CHOOSE_YOUR_PATH.md`)
+   - Clear examples for all three systems (agent logs, database logs, definitions)
+   - Progressive disclosure documentation
+
+3. **Error Handling Standardization**
+   - Standard error response format with error codes, messages, details, and suggestions
+   - Helpful error messages guide users to solutions
+   - Consistent error handling across all endpoints
+
+**High Priority Improvements**:
+4. **Complete API Documentation**
+   - Comprehensive API reference (`docs/API_REFERENCE.md`)
+   - All endpoints documented with examples (JavaScript, PHP, cURL)
+   - Request/response examples for all endpoints
+
+5. **Troubleshooting Guide**
+   - Common issues and solutions (`docs/TROUBLESHOOTING_GUIDE.md`)
+   - Step-by-step fixes with related documentation links
+   - Examples for both agent logs and database logs
+
+**Files Added**:
+- `public/includes/wolfie_error_handler.php` - Standard error handler and validation
+- `docs/QUICK_START_CHOOSE_YOUR_PATH.md` - Simplified getting started guide
+- `docs/API_REFERENCE.md` - Complete API documentation
+- `docs/TROUBLESHOOTING_GUIDE.md` - Troubleshooting guide
+
+**Files Modified**:
+- `public/api/wolfie/index.php` - API standardization and input validation
+- `README.md` - Updated to v2.1.0 with all features
+- `CHANGELOG.md` - Added v2.1.0 release notes
+
+**Database Changes**: None - no schema changes
+
+**Breaking Changes**: None - fully backward compatible
+
+**Related**: See `TODO_2.1.0.md` for complete implementation plan and LILITH & MAAT review findings.
+
+---
+
+### v2.0.9 — 2025-11-18
+
+**Status**: Superseded by v2.1.0  
+**Backward Compatible**: Yes — documentation enhancement only, no code changes
+
+**New Documentation** (Three Log Systems Explanation):
+- **Agent Log Files** (`[channel]_[agent]_log.md`): Location `public/logs/`, purpose: agent activity logs, decision tracking, system evolution. Storage: Markdown files (source of truth) + `content_log` database table (metadata). Introduced: v2.0.3.
+- **Database `_log` and `_logs` Tables**: Tables ending with `_log` or `_logs`. Purpose: `_log` (singular) = interaction tracking, `_logs` (plural) = row-level change tracking. Storage: Database only. Introduced: v2.0.3 (singular), v2.0.7 (plural).
+- **md_files Directory Structure** (`[channel]_[agent]_[type]`): Location `md_files/`. Purpose: Source-of-truth definitions (tags, collections, context). Storage: Markdown files only. Introduced: v2.0.0 (foundation).
+
+**System Comparison**: Clear comparison table showing when to use which system.
+
+**How They Work Together**: Examples showing all three systems in action.
+
+**Files Updated**:
+- `README.md` - Added "Three Log Systems" section
+- `docs/WOLFIE_HEADER_SYSTEM_OVERVIEW.md` - Comprehensive explanation
+- `docs/DATABASE_INTEGRATION.md` - Clarified distinctions
+- `public/what_is_wolfie_headers.php` - Visual comparison
+- `public/what_are_wolfie_headers.php` - Explanation and examples
+
+**Database Changes**: None - documentation-only release
+
+**Breaking Changes**: None - fully backward compatible
+
+**Related**: See `TODO_2.0.9.md` for complete documentation plan.
+
+---
 
 ### v2.0.8 — 2025-11-18
 

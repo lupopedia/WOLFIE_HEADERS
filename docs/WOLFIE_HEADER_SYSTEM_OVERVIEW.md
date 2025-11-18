@@ -3,14 +3,14 @@ title: WOLFIE_HEADER_SYSTEM_OVERVIEW.md
 agent_username: wolfie
 agent_id: 008
 channel_number: 001
-version: 2.0.7
+version: 2.1.0
 date_created: 2025-11-09
 last_modified: 2025-11-18
 status: published
 onchannel: 1
 tags: [SYSTEM, DOCUMENTATION]
 collections: [WHO, WHAT, WHERE, WHEN, WHY, HOW, DO, HACK, OTHER]
-in_this_file_we_have: [PURPOSE, ARCHITECTURE, FALLBACK_CHAIN, FILE_STRUCTURE, LOG_FILE_SYSTEM, DATABASE_INTEGRATION, MIGRATION_NOTES, V2.0.0_NOTES, V2.0.1_NOTES, V2.0.2_NOTES, V2.0.3_NOTES, V2.0.4_NOTES]
+in_this_file_we_have: [PURPOSE, ARCHITECTURE, FALLBACK_CHAIN, FILE_STRUCTURE, THREE_LOG_SYSTEMS, LOG_FILE_SYSTEM, DATABASE_INTEGRATION, MDFILES_DIRECTORY, MIGRATION_NOTES, V2.0.0_NOTES, V2.0.1_NOTES, V2.0.2_NOTES, V2.0.3_NOTES, V2.0.4_NOTES, V2.1.0_NOTES]
 superpositionally: ["FILEID_WHS_OVERVIEW"]
 shadow_aliases: ["Lilith-007"]
 parallel_paths: ["heterodox_validation"]
@@ -49,6 +49,172 @@ If a definition is missing at all levels, validation flags the header before rel
 - `docs/channel_1/1_wolfie_wolfie/` – Captain WOLFIE's authoritative definitions.  
 - `docs/channel_1/1_wolfie/` – Legacy fallback for backwards compatibility.  
 - Additional channels follow the same pattern (`{channel}_{agent}`).
+
+## THREE_LOG_SYSTEMS
+
+**Version**: v2.0.9  
+**Purpose**: Clarify the three distinct log/documentation systems in WOLFIE Headers
+
+WOLFIE Headers has **three separate but complementary systems** for tracking and organizing information. Understanding the distinction between them is crucial for proper usage.
+
+### System 1: Agent Log Files (`[channel]_[agent]_log.md`)
+
+**Location**: `public/logs/`  
+**Format**: `[channel]_[agent]_log.md`  
+**Examples**:
+- `007_CAPTAIN_log.md` - CAPTAIN's log on Channel 007
+- `008_WOLFIE_log.md` - WOLFIE's log on Channel 008
+- `911_SECURITY_log.md` - SECURITY's log on Channel 911
+- `411_HELP_log.md` - HELP's log on Channel 411
+
+**Purpose**: 
+- Agent activity logs (what agents are doing)
+- Decision tracking (why agents made decisions)
+- System evolution documentation (how the system changes)
+- Human-readable narrative logs
+
+**Storage**: 
+- Primary: Markdown files (source of truth)
+- Secondary: `content_log` database table (for fast queries and metadata)
+
+**Features**:
+- WOLFIE Headers YAML frontmatter
+- Dual-storage (markdown + database)
+- Automatic header updates
+- Channel and agent tracking
+
+**Functions**: `initializeAgentLog()`, `writeAgentLog()`, `readAgentLog()`, `readContentLogFromDatabase()`, `listAllAgentLogs()`
+
+**Introduced**: v2.0.3
+
+---
+
+### System 2: Database `_log` and `_logs` Tables
+
+**Location**: Database tables ending with `_log` or `_logs`  
+**Format**: `{parent_table}_log` or `{parent_table}_logs`  
+**Examples**:
+- `content_log` - Tracks content interactions (singular)
+- `content_logs` - Tracks row-level changes to content table (plural)
+- `user_logs` - Tracks row-level changes to user table
+- `agent_logs` - Tracks row-level changes to agent table
+
+**Purpose**:
+- **`_log` (singular)**: Interaction tracking (who interacted with what, when, on which channel)
+- **`_logs` (plural)**: Row-level change tracking (what changed in a specific database row, who changed it, when)
+
+**Storage**: Database only (fast queries, metadata storage)
+
+**Features**:
+- Auto-discovery of `_logs` tables
+- Standard schema validation
+- JSON metadata column for flexible storage
+- Channel ID tracking (0-999)
+- Agent ID and agent name tracking
+
+**Functions**: `discoverLogsTables()`, `validateLogsTable()`, `writeChangeLog()`, `readChangeLogs()`, `listChangeLogs()`, `getChangeSummary()`
+
+**Introduced**: 
+- `content_log` (singular): v2.0.3
+- `_logs` tables (plural): v2.0.7
+
+**Key Distinction**:
+- `content_log` (singular) = Interaction log (what content was accessed, by which agent, on which channel)
+- `content_logs` (plural) = Change log (what changed in a specific content row, old values → new values)
+
+---
+
+### System 3: md_files Directory Structure (`[channel]_[agent]_[type]`)
+
+**Location**: `md_files/` directory  
+**Format**: `{channel}_{agent}_{type}/`  
+**Examples**:
+- `1_wolfie_wolfie/TAGS.md` - WOLFIE's tag definitions on Channel 1
+- `1_wolfie_wolfie/COLLECTIONS.md` - WOLFIE's collection definitions on Channel 1
+- `1_wolfie_rose/TAGS.md` - ROSE's tag definitions on Channel 1
+- `2_wolfie_maat/COLLECTIONS.md` - MAAT's collection definitions on Channel 2
+- `1_wolfie_wolfie/README.md` - WOLFIE's context overview on Channel 1
+
+**Purpose**:
+- Source-of-truth definitions (tags, collections, context)
+- Agent-specific vocabulary (same term, different meanings per agent)
+- Channel-specific overlays (BASE + DELTA model)
+- Documentation organization
+
+**Storage**: Markdown files only (human-readable, version-controlled)
+
+**Features**:
+- 3-level fallback chain (agent → WOLFIE → legacy)
+- Channel-aware definitions
+- Agent context routing
+- Source-of-truth philosophy (zero duplication)
+
+**Structure**:
+```
+md_files/
+  1_wolfie/              ← Legacy base (3rd fallback)
+  1_wolfie_wolfie/       ← WOLFIE's definitions (2nd fallback)
+     TAGS.md
+     COLLECTIONS.md
+     README.md
+  1_wolfie_rose/         ← ROSE's definitions (1st try if agent_username: rose)
+     TAGS.md
+     COLLECTIONS.md
+     README.md
+  1_wolfie_maat/         ← MAAT's definitions
+     TAGS.md
+     COLLECTIONS.md
+     README.md
+  2_wolfie_wolfie/       ← WOLFIE's definitions on Channel 2
+     TAGS.md
+     COLLECTIONS.md
+     README.md
+```
+
+**Introduced**: v2.0.0 (foundation of WOLFIE Headers)
+
+---
+
+### System Comparison
+
+| Aspect | Agent Log Files | Database `_log`/`_logs` Tables | md_files Directory |
+|--------|----------------|-------------------------------|-------------------|
+| **Location** | `public/logs/` | Database | `md_files/` |
+| **Format** | `[channel]_[agent]_log.md` | `{table}_log` or `{table}_logs` | `[channel]_[agent]_[type]/` |
+| **Purpose** | Agent activity logs | Interaction/change tracking | Source-of-truth definitions |
+| **Storage** | Markdown + Database | Database only | Markdown only |
+| **Human-Readable** | ✅ Yes (markdown) | ❌ No (database) | ✅ Yes (markdown) |
+| **Query Speed** | Fast (database metadata) | Very Fast (indexed) | Slow (file parsing) |
+| **Version Control** | ✅ Yes (markdown) | ❌ No | ✅ Yes (markdown) |
+| **Agent-Specific** | ✅ Yes | ✅ Yes | ✅ Yes |
+| **Channel-Aware** | ✅ Yes | ✅ Yes | ✅ Yes |
+| **Introduced** | v2.0.3 | v2.0.3 (singular), v2.0.7 (plural) | v2.0.0 |
+
+### How They Work Together
+
+**Example Workflow**:
+
+1. **Agent makes a decision** (e.g., CAPTAIN creates a new agent)
+   - **Agent Log File**: `writeAgentLog()` writes to `007_CAPTAIN_log.md` (human-readable narrative)
+   - **Database `content_log`**: Stores metadata (channel_id: 7, agent_id: 7, agent_name: "CAPTAIN", log_entry_count, last_log_date)
+   - **md_files**: Not involved (this is activity, not definition)
+
+2. **Agent changes a database row** (e.g., updates content table row 123)
+   - **Database `content_logs`**: `writeChangeLog()` writes change details (old values → new values, who changed it, when)
+   - **Agent Log File**: Optional - agent can log the change in their log file for narrative context
+   - **md_files**: Not involved (this is data change, not definition)
+
+3. **Agent references a tag** (e.g., uses "PROGRAMMING" tag)
+   - **md_files**: System looks up `1_wolfie_captain/TAGS.md` → `1_wolfie_wolfie/TAGS.md` → `1_wolfie/TAGS.md` (3-level fallback)
+   - **Agent Log File**: Optional - agent can log that it used this tag
+   - **Database**: Not involved (this is definition lookup, not tracking)
+
+**Key Principle**:
+- **md_files**: Definitions and context (WHAT things mean)
+- **Agent Log Files**: Activity and decisions (WHAT agents are doing)
+- **Database `_log`/`_logs`**: Tracking and changes (WHAT happened, WHAT changed)
+
+They complement each other but serve different purposes.
 
 ## LOG_FILE_SYSTEM
 
@@ -343,6 +509,60 @@ For complete database integration documentation, see:
 - Agent integration documented in WOLFIE Headers
 - Agent registry updated
 - Dependency chain includes agents
+
+## V2.1.0_NOTES
+
+**✅ Version 2.1.0 Released**: Polish, performance, and usability improvements based on LILITH & MAAT review.
+
+**Version**: v2.1.0 (Current - Production Ready) | **Required By**: LUPOPEDIA_PLATFORM 1.0.0
+
+**v2.1.0 New Features**:
+- **API Consistency & Security**: Standardized endpoint patterns, input validation for all parameters
+- **User Onboarding**: Simplified "choose your path" guide (`docs/QUICK_START_CHOOSE_YOUR_PATH.md`)
+- **Error Handling**: Standard error response format with helpful suggestions
+- **Complete API Documentation**: Comprehensive API reference (`docs/API_REFERENCE.md`)
+- **Troubleshooting Guide**: Common issues and solutions (`docs/TROUBLESHOOTING_GUIDE.md`)
+- **Standard Error Handler**: New `wolfie_error_handler.php` with validation functions
+- **Complete Examples**: Working examples for both agent logs and database logs (`docs/EXAMPLES_AGENT_LOGS_AND_DATABASE_LOGS.md`)
+
+**API Improvements**:
+- Standardized endpoint patterns (e.g., `/api/wolfie/logs/agents/{agent_name}`)
+- Input validation for channel_id, agent_id, agent_name, table_name, row_id
+- Standard error response format with error codes, messages, details, and suggestions
+- Security improvements (SQL injection protection, input sanitization)
+
+**Documentation Improvements**:
+- Simplified getting started guide with "choose your path" approach
+- Complete API reference with JavaScript, PHP, and cURL examples
+- Troubleshooting guide with step-by-step solutions
+- Complete examples document showing both log systems in action
+
+**Files Added**:
+- `public/includes/wolfie_error_handler.php` - Standard error handler and validation
+- `docs/QUICK_START_CHOOSE_YOUR_PATH.md` - Simplified getting started guide
+- `docs/API_REFERENCE.md` - Complete API documentation
+- `docs/TROUBLESHOOTING_GUIDE.md` - Troubleshooting guide
+- `docs/EXAMPLES_AGENT_LOGS_AND_DATABASE_LOGS.md` - Complete examples
+
+**Files Modified**:
+- `public/api/wolfie/index.php` - API standardization and input validation
+- `README.md` - Updated to v2.1.0
+- `CHANGELOG.md` - Added v2.1.0 release notes
+
+**Backward Compatibility**: v2.1.0 is fully backward compatible with v2.0.9. All changes are improvements and enhancements only.
+
+**Documentation**: 
+- See `docs/QUICK_START_CHOOSE_YOUR_PATH.md` for getting started guide
+- See `docs/API_REFERENCE.md` for complete API documentation
+- See `docs/TROUBLESHOOTING_GUIDE.md` for troubleshooting
+- See `docs/EXAMPLES_AGENT_LOGS_AND_DATABASE_LOGS.md` for complete examples
+- See `TODO_2.1.0.md` for complete implementation plan and review findings
+
+**Implementation**:
+- All critical improvements from LILITH & MAAT review implemented
+- API endpoints standardized and secured
+- Complete documentation with examples
+- Error handling standardized across all endpoints
 
 ---
 
