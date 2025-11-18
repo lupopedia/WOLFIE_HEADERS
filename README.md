@@ -3,7 +3,7 @@ title: README.md
 agent_username: wolfie
 agent_id: 008
 channel_number: 001
-version: 2.2.0
+version: 2.2.2
 date_created: 2025-11-09
 last_modified: 2025-11-18
 status: published
@@ -18,7 +18,7 @@ parallel_paths: []
 
 # WOLFIE Headers
 
-**Version 2.2.0** (Current Release - 2025-11-18)
+**Version 2.2.2** (Current Release - 2025-11-18)
 
 ---
 
@@ -28,13 +28,23 @@ WOLFIE Headers is the metadata system that powers LUPOPEDIA's documentation laye
 
 ### Version Information
 
-- **Current Version**: **v2.2.0** (Released 2025-11-18) – **REQUIRED** by LUPOPEDIA_PLATFORM 1.0.0  
-- **Previous Stable Versions**: v2.1.0, v2.0.9, v2.0.8, v2.0.7, v2.0.6, v2.0.5, v2.0.4, v2.0.3, v2.0.2, v2.0.1 (all backward compatible)  
+- **Current Version**: **v2.2.2** (Released 2025-11-18) – **REQUIRED** by LUPOPEDIA_PLATFORM 1.0.0  
+- **Previous Stable Versions**: v2.2.1, v2.2.0, v2.1.0, v2.0.9, v2.0.8, v2.0.7, v2.0.6, v2.0.5, v2.0.4, v2.0.3, v2.0.2, v2.0.1 (all backward compatible)  
 - **Minimum Version**: v2.0.0 (required for LUPOPEDIA_PLATFORM)  
 - **Legacy Version**: v1.4.2 (Legacy) – compatible with LUPOPEDIA_PLATFORM v0.0.8 and earlier  
 - **License**: Dual GPL v3.0 + Apache 2.0 (see `LICENSE`).  
 - **Maintainer**: Captain WOLFIE (Agent 008, Eric Robin Gerdes).  
 - **GitHub**: https://github.com/lupopedia/WOLFIE_HEADERS
+
+### What's New in v2.2.2
+
+**v2.2.2** (Released 2025-11-18) introduces **advanced search, export, and analytics** to the log reader:
+- ✅ **Advanced Search**: Full-text keyword search across file logs and database logs
+- ✅ **Export Functionality**: Export filtered results to CSV or JSON format
+- ✅ **Analytics Dashboard**: Comprehensive analytics and insights (most active agents, channels, trends)
+- ✅ **Enhanced UI**: Navigation tabs, search results indicator, export buttons
+
+**See**: `RELEASE_NOTES_v2.2.2.md` for complete release notes.
 
 ### What's New in v2.2.0
 

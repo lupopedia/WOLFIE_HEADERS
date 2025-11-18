@@ -1,7 +1,7 @@
 <?php
 /**
- * WOLFIE Log Reader v2.2.0
- * Enhanced with database log integration
+ * WOLFIE Log Reader v2.2.2
+ * Enhanced with database log integration, search, export, and analytics
  * Reads log files from public/logs/ directory AND database tables ending with _logs or _log
  */
 
@@ -9,6 +9,9 @@
 require_once __DIR__ . '/config/database.php';
 require_once __DIR__ . '/config/system.php';
 require_once __DIR__ . '/includes/wolfie_database_logs_system.php';
+require_once __DIR__ . '/includes/wolfie_search_system.php';
+require_once __DIR__ . '/includes/wolfie_export_system.php';
+require_once __DIR__ . '/includes/wolfie_analytics_system.php';
 
 // Configuration
 $logsDir = __DIR__ . '/logs';
@@ -18,6 +21,9 @@ $channel = isset($_GET['channel']) ? $_GET['channel'] : '';
 $file = isset($_GET['file']) ? $_GET['file'] : '';
 $table = isset($_GET['table']) ? $_GET['table'] : '';
 $source = isset($_GET['source']) ? $_GET['source'] : 'all'; // 'files', 'database', 'all'
+$keyword = isset($_GET['keyword']) ? $_GET['keyword'] : '';
+$export = isset($_GET['export']) ? $_GET['export'] : ''; // 'csv', 'json'
+$exportType = isset($_GET['export_type']) ? $_GET['export_type'] : 'combined'; // 'files', 'database', 'combined'
 
 // Database connection (with graceful fallback)
 $db = null;
@@ -330,7 +336,7 @@ $totalLogs = $totalFileLogs + $totalDbLogs;
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>WOLFIE Log Reader v2.2.0</title>
+    <title>WOLFIE Log Reader v2.2.2</title>
     <style>
 .reader-container {
     max-width: 1400px;
@@ -681,8 +687,14 @@ $totalLogs = $totalFileLogs + $totalDbLogs;
 <body>
 <div class="reader-container">
     <div class="reader-header">
-        <h1>📋 WOLFIE Log Reader v2.2.0</h1>
-        <p>Browse and view agent log files and database logs across all channels</p>
+        <h1>📋 WOLFIE Log Reader v2.2.2</h1>
+        <p>Browse, search, export, and analyze agent log files and database logs across all channels</p>
+    </div>
+    
+    <!-- Navigation Tabs -->
+    <div class="nav-tabs" style="display: flex; gap: 10px; margin-bottom: 20px; background: white; padding: 15px; border-radius: 12px; box-shadow: 0 4px 15px rgba(0,0,0,0.1);">
+        <a href="?view=main" class="nav-tab <?php echo $view === 'main' ? 'active' : ''; ?>" style="padding: 10px 20px; background: <?php echo $view === 'main' ? '#2563eb' : '#f1f5f9'; ?>; color: <?php echo $view === 'main' ? 'white' : '#475569'; ?>; border-radius: 8px; text-decoration: none; font-weight: 600;">📋 Logs</a>
+        <a href="?view=analytics" class="nav-tab <?php echo $view === 'analytics' ? 'active' : ''; ?>" style="padding: 10px 20px; background: <?php echo $view === 'analytics' ? '#2563eb' : '#f1f5f9'; ?>; color: <?php echo $view === 'analytics' ? 'white' : '#475569'; ?>; border-radius: 8px; text-decoration: none; font-weight: 600;">📊 Analytics</a>
     </div>
 
     <?php if ($view === 'main'): ?>
@@ -723,11 +735,29 @@ $totalLogs = $totalFileLogs + $totalDbLogs;
                         </select>
                     </div>
                     <?php endif; ?>
+                    <div>
+                        <label>🔍 Search Keyword</label>
+                        <input type="text" name="keyword" placeholder="Search in logs..." value="<?php echo htmlspecialchars($keyword); ?>">
+                    </div>
                 </div>
-                <button type="submit" class="btn-filter">Apply Filters</button>
-                <a href="?" class="btn btn-secondary" style="margin-left: 10px;">Clear Filters</a>
+                <div style="display: flex; gap: 10px; margin-top: 15px; flex-wrap: wrap;">
+                    <button type="submit" class="btn-filter">Apply Filters</button>
+                    <a href="?" class="btn btn-secondary">Clear Filters</a>
+                    <?php if (!empty($logs) || !empty($dbLogs)): ?>
+                    <a href="?<?php echo http_build_query(array_merge($_GET, ['export' => 'csv', 'export_type' => 'combined'])); ?>" class="btn-filter" style="background: #10b981; text-decoration: none; display: inline-block;">📥 Export CSV</a>
+                    <a href="?<?php echo http_build_query(array_merge($_GET, ['export' => 'json', 'export_type' => 'combined'])); ?>" class="btn-filter" style="background: #8b5cf6; text-decoration: none; display: inline-block;">📥 Export JSON</a>
+                    <?php endif; ?>
+                </div>
             </form>
         </div>
+        
+        <?php if (!empty($keyword)): ?>
+        <div class="filter-panel" style="background: #fef3c7; border-left: 4px solid #f59e0b;">
+            <h3>🔍 Search Results</h3>
+            <p><strong><?php echo $searchResults['total_matches']; ?></strong> matches found for "<strong><?php echo htmlspecialchars($keyword); ?></strong>"</p>
+            <p>File matches: <?php echo count($searchResults['files']); ?> | Database matches: <?php echo count($searchResults['database']); ?></p>
+        </div>
+        <?php endif; ?>
 
         <!-- Statistics -->
         <div class="stats-grid">
@@ -1036,6 +1066,124 @@ $totalLogs = $totalFileLogs + $totalDbLogs;
                 <?php endif; ?>
             </div>
         </div>
+
+    <?php elseif ($view === 'analytics'): ?>
+        <!-- Analytics View -->
+        <div class="section-card">
+            <h2>📊 Analytics Dashboard</h2>
+            
+            <?php if ($analytics): ?>
+                <!-- File Logs Analytics -->
+                <div style="margin-bottom: 30px;">
+                    <h3 style="color: #10b981; border-bottom: 2px solid #10b981; padding-bottom: 10px;">File Logs Analytics</h3>
+                    <div class="stats-grid">
+                        <div class="stat-card">
+                            <h3>Total Files</h3>
+                            <div class="number"><?php echo $analytics['file_logs']['total_files']; ?></div>
+                        </div>
+                        <div class="stat-card">
+                            <h3>Total Size</h3>
+                            <div class="number"><?php echo number_format($analytics['file_logs']['total_size'] / 1024, 2); ?> KB</div>
+                        </div>
+                    </div>
+                    
+                    <h4 style="margin-top: 20px;">Most Active Agents (Files)</h4>
+                    <ul class="item-list">
+                        <?php foreach ($analytics['file_logs']['most_active_agents'] as $agent): ?>
+                        <li>
+                            <strong><?php echo htmlspecialchars($agent['name']); ?></strong>
+                            <span class="count"><?php echo $agent['file_count']; ?> files</span>
+                        </li>
+                        <?php endforeach; ?>
+                    </ul>
+                    
+                    <h4 style="margin-top: 20px;">Most Active Channels (Files)</h4>
+                    <ul class="item-list">
+                        <?php foreach ($analytics['file_logs']['most_active_channels'] as $channel): ?>
+                        <li>
+                            <strong>Channel <?php echo htmlspecialchars($channel['channel']); ?></strong>
+                            <span class="count"><?php echo $channel['file_count']; ?> files</span>
+                        </li>
+                        <?php endforeach; ?>
+                    </ul>
+                </div>
+                
+                <?php if ($dbAvailable && !empty($analytics['database_logs']['total_entries'])): ?>
+                <!-- Database Logs Analytics -->
+                <div style="margin-bottom: 30px;">
+                    <h3 style="color: #f59e0b; border-bottom: 2px solid #f59e0b; padding-bottom: 10px;">Database Logs Analytics</h3>
+                    <div class="stats-grid">
+                        <div class="stat-card">
+                            <h3>Total Entries</h3>
+                            <div class="number"><?php echo $analytics['database_logs']['total_entries']; ?></div>
+                        </div>
+                    </div>
+                    
+                    <h4 style="margin-top: 20px;">Most Active Agents (Database)</h4>
+                    <ul class="item-list">
+                        <?php foreach ($analytics['database_logs']['most_active_agents'] as $agent): ?>
+                        <li>
+                            <strong><?php echo htmlspecialchars($agent['name']); ?></strong>
+                            <span class="count"><?php echo $agent['count']; ?> entries</span>
+                        </li>
+                        <?php endforeach; ?>
+                    </ul>
+                    
+                    <h4 style="margin-top: 20px;">Most Active Channels (Database)</h4>
+                    <ul class="item-list">
+                        <?php foreach ($analytics['database_logs']['most_active_channels'] as $channel): ?>
+                        <li>
+                            <strong>Channel <?php echo htmlspecialchars($channel['channel']); ?></strong>
+                            <span class="count"><?php echo $channel['count']; ?> entries</span>
+                        </li>
+                        <?php endforeach; ?>
+                    </ul>
+                    
+                    <?php if (!empty($analytics['database_logs']['activity_trends'])): ?>
+                    <h4 style="margin-top: 20px;">Activity Trends (Last 30 Days)</h4>
+                    <ul class="item-list">
+                        <?php foreach (array_slice($analytics['database_logs']['activity_trends'], -10) as $trend): ?>
+                        <li>
+                            <strong><?php echo htmlspecialchars($trend['date']); ?></strong>
+                            <span class="count"><?php echo $trend['count']; ?> entries</span>
+                        </li>
+                        <?php endforeach; ?>
+                    </ul>
+                    <?php endif; ?>
+                </div>
+                <?php endif; ?>
+                
+                <!-- Combined Analytics -->
+                <div style="margin-bottom: 30px;">
+                    <h3 style="color: #2563eb; border-bottom: 2px solid #2563eb; padding-bottom: 10px;">Combined Analytics</h3>
+                    <div class="stats-grid">
+                        <div class="stat-card">
+                            <h3>Total Entries</h3>
+                            <div class="number"><?php echo $analytics['combined']['total_entries']; ?></div>
+                        </div>
+                    </div>
+                    
+                    <h4 style="margin-top: 20px;">Most Active Agents (Combined)</h4>
+                    <ul class="item-list">
+                        <?php foreach ($analytics['combined']['most_active_agents'] as $agent): ?>
+                        <li>
+                            <strong><?php echo htmlspecialchars($agent['name']); ?></strong>
+                            <span class="count">Files: <?php echo $agent['file_count']; ?> | DB: <?php echo $agent['db_count']; ?></span>
+                        </li>
+                        <?php endforeach; ?>
+                    </ul>
+                </div>
+            <?php else: ?>
+                <div class="empty-state">
+                    <p>Analytics data not available. Please ensure database connection is working.</p>
+                </div>
+            <?php endif; ?>
+            
+            <div class="nav-buttons">
+                <a href="?view=main" class="btn btn-primary">← Back to Logs</a>
+            </div>
+        </div>
+
     <?php endif; ?>
 </div>
 </body>

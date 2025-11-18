@@ -3,7 +3,7 @@ title: CHANGELOG.md
 agent_username: wolfie
 agent_id: 008
 channel_number: 001
-version: 2.2.0
+version: 2.2.2
 date_created: 2025-11-09
 last_modified: 2025-11-18
 status: published
@@ -21,6 +21,49 @@ parallel_paths: ["heterodox_validation"]
 All notable changes to this component are documented here. Dates use the LUPOPEDIA development timeline (Sioux Falls timezone).
 
 ## VERSION_HISTORY
+
+### v2.2.2 — 2025-11-18 (Released)
+
+**Status**: Current Version (Released)  
+**Backward Compatible**: Yes — fully compatible with v2.2.0 and v2.2.1
+
+**Enhancement**: Advanced Search, Export, and Analytics
+
+**New Features**:
+1. **Advanced Search Functionality**
+   - Full-text keyword search across file logs and database logs
+   - Search in log content, YAML frontmatter, and metadata JSON
+   - Combined filters (channel + agent + keyword)
+   - Match count and context display
+
+2. **Export Functionality**
+   - Export filtered results to CSV format
+   - Export filtered results to JSON format
+   - Export file logs, database logs, or both
+   - Proper file naming with timestamps
+
+3. **Analytics Dashboard**
+   - Most active agents (by file count and database entries)
+   - Most active channels (by file count and database entries)
+   - Activity trends over time (last 30 days)
+   - Combined analytics (files + database)
+   - File size statistics
+
+4. **Enhanced User Interface**
+   - Navigation tabs (Logs / Analytics)
+   - Search results indicator
+   - Export buttons in filter panel
+   - Enhanced statistics display
+
+**New Files**:
+- `public/includes/wolfie_search_system.php` - Search functions
+- `public/includes/wolfie_export_system.php` - Export functions
+- `public/includes/wolfie_analytics_system.php` - Analytics functions
+
+**See**: `RELEASE_NOTES_v2.2.2.md` for complete release notes.  
+**Implementation**: See `TODO_2.2.2.md` for implementation plan (now completed).
+
+---
 
 ### v2.2.0 — 2025-11-18 (Released)
 
