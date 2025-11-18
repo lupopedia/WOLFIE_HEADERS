@@ -3,14 +3,14 @@ title: WOLFIE_HEADER_SYSTEM_OVERVIEW.md
 agent_username: wolfie
 agent_id: 008
 channel_number: 001
-version: 2.0.3
+version: 2.0.4
 date_created: 2025-11-09
 last_modified: 2025-11-18
 status: published
 onchannel: 1
 tags: [SYSTEM, DOCUMENTATION]
 collections: [WHO, WHAT, WHERE, WHEN, WHY, HOW, DO, HACK, OTHER]
-in_this_file_we_have: [PURPOSE, ARCHITECTURE, FALLBACK_CHAIN, FILE_STRUCTURE, LOG_FILE_SYSTEM, MIGRATION_NOTES, V2.0.0_NOTES, V2.0.1_NOTES, V2.0.2_NOTES, V2.0.3_NOTES]
+in_this_file_we_have: [PURPOSE, ARCHITECTURE, FALLBACK_CHAIN, FILE_STRUCTURE, LOG_FILE_SYSTEM, MIGRATION_NOTES, V2.0.0_NOTES, V2.0.1_NOTES, V2.0.2_NOTES, V2.0.3_NOTES, V2.0.4_NOTES]
 superpositionally: ["FILEID_WHS_OVERVIEW"]
 shadow_aliases: ["Lilith-007"]
 parallel_paths: ["heterodox_validation"]
@@ -185,9 +185,9 @@ agent_id: 8
 
 ## V2.0.3_NOTES
 
-**✅ Version 2.0.3 Current**: This is the current main release with complete log system integration.
+**✅ Version 2.0.3 Released**: Complete log system integration.
 
-**Version**: v2.0.3 (Current - Main Release) | **Required By**: LUPOPEDIA_PLATFORM 1.0.0
+**Version**: v2.0.3 (Stable) | **Required By**: LUPOPEDIA_PLATFORM 1.0.0
 
 **v2.0.3 New Features**:
 - **Log File System**: Complete agent log file system with `[channel]_[agent]_log.md` format
@@ -240,6 +240,58 @@ agent_id: 8
 - `007_CAPTAIN_log.md` (new)
 - `911_SECURITY_log.md` (new)
 - `411_HELP_log.md` (new)
+
+## V2.0.4_NOTES
+
+**✅ Version 2.0.4 Current**: This is the current main release with agent integration and repository structure.
+
+**Version**: v2.0.4 (Current - Main Release) | **Required By**: LUPOPEDIA_PLATFORM 1.0.0
+
+**v2.0.4 New Features**:
+- **Agent 007 CAPTAIN Integration**: Official integration of Commanding Officer
+  - Agent ID: 007, Channel: 007
+  - GitHub Repository: https://github.com/lupopedia/007_captain
+  - Role: Commanding Officer & Strategic Coordinator
+  - Status: Active (v0.0.1)
+- **Agent 001 UNKNOWN Integration**: First Agent & Template for new channels
+  - Agent ID: 001, Channel: 001
+  - GitHub Repository: https://github.com/lupopedia/001_unknown
+  - Role: Template Agent & First Agent
+  - Status: Active (v0.0.1)
+- **Agent 999 UNKNOWN Integration**: Last Agent & Template for new channels
+  - Agent ID: 999, Channel: 999 (Maximum 999)
+  - GitHub Repository: https://github.com/lupopedia/999_unknown
+  - Role: Template Agent & Last Agent
+  - Status: Active (v0.0.1)
+- **Agent Repository Structure**: Standardized GitHub repository structure for agents
+  - README.md with WOLFIE Headers format
+  - CHANGELOG.md for version history
+  - LICENSE (dual GPL v3.0 + Apache 2.0)
+  - docs/ directory for agent-specific documentation
+- **Agent Integration Patterns**: Documentation for agent-specific repositories
+  - Agent repository naming convention
+  - Agent repository structure standards
+  - Agent integration with WOLFIE Headers
+  - Agent communication protocol integration
+
+**Agent Repositories Created**:
+- `GITHUB_LUPOPEDIA/007_CAPTAIN/` - Agent 007 CAPTAIN repository
+- `GITHUB_LUPOPEDIA/001_UNKNOWN/` - Agent 001 UNKNOWN repository
+- `GITHUB_LUPOPEDIA/999_UNKNOWN/` - Agent 999 UNKNOWN repository
+
+**Backward Compatibility**: v2.0.4 is fully backward compatible with v2.0.3. Agent integration is optional enhancement.
+
+**Documentation**: 
+- See `RELEASE_NOTES_v2.0.4.md` for complete release notes
+- See `TODO_2.0.4.md` for complete integration plan
+- See `README.md` for agent integration documentation
+- See agent repositories for agent-specific documentation
+
+**Implementation**:
+- Agent repositories created with standardized structure
+- Agent integration documented in WOLFIE Headers
+- Agent registry updated
+- Dependency chain includes agents
 
 ---
 

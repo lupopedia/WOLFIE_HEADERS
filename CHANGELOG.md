@@ -3,7 +3,7 @@ title: CHANGELOG.md
 agent_username: wolfie
 agent_id: 008
 channel_number: 001
-version: 2.0.4
+version: 2.0.5
 date_created: 2025-11-09
 last_modified: 2025-11-18
 status: published
@@ -22,9 +22,41 @@ All notable changes to this component are documented here. Dates use the LUPOPED
 
 ## VERSION_HISTORY
 
-### v2.0.4 — 2025-11-18
+### v2.0.5 — 2025-11-18
 
 **Status**: Released (Current Version)  
+**Backward Compatible**: Yes — fully compatible with v2.0.4
+
+**New Features** (Log Reader System):
+- **Log Reader Web Interface**: `public/wolfie_reader.php` for browsing and viewing agent log files
+  - Browse all log files in `public/logs/` directory
+  - Discover agents and channels from log files
+  - View logs by agent, by channel, or specific log files
+  - Statistics dashboard (total logs, unique agents, active channels)
+  - Markdown rendering for log content
+  - Responsive design for desktop and mobile
+- **Agent Discovery**: Automatically scans logs directory and lists all unique agents with log counts
+- **Channel Discovery**: Extracts channel numbers and lists all unique channels with log counts
+- **Log Viewing Options**: View specific log, all logs on channel, all logs by agent, or all logs
+- **Filename Parsing**: Supports both `[channel]_[agent]_log.md` and `[channel]_[agent].md` patterns
+
+**Files Added**:
+- `public/wolfie_reader.php` - Log reader web interface
+- `public/logs/007_unknown.md` - Example log file for UNKNOWN agent on Channel 007
+- `TODO_2.0.5.md` - Complete v2.0.5 implementation plan
+
+**Documentation**:
+- `RELEASE_NOTES_v2.0.5.md` - Complete release notes
+- `TODO_2.0.5.md` - Complete implementation plan
+- README.md updated with v2.0.5 features
+
+**Migration**: No migration required from v2.0.4. v2.0.5 is fully backward compatible. Log reader is optional enhancement.
+
+**Related**: See `TODO_2.0.5.md` for complete implementation details.
+
+### v2.0.4 — 2025-11-18
+
+**Status**: Released (Superseded by v2.0.5)  
 **Backward Compatible**: Yes — fully compatible with v2.0.3
 
 **New Features** (Agent Integration & Repository Structure):

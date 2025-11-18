@@ -3,14 +3,14 @@ title: README.md
 agent_username: wolfie
 agent_id: 008
 channel_number: 001
-version: 2.0.4
+version: 2.0.5
 date_created: 2025-11-09
 last_modified: 2025-11-18
 status: published
 onchannel: 1
 tags: [SYSTEM, DOCUMENTATION]
 collections: [WHO, WHAT, WHERE, WHEN, WHY, HOW, DO, HACK, OTHER, TAGS]
-in_this_file_we_have: [OVERVIEW, QUICK_START, CORE_CONCEPTS, DIRECTORY_MAP, VERSIONING, DEPENDENCY_CHAIN, V2.0.0_RELEASE, V2.0.1_RELEASE, V2.0.2_RELEASE, V2.0.3_RELEASE, V2.0.4_RELEASE, SUPPORT]
+in_this_file_we_have: [OVERVIEW, QUICK_START, CORE_CONCEPTS, DIRECTORY_MAP, VERSIONING, DEPENDENCY_CHAIN, V2.0.0_RELEASE, V2.0.1_RELEASE, V2.0.2_RELEASE, V2.0.3_RELEASE, V2.0.4_RELEASE, V2.0.5_RELEASE, SUPPORT]
 superpositionally: ["FILEID_WOLFIE_HEADERS_README"]
 shadow_aliases: []
 parallel_paths: []
@@ -22,8 +22,8 @@ parallel_paths: []
 
 WOLFIE Headers is the metadata system that powers LUPOPEDIA's documentation layer. It replaces bulky legacy headers with concise YAML frontmatter plus channel-aware ontology lookups so humans and AI agents read the same files with the right context.
 
-- **Current Version**: v2.0.4 (Current) – **REQUIRED** by LUPOPEDIA_PLATFORM 1.0.0  
-- **Previous Version**: v2.0.3 (Stable) – backward compatible, v2.0.4 adds agent integration  
+- **Current Version**: v2.0.5 (Current) – **REQUIRED** by LUPOPEDIA_PLATFORM 1.0.0  
+- **Previous Version**: v2.0.4 (Stable) – backward compatible, v2.0.5 adds log reader system  
 - **Legacy Version**: v1.4.2 (Legacy) – compatible with LUPOPEDIA_PLATFORM v0.0.8 and earlier  
 - **License**: Dual GPL v3.0 + Apache 2.0 (see `LICENSE`).  
 - **Maintainer**: Captain WOLFIE (Eric Robin Gerdes).  
@@ -54,12 +54,15 @@ WOLFIE Headers is the metadata system that powers LUPOPEDIA's documentation laye
 - `TODO_2.0.0.md` – **v2.0.0 migration plan and task breakdown**.  
 - `TODO_2.0.2.md` – **v2.0.2 database integration plan**.  
 - `docs/WOLFIE_HEADERS_LOG_SYSTEM_PLAN.md` – **v2.0.3 log system architecture**.  
-- `TODO_2.0.4.md` – **v2.0.4 Agent 007 CAPTAIN integration plan** (NEW).  
+- `TODO_2.0.4.md` – **v2.0.4 Agent 007 CAPTAIN integration plan**.  
+- `TODO_2.0.5.md` – **v2.0.5 Log Reader System plan** (NEW).  
+- `public/wolfie_reader.php` – **v2.0.5 Log Reader web interface** (NEW).  
+- `public/logs/` – **Log files directory** (NEW).  
 - `LICENSE` – combined GPL v3 + Apache 2.0 text.
 
 ## VERSIONING
 
-WOLFIE Headers follows semantic versioning. The current release is **v2.0.4**, which is required by LUPOPEDIA_PLATFORM 1.0.0.
+WOLFIE Headers follows semantic versioning. The current release is **v2.0.5**, which is required by LUPOPEDIA_PLATFORM 1.0.0.
 
 **⚠️ BREAKING CHANGES** (v2.0.0 from v1.4.2):
 - New 10-section format (WHO, WHAT, WHERE, WHEN, WHY, HOW, DO, HACK, OTHER, TAGS)
@@ -136,11 +139,11 @@ Crafty Syntax Live Help 3.8.0 (Foundation)
     ↓
     └─> WOLFIE Headers 2.0.0+ (REQUIRED - separate package)
         GitHub: https://github.com/lupopedia/WOLFIE_HEADERS
-        Current: v2.0.4 (v2.0.3 stable, v2.0.2 stable, v2.0.1 stable, v2.0.0 minimum)
+        Current: v2.0.5 (v2.0.4 stable, v2.0.3 stable, v2.0.2 stable, v2.0.1 stable, v2.0.0 minimum)
         ↓
         └─> LUPOPEDIA_PLATFORM 1.0.0 (Layer 1)
             GitHub: https://github.com/lupopedia/LUPOPEDIA_PLATFORM
-            Requires: WOLFIE Headers 2.0.0+ (v2.0.4 recommended, v2.0.3 stable)
+            Requires: WOLFIE Headers 2.0.0+ (v2.0.5 recommended, v2.0.4 stable)
             ↓
             └─> Agent System (Layer 2)
                 Channels: 000-999 (maximum 999)
@@ -261,6 +264,60 @@ Crafty Syntax Live Help 3.8.0 (Foundation)
 - **Database Integration**: `docs/DATABASE_INTEGRATION.md` (updated with content_log)
 - **System Overview**: `docs/WOLFIE_HEADER_SYSTEM_OVERVIEW.md` (updated with LOG_FILE_SYSTEM)
 - **Explanation Guide**: `docs/LOG_FILE_SYSTEM_EXPLAINED.md`
+
+## V2.0.5_RELEASE
+
+**Status**: Released (2025-11-18), Current Version  
+**Backward Compatible**: Yes — fully compatible with v2.0.4
+
+**✅ Version 2.0.5** introduces the **Log Reader System** for browsing and viewing agent log files.
+
+**New Features** (Log Reader System):
+1. **Log Reader Web Interface** (`public/wolfie_reader.php`)
+   - Browse all log files in `public/logs/` directory
+   - Discover agents and channels from log files
+   - View logs by agent, by channel, or specific log files
+   - Statistics dashboard (total logs, unique agents, active channels)
+   - Markdown rendering for log content
+   - Responsive design for desktop and mobile
+
+2. **Agent Discovery**
+   - Automatically scans `public/logs/` directory
+   - Extracts agent names from log filenames
+   - Lists all unique agents with log counts
+   - Shows channels each agent operates on
+   - Links to view all logs by specific agent
+
+3. **Channel Discovery**
+   - Extracts channel numbers from log filenames
+   - Lists all unique channels with log counts
+   - Shows agents active on each channel
+   - Links to view all logs on specific channel
+
+4. **Log Viewing Options**
+   - View specific log file (channel + agent combination)
+   - View all logs on a specific channel
+   - View all logs by a specific agent
+   - View all logs (complete directory listing)
+   - Navigation between related views
+
+5. **Filename Parsing**
+   - Supports pattern: `[channel]_[agent]_log.md` (e.g., `007_CAPTAIN_log.md`)
+   - Supports pattern: `[channel]_[agent].md` (e.g., `007_wolfie.md`)
+   - Handles case variations (uppercase/lowercase)
+   - Validates channel numbers (000-999)
+
+**Files Added**:
+- `public/wolfie_reader.php` - Log reader web interface
+- `public/logs/007_unknown.md` - Example log file for UNKNOWN agent on Channel 007
+- `TODO_2.0.5.md` - Complete v2.0.5 implementation plan
+
+**Documentation**:
+- **Release Notes**: `RELEASE_NOTES_v2.0.5.md`
+- **TODO Plan**: `TODO_2.0.5.md`
+- **Log Reader**: `public/wolfie_reader.php` (standalone web interface)
+
+**Migration**: No migration required from v2.0.4. v2.0.5 is fully backward compatible. Log reader is optional enhancement.
 
 ## SUPPORT
 
