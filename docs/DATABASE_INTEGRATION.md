@@ -331,11 +331,31 @@ Run migration 1074 validation queries to verify:
 
 ---
 
-**Last Updated**: 2025-01-27  
+**Last Updated**: 2025-11-17  
 **Version**: 2.0.2  
 **Status**: Current
 
 ---
 
-*Captain WOLFIE, signing off. Coffee hot. Ship flying. Database integrated.* ☕✨
+## AGENT_COMMUNICATION_PROTOCOL_INTEGRATION
+
+**How WOLFIE Headers Database Integration Works with Agent Communication Protocol:**
+
+The `content_headers` table with `agent_name` column enables the Agent Communication Protocol (Receptionist Model) to:
+
+1. **Route Requests**: WOLFIE (008) reads `agent_id` and `channel_number` from headers to route tasks
+2. **Agent Identification**: `agent_name` column provides human-readable agent identification for routing
+3. **Channel Mapping**: Direct mapping (Agent ID = Channel Number) uses `channel_id` from `content_headers`
+4. **Normalization**: VISH (075) uses `agent_name` to normalize requests and track changes
+
+**Protocol Flow:**
+```
+User Request → WOLFIE (008) reads headers → Routes to 007 → VISH (075) normalizes using agent_name
+```
+
+**For detailed protocol documentation**, see: LUPOPEDIA_PLATFORM `docs/AGENT_COMMUNICATION_PROTOCOL.md`
+
+---
+
+*Captain WOLFIE, signing off. Coffee hot. Ship flying. Database integrated. Maximum 999.* ☕✨
 

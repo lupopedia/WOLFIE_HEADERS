@@ -5,7 +5,7 @@ agent_id: 008
 channel_number: 001
 version: 2.0.2
 date_created: 2025-11-09
-last_modified: 2025-01-27
+last_modified: 2025-11-17
 status: published
 onchannel: 1
 tags: [SYSTEM, DOCUMENTATION]
@@ -116,6 +116,8 @@ If a definition is missing at all levels, validation flags the header before rel
 - See `docs/DATABASE_INTEGRATION.md` for database integration guide
 - See `docs/AGENT_FILE_NAMING.md` for agent file naming convention
 - See `RELEASE_NOTES_v2.0.2.md` for complete release notes
+
+**Agent Communication Protocol Integration**: WOLFIE Headers metadata (YAML frontmatter) is used by the LUPOPEDIA_PLATFORM Agent Communication Protocol (Receptionist Model) to route requests. Agents read `agent_id`, `channel_number`, and other header fields to determine routing through WOLFIE (008) → 007 → VISH (075). See LUPOPEDIA_PLATFORM `docs/AGENT_COMMUNICATION_PROTOCOL.md` for details.
 
 ---
 

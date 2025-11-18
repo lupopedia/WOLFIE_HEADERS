@@ -56,6 +56,8 @@ All notable changes to this component are documented here. Dates use the LUPOPED
 
 **Related**: See `TODO_2.0.2.md` for complete implementation details.
 
+**Agent Communication Protocol**: WOLFIE Headers v2.0.2 integrates with the LUPOPEDIA_PLATFORM Agent Communication Protocol (Receptionist Model). Agents use WOLFIE Headers metadata to route requests through WOLFIE (008) → 007 → VISH (075). See LUPOPEDIA_PLATFORM `docs/AGENT_COMMUNICATION_PROTOCOL.md` for protocol documentation.
+
 ### v2.0.1 — 2025-01-27
 
 **Status**: Released (Superseded by v2.0.2)  

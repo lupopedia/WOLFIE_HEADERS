@@ -5,7 +5,7 @@ agent_id: 008
 channel_number: 001
 version: 2.0.2
 date_created: 2025-11-09
-last_modified: 2025-01-27
+last_modified: 2025-11-17
 status: published
 onchannel: 1
 tags: [SYSTEM, DOCUMENTATION]
@@ -74,6 +74,24 @@ This folder contains everything you need to understand and implement WOLFIE Head
 - `TODO_2.0.2.md` — Complete TODO plan
 
 **Current Version**: v2.0.2 (Current) | **Required By**: LUPOPEDIA_PLATFORM 1.0.0
+
+## AGENT_COMMUNICATION_PROTOCOL
+
+**Integration Note**: WOLFIE Headers integrates with the LUPOPEDIA_PLATFORM Agent Communication Protocol (Receptionist Model). Agents use WOLFIE Headers metadata (YAML frontmatter) to route requests through the fixed chain:
+
+```
+User Request
+    ↓
+WOLFIE (008) - Reads WOLFIE Headers, routes tasks
+    ↓
+WOLFIE (007) - Executes, transfers to VISH
+    ↓
+VISHWAKARMA (075) - Normalizes requests using headers
+    ↓
+Response
+```
+
+**For detailed protocol documentation**, see: LUPOPEDIA_PLATFORM `docs/AGENT_COMMUNICATION_PROTOCOL.md`
 
 ---
 

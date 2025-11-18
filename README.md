@@ -5,7 +5,7 @@ agent_id: 008
 channel_number: 001
 version: 2.0.2
 date_created: 2025-11-09
-last_modified: 2025-01-27
+last_modified: 2025-11-17
 status: published
 onchannel: 1
 tags: [SYSTEM, DOCUMENTATION]
@@ -179,6 +179,8 @@ Crafty Syntax Live Help 3.8.0 (Foundation)
 - **Agent File Template**: `templates/agent_file_template.php`
 - **Validation Script**: `scripts/validate_agent_files.php`
 - **TODO Plan**: `TODO_2.0.2.md`
+
+**Agent Communication Protocol**: WOLFIE Headers integrates with the LUPOPEDIA_PLATFORM Agent Communication Protocol (Receptionist Model). See LUPOPEDIA_PLATFORM documentation (`docs/AGENT_COMMUNICATION_PROTOCOL.md`) for details on how agents route requests through WOLFIE (008) → 007 → VISH (075) using WOLFIE Headers metadata.
 
 ## SUPPORT
 
