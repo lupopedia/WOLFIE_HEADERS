@@ -75,6 +75,8 @@ WOLFIE Headers follows semantic versioning. The current release is **v2.0.2**, w
 - **Database Integration**: `content_headers` table with `agent_name` column
 - **Agent File Naming**: Standardized naming convention (`who_is_agent_[channel_id]_[agent_name].php`)
 - **Channel Support**: Full channel architecture (000-999, maximum 999)
+- **Log System**: `content_log` table and `[channel]_[agent]_log.md` files for agent logging
+- **Dual-Storage**: Database (fast queries) + Markdown files (human-readable) for log entries
 
 **Migration Required**: All v1.4.2 headers must be migrated to v2.0.0+ format. See `docs/MIGRATION_1.4.2_TO_2.0.0.md` for complete migration guide.
 

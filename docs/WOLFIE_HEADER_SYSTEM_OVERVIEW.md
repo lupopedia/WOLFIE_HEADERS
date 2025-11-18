@@ -10,7 +10,7 @@ status: published
 onchannel: 1
 tags: [SYSTEM, DOCUMENTATION]
 collections: [WHO, WHAT, WHERE, WHEN, WHY, HOW, DO, HACK, OTHER]
-in_this_file_we_have: [PURPOSE, ARCHITECTURE, FALLBACK_CHAIN, FILE_STRUCTURE, MIGRATION_NOTES, V2.0.0_NOTES, V2.0.1_NOTES, V2.0.2_NOTES]
+in_this_file_we_have: [PURPOSE, ARCHITECTURE, FALLBACK_CHAIN, FILE_STRUCTURE, LOG_FILE_SYSTEM, MIGRATION_NOTES, V2.0.0_NOTES, V2.0.1_NOTES, V2.0.2_NOTES]
 superpositionally: ["FILEID_WHS_OVERVIEW"]
 shadow_aliases: ["Lilith-007"]
 parallel_paths: ["heterodox_validation"]
@@ -46,9 +46,73 @@ If a definition is missing at all levels, validation flags the header before rel
 ## FILE_STRUCTURE
 
 - `docs/channel_1/` – Channel 1 references (base WOLFIE context).  
-- `docs/channel_1/1_wolfie_wolfie/` – Captain WOLFIE’s authoritative definitions.  
+- `docs/channel_1/1_wolfie_wolfie/` – Captain WOLFIE's authoritative definitions.  
 - `docs/channel_1/1_wolfie/` – Legacy fallback for backwards compatibility.  
 - Additional channels follow the same pattern (`{channel}_{agent}`).
+
+## LOG_FILE_SYSTEM
+
+### Agent Log Files
+
+WOLFIE Headers supports agent log files in the format `[channel]_[agent]_log.md` stored in `public/logs/` directory.
+
+**Naming Convention:**
+- Format: `[channel]_[agent]_log.md`
+- Channel: Zero-padded 3-digit number (000-999)
+- Agent: Agent name in UPPER case (e.g., WOLFIE, CAPTAIN, SECURITY)
+- Extension: `.md` (markdown)
+
+**Examples:**
+- `008_WOLFIE_log.md` - Channel 008, Agent WOLFIE
+- `007_CAPTAIN_log.md` - Channel 007, Agent CAPTAIN
+- `911_SECURITY_log.md` - Channel 911, Agent SECURITY
+- `411_HELP_log.md` - Channel 411, Agent HELP
+
+**File Location:**
+- Directory: `public/logs/`
+- Full path: `public/logs/[channel]_[agent]_log.md`
+
+**WOLFIE Headers Format:**
+All log files include WOLFIE Headers YAML frontmatter with:
+- Standard WOLFIE Headers fields (title, agent_username, onchannel, etc.)
+- Log-specific fields:
+  - `log_entry_count`: Number of log entries
+  - `last_log_date`: Date of most recent entry
+  - `channel_id`: Channel number (redundant with onchannel, but explicit)
+  - `agent_id`: Agent ID (for database sync)
+
+**Example Log File Header:**
+```yaml
+---
+title: 008_WOLFIE_log.md
+agent_username: wolfie
+date_created: 2025-11-18
+last_modified: 2025-11-18 14:30:00
+status: active
+onchannel: 8
+tags: [LOG, AGENT_LOG, CHANNEL_LOG]
+collections: [LOG_ENTRIES]
+in_this_file_we_have: [LOG_ENTRIES, AGENT_ACTIVITY, SYSTEM_EVENTS]
+log_entry_count: 42
+last_log_date: 2025-11-18
+channel_id: 8
+agent_id: 8
+---
+```
+
+**Database Integration:**
+- Log files sync with `content_log` database table
+- Database stores metadata (log_entry_count, last_log_date, file_path, etc.)
+- Markdown files are source of truth for log content
+- Database provides fast queries and indexing
+
+**Functions:**
+- `writeAgentLog()` - Write log entries with header updates
+- `readAgentLog()` - Read and parse log files
+- `initializeAgentLog()` - Create new log files
+- `readContentLogFromDatabase()` - Read from content_log table for metadata
+
+**For complete documentation**, see: `docs/WOLFIE_HEADERS_LOG_SYSTEM_PLAN.md`
 
 ## MIGRATION_NOTES
 

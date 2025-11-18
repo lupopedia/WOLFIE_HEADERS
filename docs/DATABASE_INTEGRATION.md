@@ -10,7 +10,7 @@ status: published
 onchannel: 1
 tags: [SYSTEM, DOCUMENTATION, DATABASE, INTEGRATION]
 collections: [WHO, WHAT, WHERE, WHEN, WHY, HOW, DO, HACK, OTHER]
-in_this_file_we_have: [OVERVIEW, CONTENT_HEADERS_TABLE, CHANNEL_ID_COLUMN, AGENT_NAME_COLUMN, QUERY_EXAMPLES, INTEGRATION_PATTERNS, MIGRATION_NOTES]
+in_this_file_we_have: [OVERVIEW, CONTENT_HEADERS_TABLE, CONTENT_LOG_TABLE, CHANNEL_ID_COLUMN, AGENT_NAME_COLUMN, QUERY_EXAMPLES, INTEGRATION_PATTERNS, MIGRATION_NOTES]
 superpositionally: ["FILEID_DATABASE_INTEGRATION"]
 shadow_aliases: []
 parallel_paths: []
@@ -55,6 +55,147 @@ The `content_headers` table stores WOLFIE Headers metadata in a database format,
 | `is_active` | tinyint(1) | Yes | Active flag |
 
 **Full table structure**: See `database/schema/lupopedia_11_13_2025.sql` for complete table definition.
+
+---
+
+## CONTENT_LOG_TABLE
+
+### Table Structure
+
+The `content_log` table stores agent log entries and metadata, enabling:
+- Tracking content interactions by channel and agent
+- Supporting agent discovery API (which agents interact with content)
+- Supporting channel discovery API (what content is on which channels)
+- Dual-storage system (database for queries, markdown files for readability)
+- Performance optimization through denormalized agent_name
+
+### Key Columns for WOLFIE Headers Log System
+
+| Column | Type | Required | Description |
+|--------|------|----------|-------------|
+| `id` | bigint(20) UNSIGNED | Yes | Primary key |
+| `content_id` | bigint(20) UNSIGNED | Yes | Content ID (references content table) |
+| `channel_id` | bigint(20) UNSIGNED | Yes | Channel ID (000-999, maximum 999) |
+| `agent_id` | bigint(20) UNSIGNED | Yes | Agent ID (references agents table) |
+| `agent_name` | VARCHAR(255) | Yes | Agent name (denormalized for quick lookups) |
+| `metadata` | LONGTEXT (JSON) | Optional | Log metadata JSON (flexible storage for log-specific data) |
+| `is_active` | tinyint(1) | Yes | Active status flag |
+| `created_at` | timestamp | Yes | Creation timestamp |
+| `updated_at` | timestamp | Yes | Update timestamp |
+| `deleted_at` | timestamp | Optional | Soft delete timestamp |
+
+**Full table structure**: See `database/migrations/1078_2025_11_18_create_content_log_table.sql` for complete table definition.
+
+### Purpose
+
+The `content_log` table provides:
+- **Fast Queries**: Database indexing for quick lookups by channel, agent, or content
+- **Metadata Storage**: JSON metadata for flexible log-specific data storage
+- **Dual-Storage**: Complements markdown log files (`[channel]_[agent]_log.md`) for human readability
+- **Agent Discovery**: Enables agents to discover which agents interact with content on which channels
+
+### Validation Rules
+
+- **channel_id Range**: 0 to 999 (inclusive, maximum 999)
+- **agent_name Format**: UPPER case (e.g., "WOLFIE", "CAPTAIN", "SECURITY")
+- **metadata Format**: Valid JSON (CHECK constraint ensures JSON validity)
+- **Required Fields**: content_id, channel_id, agent_id, agent_name, is_active
+
+### Query Patterns
+
+```sql
+-- Get all log entries for a specific channel
+SELECT * FROM content_log
+WHERE channel_id = 7
+  AND is_active = 1
+  AND deleted_at IS NULL
+ORDER BY created_at DESC;
+
+-- Get log entries for a specific agent
+SELECT * FROM content_log
+WHERE agent_id = 7
+  AND agent_name = 'CAPTAIN'
+  AND is_active = 1
+  AND deleted_at IS NULL
+ORDER BY created_at DESC;
+
+-- Get log entries with parsed metadata
+SELECT 
+    id,
+    channel_id,
+    agent_id,
+    agent_name,
+    JSON_EXTRACT(metadata, '$.log_entry_count') as log_entry_count,
+    JSON_EXTRACT(metadata, '$.last_log_date') as last_log_date,
+    JSON_EXTRACT(metadata, '$.file_path') as file_path,
+    created_at,
+    updated_at
+FROM content_log
+WHERE is_active = 1
+  AND deleted_at IS NULL
+ORDER BY channel_id, agent_id, created_at DESC;
+
+-- Count log entries per channel and agent
+SELECT 
+    channel_id,
+    agent_id,
+    agent_name,
+    COUNT(*) as log_entry_count
+FROM content_log
+WHERE is_active = 1
+  AND deleted_at IS NULL
+GROUP BY channel_id, agent_id, agent_name
+ORDER BY channel_id, agent_id;
+```
+
+### Integration with Log Files
+
+The `content_log` table works in conjunction with markdown log files:
+
+**Dual-Storage System:**
+- **Markdown Files**: `public/logs/[channel]_[agent]_log.md` (source of truth for log content)
+- **Database Table**: `content_log` (fast queries, indexing, metadata storage)
+
+**Sync Pattern:**
+1. Write log entry to markdown file (primary)
+2. Insert/update `content_log` table entry with metadata
+3. Read from database for fast lookups
+4. Read from markdown file for full content
+
+**File Naming Convention:**
+- Format: `[channel]_[agent]_log.md`
+- Examples:
+  - `008_WOLFIE_log.md` (Channel 008, Agent WOLFIE)
+  - `007_CAPTAIN_log.md` (Channel 007, Agent CAPTAIN)
+  - `911_SECURITY_log.md` (Channel 911, Agent SECURITY)
+  - `411_HELP_log.md` (Channel 411, Agent HELP)
+
+**Metadata Storage:**
+The `metadata` JSON column stores:
+- `log_entry_count`: Number of log entries
+- `last_log_date`: Date of most recent entry
+- `last_modified`: Timestamp of last modification
+- `file_path`: Full path to log file
+- Custom metadata from function calls
+
+### Migration History
+
+- **Migration 1078** (2025-11-18): Created `content_log` table
+  - Added all columns including metadata JSON
+  - Added indexes for performance
+  - Added channel_id range constraint (0-999)
+
+### Migration Files
+
+- `database/migrations/1078_2025_11_18_create_content_log_table.sql`
+
+### Best Practices
+
+1. **Dual-Storage**: Always sync writes to both markdown file and database
+2. **Metadata Updates**: Update existing entries instead of creating duplicates
+3. **JSON Validation**: Ensure metadata is valid JSON before storing
+4. **Channel Validation**: Validate channel_id range (0-999) before INSERT
+5. **Soft Deletes**: Use `deleted_at` for data retention instead of hard deletes
 
 ---
 
@@ -328,10 +469,11 @@ Run migration 1074 validation queries to verify:
 - `docs/MIGRATION_2.0.1_TO_2.0.2.md` - Migration guide
 - `TODO_2.0.2.md` - Complete TODO plan
 - `database/migrations/` - Migration scripts
+- `docs/WOLFIE_HEADERS_LOG_SYSTEM_PLAN.md` - Log system architecture and implementation plan
 
 ---
 
-**Last Updated**: 2025-11-17  
+**Last Updated**: 2025-11-18  
 **Version**: 2.0.2  
 **Status**: Current
 
