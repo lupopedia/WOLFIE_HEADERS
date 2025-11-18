@@ -3,7 +3,7 @@ title: README.md
 agent_username: wolfie
 agent_id: 008
 channel_number: 001
-version: 2.0.5
+version: 2.0.6
 date_created: 2025-11-09
 last_modified: 2025-11-18
 status: published
@@ -22,8 +22,8 @@ parallel_paths: []
 
 WOLFIE Headers is the metadata system that powers LUPOPEDIA's documentation layer. It replaces bulky legacy headers with concise YAML frontmatter plus channel-aware ontology lookups so humans and AI agents read the same files with the right context.
 
-- **Current Version**: v2.0.5 (Current) – **REQUIRED** by LUPOPEDIA_PLATFORM 1.0.0  
-- **Previous Version**: v2.0.4 (Stable) – backward compatible, v2.0.5 adds log reader system  
+- **Current Version**: v2.0.6 (Current) – **REQUIRED** by LUPOPEDIA_PLATFORM 1.0.0  
+- **Previous Version**: v2.0.5 (Stable) – backward compatible, v2.0.6 adds API endpoints and search  
 - **Legacy Version**: v1.4.2 (Legacy) – compatible with LUPOPEDIA_PLATFORM v0.0.8 and earlier  
 - **License**: Dual GPL v3.0 + Apache 2.0 (see `LICENSE`).  
 - **Maintainer**: Captain WOLFIE (Eric Robin Gerdes).  
@@ -55,14 +55,17 @@ WOLFIE Headers is the metadata system that powers LUPOPEDIA's documentation laye
 - `TODO_2.0.2.md` – **v2.0.2 database integration plan**.  
 - `docs/WOLFIE_HEADERS_LOG_SYSTEM_PLAN.md` – **v2.0.3 log system architecture**.  
 - `TODO_2.0.4.md` – **v2.0.4 Agent 007 CAPTAIN integration plan**.  
-- `TODO_2.0.5.md` – **v2.0.5 Log Reader System plan** (NEW).  
-- `public/wolfie_reader.php` – **v2.0.5 Log Reader web interface** (NEW).  
-- `public/logs/` – **Log files directory** (NEW).  
+- `TODO_2.0.5.md` – **v2.0.5 Log Reader System plan**.  
+- `TODO_2.0.6.md` – **v2.0.6 API Endpoints & Search plan** (NEW).  
+- `public/wolfie_reader.php` – **v2.0.5 Log Reader web interface**.  
+- `public/api/wolfie/index.php` – **v2.0.6 API endpoints** (NEW).  
+- `public/includes/wolfie_api_core.php` – **v2.0.6 API core functions** (NEW).  
+- `public/logs/` – **Log files directory**.  
 - `LICENSE` – combined GPL v3 + Apache 2.0 text.
 
 ## VERSIONING
 
-WOLFIE Headers follows semantic versioning. The current release is **v2.0.5**, which is required by LUPOPEDIA_PLATFORM 1.0.0.
+WOLFIE Headers follows semantic versioning. The current release is **v2.0.6**, which is required by LUPOPEDIA_PLATFORM 1.0.0.
 
 **⚠️ BREAKING CHANGES** (v2.0.0 from v1.4.2):
 - New 10-section format (WHO, WHAT, WHERE, WHEN, WHY, HOW, DO, HACK, OTHER, TAGS)
@@ -87,9 +90,14 @@ WOLFIE Headers follows semantic versioning. The current release is **v2.0.5**, w
   - Directory: `public/logs/` for all agent log files
   - WOLFIE Headers format with log-specific fields
 - **content_log Database Table**: New table for log metadata and fast queries
-  - Migration 1078: Created `content_log` table
+  - Migration 1078: Created `content_log` table (tracks content interactions by channel/agent)
   - Dual-storage: Database (fast queries) + Markdown files (human-readable)
   - Enhanced sync: Smart update-or-insert logic prevents duplicates
+- **content_logs Database Table**: Row-level change tracking (Migration 1079)
+  - Migration 1079: Created `content_logs` table (tracks changes to individual content rows)
+  - Different from `content_log` (singular): `content_logs` tracks row changes, `content_log` tracks interactions
+  - Enables AI and human readers to understand evolution of database records
+  - See `TODO_2.0.7.md` for complete implementation plan
 - **Core Functions**: Complete PHP library (`public/includes/wolfie_log_system.php`)
   - `initializeAgentLog()` - Create new log files
   - `writeAgentLog()` - Write entries with automatic header updates
@@ -265,12 +273,65 @@ Crafty Syntax Live Help 3.8.0 (Foundation)
 - **System Overview**: `docs/WOLFIE_HEADER_SYSTEM_OVERVIEW.md` (updated with LOG_FILE_SYSTEM)
 - **Explanation Guide**: `docs/LOG_FILE_SYSTEM_EXPLAINED.md`
 
-## V2.0.5_RELEASE
+## V2.0.6_RELEASE
 
 **Status**: Released (2025-11-18), Current Version  
+**Backward Compatible**: Yes — fully compatible with v2.0.5
+
+**✅ Version 2.0.6** introduces **API Endpoints and Search Functionality** for programmatic access to the log system (as suggested by LILITH).
+
+**New Features** (API Endpoints & Search):
+1. **RESTful API Endpoints** (`public/api/wolfie/index.php`)
+   - `GET /api/wolfie/agents` - List all agents with metadata
+   - `GET /api/wolfie/agents/{agent_name}` - Get specific agent details
+   - `GET /api/wolfie/channels` - List all channels with metadata
+   - `GET /api/wolfie/channels/{channel_id}` - Get specific channel details
+   - `GET /api/wolfie/logs` - List all log files (with filtering and pagination)
+   - `GET /api/wolfie/logs/agent/{agent_name}` - Get logs by agent
+   - `GET /api/wolfie/logs/channel/{channel_id}` - Get logs by channel
+   - `GET /api/wolfie/logs/{channel_id}/{agent_name}` - Get specific log file
+   - `POST /api/wolfie/search` - Full-text search in log content
+   - `POST /api/wolfie/validate/log/{filename}` - Validate log file
+   - `POST /api/wolfie/validate/directory` - Validate entire directory
+
+2. **Search Functionality**
+   - Full-text search in log content (markdown body)
+   - Search in YAML frontmatter (tags, collections, metadata)
+   - Search by date range, agent, channel
+   - Result highlighting and relevance scoring
+   - Search result pagination
+
+3. **Caching System**
+   - File-based caching for directory scans
+   - Cache TTL: 5 minutes (configurable)
+   - Cache invalidation on file modification
+   - Performance optimization for large log directories
+
+4. **Validation API**
+   - Validate individual log files
+   - Validate entire logs directory
+   - Comprehensive error reporting with suggestions
+   - YAML frontmatter validation
+   - Filename/content consistency checks
+
+**Files Added**:
+- `public/api/wolfie/index.php` - API router and endpoints
+- `public/includes/wolfie_api_core.php` - API core functions
+- `TODO_2.0.6.md` - Complete v2.0.6 implementation plan (LILITH's review)
+
+**Documentation**:
+- **Release Notes**: `RELEASE_NOTES_v2.0.6.md`
+- **TODO Plan**: `TODO_2.0.6.md` (LILITH's critical analysis)
+- **API Reference**: See `TODO_2.0.6.md` for complete API documentation
+
+**Migration**: No migration required from v2.0.5. v2.0.6 is fully backward compatible. API endpoints are optional enhancement.
+
+## V2.0.5_RELEASE
+
+**Status**: Released (2025-11-18), Superseded by v2.0.6  
 **Backward Compatible**: Yes — fully compatible with v2.0.4
 
-**✅ Version 2.0.5** introduces the **Log Reader System** for browsing and viewing agent log files.
+**✅ Version 2.0.5** introduced the **Log Reader System** for browsing and viewing agent log files.
 
 **New Features** (Log Reader System):
 1. **Log Reader Web Interface** (`public/wolfie_reader.php`)

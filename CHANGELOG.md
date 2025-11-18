@@ -3,7 +3,7 @@ title: CHANGELOG.md
 agent_username: wolfie
 agent_id: 008
 channel_number: 001
-version: 2.0.5
+version: 2.0.6
 date_created: 2025-11-09
 last_modified: 2025-11-18
 status: published
@@ -22,9 +22,57 @@ All notable changes to this component are documented here. Dates use the LUPOPED
 
 ## VERSION_HISTORY
 
-### v2.0.5 — 2025-11-18
+### v2.0.6 — 2025-11-18
 
 **Status**: Released (Current Version)  
+**Backward Compatible**: Yes — fully compatible with v2.0.5
+
+**New Features** (API Endpoints & Search Functionality):
+- **RESTful API Endpoints**: `public/api/wolfie/index.php` for programmatic access to log system
+  - Agent discovery API (`GET /api/wolfie/agents`, `GET /api/wolfie/agents/{agent_name}`)
+  - Channel discovery API (`GET /api/wolfie/channels`, `GET /api/wolfie/channels/{channel_id}`)
+  - Log file access API (`GET /api/wolfie/logs` with filtering and pagination)
+  - Search API (`POST /api/wolfie/search` for full-text search)
+  - Validation API (`POST /api/wolfie/validate/log/{filename}`, `POST /api/wolfie/validate/directory`)
+- **Search Functionality**: Full-text search in log content and YAML frontmatter
+  - Search by query string with filters (agent, channel, date range)
+  - Result highlighting and relevance scoring
+  - Search result pagination
+- **Caching System**: File-based caching for performance optimization
+  - Cache directory scans (TTL: 5 minutes)
+  - Cache invalidation on file modification
+  - Scalable to 1000+ log files
+- **Validation API**: Comprehensive log file validation
+  - YAML frontmatter validation
+  - Required fields validation
+  - Filename/content consistency checks
+  - Detailed error reporting with suggestions
+
+**Files Added**:
+- `public/api/wolfie/index.php` - API router and endpoints
+- `public/includes/wolfie_api_core.php` - API core functions
+- `TODO_2.0.6.md` - Complete v2.0.6 implementation plan (LILITH's review)
+- `RELEASE_NOTES_v2.0.6.md` - Complete release notes
+
+**Documentation**:
+- `RELEASE_NOTES_v2.0.6.md` - Complete release notes
+- `TODO_2.0.6.md` - Complete implementation plan with LILITH's critical analysis
+- README.md updated with v2.0.6 features
+- API endpoint documentation in TODO_2.0.6.md
+
+**Migration**: No migration required from v2.0.5. v2.0.6 is fully backward compatible. API endpoints are optional enhancement.
+
+**Database Migration 1079** (2025-11-18): Created `content_logs` table for row-level change tracking
+- Migration file: `database/migrations/1079_2025_11_18_create_content_logs_table.sql`
+- Purpose: Track changes to individual content rows (different from `content_log` which tracks content interactions)
+- Status: Migration completed, table ready for use
+- Related: WOLFIE Headers v2.0.7 planning (see `TODO_2.0.7.md`)
+
+**Related**: See `TODO_2.0.6.md` for complete implementation details and LILITH's critical analysis. See `TODO_2.0.7.md` for database `_logs` table support planning.
+
+### v2.0.5 — 2025-11-18
+
+**Status**: Released (Superseded by v2.0.6)  
 **Backward Compatible**: Yes — fully compatible with v2.0.4
 
 **New Features** (Log Reader System):

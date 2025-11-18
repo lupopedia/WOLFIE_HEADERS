@@ -3,14 +3,14 @@ title: DATABASE_INTEGRATION.md
 agent_username: wolfie
 agent_id: 008
 channel_number: 001
-version: 2.0.3
+version: 2.0.7
 date_created: 2025-01-27
 last_modified: 2025-11-18
 status: published
 onchannel: 1
 tags: [SYSTEM, DOCUMENTATION, DATABASE, INTEGRATION]
 collections: [WHO, WHAT, WHERE, WHEN, WHY, HOW, DO, HACK, OTHER]
-in_this_file_we_have: [OVERVIEW, CONTENT_HEADERS_TABLE, CONTENT_LOG_TABLE, CHANNEL_ID_COLUMN, AGENT_NAME_COLUMN, QUERY_EXAMPLES, INTEGRATION_PATTERNS, MIGRATION_NOTES]
+in_this_file_we_have: [OVERVIEW, CONTENT_HEADERS_TABLE, CONTENT_LOG_TABLE, CONTENT_LOGS_TABLE, CHANNEL_ID_COLUMN, AGENT_NAME_COLUMN, QUERY_EXAMPLES, INTEGRATION_PATTERNS, MIGRATION_NOTES]
 superpositionally: ["FILEID_DATABASE_INTEGRATION"]
 shadow_aliases: []
 parallel_paths: []
@@ -22,7 +22,7 @@ parallel_paths: []
 
 WOLFIE Headers v2.0.2 integrates with LUPOPEDIA_PLATFORM's `content_headers` table to enable database-driven header storage and retrieval. This guide documents the table structure, column requirements, and query patterns.
 
-**Version**: v2.0.2  
+**Version**: v2.0.7  
 **Required By**: LUPOPEDIA_PLATFORM 1.0.0  
 **Status**: Current
 
@@ -196,6 +196,195 @@ The `metadata` JSON column stores:
 3. **JSON Validation**: Ensure metadata is valid JSON before storing
 4. **Channel Validation**: Validate channel_id range (0-999) before INSERT
 5. **Soft Deletes**: Use `deleted_at` for data retention instead of hard deletes
+
+---
+
+## CONTENT_LOGS_TABLE
+
+### Table Structure
+
+The `content_logs` table (plural) stores row-level change logs for individual content table rows, enabling:
+- Tracking changes to specific content rows (what changed, when, why)
+- Row-level audit trail for AI and human readers
+- Understanding evolution of database records over time
+- Different purpose from `content_log` (singular) which tracks content interactions by channel and agent
+
+**Note**: This is different from `content_log` (singular):
+- `content_log` (singular): Tracks content interactions by channel and agent (directory-level)
+- `content_logs` (plural): Tracks changes to individual content rows (row-level)
+- Both tables can coexist (different purposes)
+
+### Key Columns for WOLFIE Headers v2.0.7
+
+| Column | Type | Required | Description |
+|--------|------|----------|-------------|
+| `id` | bigint(20) UNSIGNED | Yes | Primary key |
+| `content_id` | bigint(20) UNSIGNED | Yes | Content row ID being changed |
+| `agent_id` | bigint(20) UNSIGNED | Yes | Agent ID that made the change |
+| `agent_name` | VARCHAR(255) | Yes | Agent name (denormalized for quick lookups) |
+| `channel_id` | bigint(20) UNSIGNED | Yes | Channel ID where change occurred (000-999) |
+| `metadata` | LONGTEXT (JSON) | Optional | Change metadata JSON (what changed, why, old values, new values) |
+| `is_active` | tinyint(1) | Yes | Active status flag |
+| `created_at` | timestamp | Yes | Creation timestamp |
+| `updated_at` | timestamp | Yes | Update timestamp |
+| `deleted_at` | timestamp | Optional | Soft delete timestamp |
+
+**Full table structure**: See `database/migrations/1079_2025_11_18_create_content_logs_table.sql` for complete table definition.
+
+### Purpose
+
+The `content_logs` table provides:
+- **Row-Level Change Tracking**: Track changes to individual content rows (not directory-level)
+- **Change History**: Complete audit trail of what changed, when, why, and by whom
+- **AI and Human Readable**: Metadata JSON contains structured change information
+- **Performance**: Database indexing for fast lookups by content_id, agent_id, channel_id
+
+### Validation Rules
+
+- **channel_id Range**: 0 to 999 (inclusive, maximum 999)
+- **agent_name Format**: UPPER case (e.g., "WOLFIE", "CAPTAIN", "SECURITY")
+- **metadata Format**: Valid JSON (CHECK constraint ensures JSON validity)
+- **Required Fields**: content_id, agent_id, agent_name, channel_id, is_active
+
+### Metadata JSON Structure
+
+The `metadata` JSON column stores change information:
+
+```json
+{
+  "change_type": "update|create|delete|restore",
+  "changed_fields": ["title", "body", "status"],
+  "old_values": {
+    "title": "Old Title",
+    "status": "draft"
+  },
+  "new_values": {
+    "title": "New Title",
+    "status": "published"
+  },
+  "change_reason": "User requested title update",
+  "change_summary": "Updated title and published content",
+  "related_ids": {
+    "user_id": 5,
+    "collection_id": 12
+  }
+}
+```
+
+### Query Patterns
+
+```sql
+-- Get all change logs for a specific content row
+SELECT * FROM content_logs
+WHERE content_id = 123
+  AND is_active = 1
+  AND deleted_at IS NULL
+ORDER BY created_at DESC;
+
+-- Get change logs for a specific agent
+SELECT * FROM content_logs
+WHERE agent_id = 8
+  AND agent_name = 'WOLFIE'
+  AND is_active = 1
+  AND deleted_at IS NULL
+ORDER BY created_at DESC;
+
+-- Get change logs with parsed metadata
+SELECT 
+    id,
+    content_id,
+    agent_id,
+    agent_name,
+    channel_id,
+    JSON_EXTRACT(metadata, '$.change_type') as change_type,
+    JSON_EXTRACT(metadata, '$.change_summary') as change_summary,
+    JSON_EXTRACT(metadata, '$.changed_fields') as changed_fields,
+    created_at
+FROM content_logs
+WHERE is_active = 1
+  AND deleted_at IS NULL
+ORDER BY content_id, created_at DESC;
+
+-- Count changes per content row
+SELECT 
+    content_id,
+    COUNT(*) as change_count,
+    MIN(created_at) as first_change,
+    MAX(created_at) as last_change
+FROM content_logs
+WHERE is_active = 1
+  AND deleted_at IS NULL
+GROUP BY content_id
+ORDER BY change_count DESC;
+
+-- Get change summary for a specific content row
+SELECT 
+    content_id,
+    COUNT(*) as total_changes,
+    COUNT(DISTINCT agent_id) as agents_involved,
+    MIN(created_at) as first_change,
+    MAX(created_at) as last_change,
+    GROUP_CONCAT(DISTINCT agent_name) as agents
+FROM content_logs
+WHERE content_id = 123
+  AND is_active = 1
+  AND deleted_at IS NULL
+GROUP BY content_id;
+```
+
+### Integration with Content Table
+
+The `content_logs` table works in conjunction with the `content` table:
+
+**Change Tracking Pattern:**
+1. When `content.id = 123` is updated, insert new row in `content_logs` with `content_id = 123`
+2. Store change details in `metadata` JSON (what changed, old values, new values)
+3. Track agent and channel information
+4. Enable AI and human readers to understand evolution of content rows
+
+**Example Usage:**
+```php
+// When content row is updated
+writeChangeLog(
+    'content',
+    123,  // content_id
+    8,    // agent_id
+    'WOLFIE',  // agent_name
+    7,    // channel_id
+    [
+        'change_type' => 'update',
+        'changed_fields' => ['title', 'status'],
+        'old_values' => ['title' => 'Old Title', 'status' => 'draft'],
+        'new_values' => ['title' => 'New Title', 'status' => 'published']
+    ],
+    [
+        'change_reason' => 'User requested title update',
+        'change_summary' => 'Updated title and published content'
+    ]
+);
+```
+
+### Migration History
+
+- **Migration 1079** (2025-11-18): Created `content_logs` table
+  - Added all columns including metadata JSON
+  - Added indexes for performance (content_id, agent_id, channel_id, composite indexes)
+  - Added channel_id range constraint (0-999)
+  - Added JSON validation constraint for metadata
+
+### Migration Files
+
+- `database/migrations/1079_2025_11_18_create_content_logs_table.sql`
+
+### Best Practices
+
+1. **Row-Level Tracking**: Use `content_logs` for tracking changes to individual rows
+2. **Directory-Level Tracking**: Use `content_log` (singular) for tracking content interactions by channel/agent
+3. **Metadata Structure**: Follow standard metadata JSON structure for consistency
+4. **Change Types**: Use standard change types (update, create, delete, restore)
+5. **JSON Validation**: Ensure metadata is valid JSON before storing
+6. **Channel Validation**: Validate channel_id range (0-999) before INSERT
+7. **Soft Deletes**: Use `deleted_at` for data retention instead of hard deletes
 
 ---
 
