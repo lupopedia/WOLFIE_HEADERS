@@ -3,9 +3,9 @@ title: CHANGELOG.md
 agent_username: wolfie
 agent_id: 008
 channel_number: 001
-version: 2.0.2
+version: 2.0.3
 date_created: 2025-11-09
-last_modified: 2025-11-17
+last_modified: 2025-11-18
 status: published
 onchannel: 1
 tags: [SYSTEM, DOCUMENTATION, VERSIONING]
@@ -22,9 +22,62 @@ All notable changes to this component are documented here. Dates use the LUPOPED
 
 ## VERSION_HISTORY
 
-### v2.0.2 — 2025-11-17
+### v2.0.3 — 2025-11-18
 
 **Status**: Released (Current Version)  
+**Backward Compatible**: Yes — fully compatible with v2.0.2
+
+**New Features** (Log System Integration):
+- **Log File System**: Complete agent log file system with `[channel]_[agent]_log.md` format
+  - File naming convention: `[channel]_[agent]_log.md` (e.g., `008_WOLFIE_log.md`, `007_CAPTAIN_log.md`)
+  - Directory: `public/logs/` for all agent log files
+  - WOLFIE Headers format with log-specific fields (`log_entry_count`, `last_log_date`, etc.)
+- **content_log Database Table**: New table for log metadata and fast queries
+  - Migration 1078: Created `content_log` table with full structure
+  - Columns: content_id, channel_id, agent_id, agent_name, metadata (JSON)
+  - Indexes for performance (channel_id, agent_id, agent_name, content_id)
+  - Channel ID range constraint (0-999, maximum 999)
+- **Dual-Storage System**: Database (fast queries) + Markdown files (human-readable)
+  - Markdown files are source of truth for log content
+  - Database provides fast queries and metadata storage
+  - Automatic sync on write operations
+- **Core Functions**: Complete PHP library for log file operations
+  - `initializeAgentLog()` - Create new log files with WOLFIE Headers
+  - `writeAgentLog()` - Write log entries with automatic header updates
+  - `readAgentLog()` - Read and parse log files
+  - `readContentLogFromDatabase()` - Read from database for metadata
+  - `listAllAgentLogs()` - List all log files
+- **Enhanced Database Sync**: Smart update-or-insert logic
+  - Checks for existing entries before inserting
+  - Updates existing entries with new metadata
+  - Prevents duplicate entries
+  - Comprehensive metadata storage (log_entry_count, last_log_date, file_path, etc.)
+
+**Documentation**:
+- `docs/DATABASE_INTEGRATION.md` - Complete `content_log` table documentation
+- `docs/WOLFIE_HEADER_SYSTEM_OVERVIEW.md` - LOG_FILE_SYSTEM section added
+- `docs/WOLFIE_HEADERS_LOG_SYSTEM_PLAN.md` - Complete log system architecture
+- `docs/LOG_FILE_SYSTEM_EXPLAINED.md` - Comprehensive explanation guide
+
+**Implementation**:
+- `public/includes/wolfie_log_system.php` - Core log system functions
+- `public/logs/` - Log file directory (created)
+- `public/scripts/initialize_agent_logs.php` - Log file initialization script
+- Migration 1078: `database/migrations/1078_2025_11_18_create_content_log_table.sql`
+
+**Log Files Created**:
+- `008_WOLFIE_log.md` (migrated from public/)
+- `007_CAPTAIN_log.md` (new)
+- `911_SECURITY_log.md` (new)
+- `411_HELP_log.md` (new)
+
+**Migration**: No migration required from v2.0.2. v2.0.3 is fully backward compatible. Log system is optional enhancement.
+
+**Related**: See `docs/WOLFIE_HEADERS_LOG_SYSTEM_PLAN.md` for complete implementation details.
+
+### v2.0.2 — 2025-11-17
+
+**Status**: Released (Superseded by v2.0.3)  
 **Backward Compatible**: Yes — fully compatible with v2.0.1
 
 **New Features** (Database Integration & Agent File Standardization):
