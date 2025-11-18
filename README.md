@@ -3,14 +3,14 @@ title: README.md
 agent_username: wolfie
 agent_id: 008
 channel_number: 001
-version: 2.0.6
+version: 2.0.8
 date_created: 2025-11-09
 last_modified: 2025-11-18
 status: published
 onchannel: 1
 tags: [SYSTEM, DOCUMENTATION]
 collections: [WHO, WHAT, WHERE, WHEN, WHY, HOW, DO, HACK, OTHER, TAGS]
-in_this_file_we_have: [OVERVIEW, QUICK_START, CORE_CONCEPTS, DIRECTORY_MAP, VERSIONING, DEPENDENCY_CHAIN, V2.0.0_RELEASE, V2.0.1_RELEASE, V2.0.2_RELEASE, V2.0.3_RELEASE, V2.0.4_RELEASE, V2.0.5_RELEASE, SUPPORT]
+in_this_file_we_have: [OVERVIEW, QUICK_START, INSTALLATION, CORE_CONCEPTS, DIRECTORY_MAP, VERSIONING, DEPENDENCY_CHAIN, V2.0.0_RELEASE, V2.0.1_RELEASE, V2.0.2_RELEASE, V2.0.3_RELEASE, V2.0.4_RELEASE, V2.0.5_RELEASE, V2.0.6_RELEASE, V2.0.7_RELEASE, V2.0.8_RELEASE, SUPPORT]
 superpositionally: ["FILEID_WOLFIE_HEADERS_README"]
 shadow_aliases: []
 parallel_paths: []
@@ -18,16 +18,95 @@ parallel_paths: []
 
 # WOLFIE Headers
 
+**Version 2.0.8** (Current Release - 2025-11-18)
+
+---
+
 ## OVERVIEW
 
 WOLFIE Headers is the metadata system that powers LUPOPEDIA's documentation layer. It replaces bulky legacy headers with concise YAML frontmatter plus channel-aware ontology lookups so humans and AI agents read the same files with the right context.
 
-- **Current Version**: v2.0.8 (Current) – **REQUIRED** by LUPOPEDIA_PLATFORM 1.0.0  
-- **Previous Version**: v2.0.5 (Stable) – backward compatible, v2.0.6 adds API endpoints and search  
+### Version Information
+
+- **Current Version**: **v2.0.8** (Released 2025-11-18) – **REQUIRED** by LUPOPEDIA_PLATFORM 1.0.0  
+- **Stable Versions**: v2.0.7, v2.0.6, v2.0.5, v2.0.4, v2.0.3, v2.0.2, v2.0.1 (all backward compatible)  
+- **Minimum Version**: v2.0.0 (required for LUPOPEDIA_PLATFORM)  
 - **Legacy Version**: v1.4.2 (Legacy) – compatible with LUPOPEDIA_PLATFORM v0.0.8 and earlier  
 - **License**: Dual GPL v3.0 + Apache 2.0 (see `LICENSE`).  
-- **Maintainer**: Captain WOLFIE (Eric Robin Gerdes).  
+- **Maintainer**: Captain WOLFIE (Agent 008, Eric Robin Gerdes).  
 - **GitHub**: https://github.com/lupopedia/WOLFIE_HEADERS
+
+### What's New in v2.0.8
+
+**v2.0.8** (Current - Released 2025-11-18) introduces **Shared Hosting Compatibility & Self-Contained Configuration**:
+
+- ✅ **Shared Hosting Compatible**: Uses `SHOW TABLES` and `DESCRIBE` instead of `information_schema` queries
+- ✅ **Self-Contained Configuration**: All configuration in `public/config/` folder
+  - `public/config/database.php` - Database connection configuration
+  - `public/config/system.php` - System configuration with platform detection
+- ✅ **Platform Detection**: Automatic Windows/Linux detection
+- ✅ **Development Flags**: `WOLFIE_BORN_YESTERDAY`, `WOLFIE_DEBUG_MODE`, `WOLFIE_SHARED_HOSTING`
+- ✅ **No Special Privileges**: Works on shared hosting without `information_schema` access
+- ✅ **Easy Deployment**: Just copy `public/` folder and configure
+
+**All previous features from v2.0.0 through v2.0.7 are fully supported and backward compatible.**
+
+## INSTALLATION
+
+### Step 1: Download WOLFIE Headers v2.0.8
+
+- **GitHub Repository**: https://github.com/lupopedia/WOLFIE_HEADERS
+- Download or clone the repository
+- Copy the entire `public/` folder to your LUPOPEDIA installation
+
+### Step 2: Configure Database Connection
+
+Edit `public/config/database.php` and update these values for your environment:
+
+```php
+define('WOLFIE_DB_HOST', 'localhost');      // Your database host
+define('WOLFIE_DB_NAME', 'lupopedia');     // Your database name
+define('WOLFIE_DB_USER', 'your_username'); // Your database username
+define('WOLFIE_DB_PASS', 'your_password'); // Your database password
+define('WOLFIE_DB_CHARSET', 'utf8mb4');    // Character set (usually utf8mb4)
+```
+
+### Step 3: Configure System Settings
+
+Edit `public/config/system.php`:
+
+- For **fresh installations**, set:
+  ```php
+  define('WOLFIE_BORN_YESTERDAY', true);  // Set to true for new installations
+  ```
+- For **shared hosting**, ensure:
+  ```php
+  define('WOLFIE_SHARED_HOSTING', true);  // Set to true if on shared hosting
+  ```
+- Platform detection (Windows/Linux) is **automatic** - no configuration needed
+
+### Step 4: Verify Installation
+
+Test database connection:
+```php
+require_once 'public/config/database.php';
+$db = getWOLFIEDatabaseConnection();
+echo "Database connection successful!";
+```
+
+Check system configuration:
+```php
+require_once 'public/config/system.php';
+echo "WOLFIE Headers Version: " . getWOLFIEHeadersVersion();
+echo "Platform: " . (isWOLFIEWindows() ? "Windows" : "Linux/Unix");
+```
+
+### Step 5: Run Database Migrations
+
+- Run Migration 1078: `database/migrations/1078_2025_11_18_create_content_log_table.sql`
+- Run Migration 1079: `database/migrations/1079_2025_11_18_create_content_logs_table.sql`
+
+These create the required database tables for log tracking.
 
 ## QUICK_START
 
@@ -48,7 +127,7 @@ WOLFIE Headers is the metadata system that powers LUPOPEDIA's documentation laye
 
 - `docs/` – architecture notes, quick starts, reference tables.  
 - `examples/` – ready-to-copy samples demonstrating best practices.  
-- `public/examples/` – v2.0.7 database `_logs` table examples (write, read, discover, API usage).  
+- `public/examples/` – v2.0.7/v2.0.8 database `_logs` table examples (write, read, discover, API usage).  
 - `templates/` – boilerplate YAML frontmatter and agent file templates.  
 - `scripts/` – validation scripts for agent files and migrations.  
 - `CHANGELOG.md` – release history for WOLFIE Headers.  
@@ -69,7 +148,39 @@ WOLFIE Headers is the metadata system that powers LUPOPEDIA's documentation laye
 
 ## VERSIONING
 
-WOLFIE Headers follows semantic versioning. The current release is **v2.0.8**, which is required by LUPOPEDIA_PLATFORM 1.0.0.
+WOLFIE Headers follows semantic versioning. 
+
+### Current Version: v2.0.8
+
+**✅ CURRENT RELEASE**: **v2.0.8** (Released 2025-11-18)  
+**📦 Required By**: LUPOPEDIA_PLATFORM 1.0.0  
+**🚀 Status**: **PRODUCTION-READY** - Fully released and stable
+
+**Key Features in v2.0.8**:
+- ✅ Shared hosting compatibility (SHOW TABLES/DESCRIBE)
+- ✅ Self-contained configuration (`public/config/`)
+- ✅ Platform detection (Windows/Linux automatic)
+- ✅ Development flags (WOLFIE_BORN_YESTERDAY, etc.)
+- ✅ No special database privileges required
+
+### Version History
+
+| Version | Release Date | Status | Key Features |
+|---------|--------------|--------|--------------|
+| **v2.0.8** | 2025-11-18 | ✅ **CURRENT** | Shared hosting compatibility, self-contained config |
+| v2.0.7 | 2025-11-18 | Stable | Database `_logs` table support |
+| v2.0.6 | 2025-11-18 | Stable | API endpoints, search, caching |
+| v2.0.5 | 2025-11-18 | Stable | Log reader system |
+| v2.0.4 | 2025-11-18 | Stable | Agent integration (007, 001, 999) |
+| v2.0.3 | 2025-11-18 | Stable | Log file system |
+| v2.0.2 | 2025-11-18 | Stable | Database integration |
+| v2.0.1 | 2025-11-18 | Stable | Shadow aliases & parallel paths |
+| v2.0.0 | 2025-11-09 | Minimum | Initial 10-section format |
+| v1.4.2 | Legacy | Legacy | Compatible with LUPOPEDIA_PLATFORM v0.0.8 |
+
+**All versions from v2.0.0 through v2.0.8 are backward compatible.**
+
+### Breaking Changes & Migration
 
 **⚠️ BREAKING CHANGES** (v2.0.0 from v1.4.2):
 - New 10-section format (WHO, WHAT, WHERE, WHEN, WHY, HOW, DO, HACK, OTHER, TAGS)
@@ -444,6 +555,23 @@ Crafty Syntax Live Help 3.8.0 (Foundation)
 - **System Overview**: `docs/WOLFIE_HEADER_SYSTEM_OVERVIEW.md` (updated with configuration system)
 
 **Migration**: No database migration required. Update configuration files in `public/config/` for your environment.
+
+**Installation**: See [INSTALLATION](#installation) section above for complete setup instructions.
+
+**Usage Examples**:
+- Discover _logs tables: `public/examples/example_discover_logs_tables.php`
+- Write change logs: `public/examples/example_write_change_log.php`
+- Read change logs: `public/examples/example_read_change_logs.php`
+- API usage: `public/examples/example_api_usage.html`
+
+**Configuration Files**:
+- `public/config/database.php` - Database connection (REQUIRED)
+- `public/config/system.php` - System configuration (REQUIRED)
+
+**Documentation**:
+- **Release Notes**: See `TODO_2.0.8.md` for complete implementation plan
+- **Database Integration**: `docs/DATABASE_INTEGRATION.md` (updated with shared hosting notes)
+- **System Overview**: `docs/WOLFIE_HEADER_SYSTEM_OVERVIEW.md` (updated with configuration system)
 
 ## V2.0.5_RELEASE
 
