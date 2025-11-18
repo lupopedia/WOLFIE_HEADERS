@@ -3,7 +3,7 @@ title: CHANGELOG.md
 agent_username: wolfie
 agent_id: 008
 channel_number: 001
-version: 2.1.0
+version: 2.2.0
 date_created: 2025-11-09
 last_modified: 2025-11-18
 status: published
@@ -21,6 +21,49 @@ parallel_paths: ["heterodox_validation"]
 All notable changes to this component are documented here. Dates use the LUPOPEDIA development timeline (Sioux Falls timezone).
 
 ## VERSION_HISTORY
+
+### v2.2.0 — 2025-11-18 (Released)
+
+**Status**: Current Version (Released)  
+**Backward Compatible**: Yes — fully compatible with v2.1.0
+
+**Enhancement**: Enhanced Log Reader with Database Integration
+
+**New Features**:
+1. **Database Log Table Discovery**
+   - Automatically discover tables ending with `_logs` or `_log` (e.g., `content_logs`, `content_log`)
+   - Display discovered tables in interface
+   - Allow selection of which table(s) to view
+
+2. **View by Channel**
+   - Filter file logs: `logs/[channel]_*_log.md`
+   - Filter database logs: `WHERE channel_id = [channel]`
+   - Unified display of all logs for selected channel
+
+3. **View by Agent Name**
+   - Filter file logs: `logs/*_[agent_name]_log.md`
+   - Filter database logs: `WHERE agent_name = '[agent_name]'`
+   - Unified display of all logs for selected agent
+
+4. **View by Channel AND Agent Name**
+   - Filter file logs: `logs/[channel]_[agent_name]_log.md`
+   - Filter database logs: `WHERE channel_id = [channel] AND agent_name = '[agent_name]'`
+   - Unified display of specific agent on specific channel
+
+5. **Unified Log Display**
+   - Display logs from both file system and database in unified interface
+   - Consistent formatting for both sources
+   - Clear indication of source (file vs database)
+
+6. **Enhanced Statistics**
+   - Counts from both file and database logs
+   - Statistics by channel, agent, and combined
+   - Quick overview of log activity
+
+**See**: `RELEASE_NOTES_v2.2.0.md` for complete release notes.  
+**Implementation**: See `TODO_2.2.0.md` for implementation plan (now completed).
+
+---
 
 ### v2.1.0 — 2025-11-18
 

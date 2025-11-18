@@ -9,13 +9,13 @@
  * WHY: Centralize system configuration for consistency
  * HOW: Defines version, platform detection, development flags
  * 
- * Version: 2.1.0
+ * Version: 2.2.0
  */
 
 // Version Information
-define('WOLFIE_HEADERS_VERSION', '2.1.0');
+define('WOLFIE_HEADERS_VERSION', '2.2.0');
 define('WOLFIE_HEADERS_VERSION_MAJOR', 2);
-define('WOLFIE_HEADERS_VERSION_MINOR', 1);
+define('WOLFIE_HEADERS_VERSION_MINOR', 2);
 define('WOLFIE_HEADERS_VERSION_PATCH', 0);
 
 // Platform Detection
