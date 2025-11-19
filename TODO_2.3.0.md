@@ -21,7 +21,7 @@ parallel_paths: []
 **Status**: Planning Phase (Placeholder)  
 **Target Release**: TBD  
 **Backward Compatible**: TBD  
-**Current Version**: v2.2.2 (Released 2025-11-18)
+**Current Version**: v2.2.2 (Released 2025-11-19)
 
 ---
 
