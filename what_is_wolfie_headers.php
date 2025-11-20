@@ -10,20 +10,23 @@
  */
 
 // Version information
-$version = "2.0.0";
+$version_stable = "2.1.0";
+$version_development = "2.2.2";
 $version_previous = "1.4.2";
-$release_date = "2025-01-27";
+$stable_release_date = "2025-11-18";
+$development_date = "2025-11-19";
 $github_url = "https://github.com/lupopedia/WOLFIE_HEADERS";
 $license = "Dual GPL v3.0 + Apache 2.0";
 $maintainer = "Captain WOLFIE (Eric Robin Gerdes)";
 
 // Required by
-$required_by = "LUPOPEDIA_PLATFORM 1.0.0";
+$required_by = "LUPOPEDIA_PLATFORM 1.0.0 (requires v2.2.2 when complete)";
+$recommended_for = "Production installations (use v2.1.0)";
 
-// Breaking changes
+// Breaking changes (from v1.4.2 to v2.0.0)
 $breaking_changes = [
     "10-Section Format: WHO, WHAT, WHERE, WHEN, WHY, HOW, DO, HACK, OTHER, TAGS",
-    "Required Fields: agent_id, channel_number (000-999), version: 2.0.0",
+    "Required Fields: agent_id, channel_number (000-999), version: 2.0.0+",
     "Agent System Integration: Enhanced integration with LUPOPEDIA agent system",
     "Channel Architecture: Support for channels 000-999 (maximum 999)",
     "Deprecated: HELP collection (use OTHER or WHO instead)",
@@ -54,7 +57,7 @@ $docs = [
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>What is WOLFIE Headers? - Version <?php echo htmlspecialchars($version); ?></title>
+    <title>What is WOLFIE Headers? - Stable: v<?php echo htmlspecialchars($version_stable); ?> | Development: v<?php echo htmlspecialchars($version_development); ?></title>
     <style>
         body {
             font-family: Arial, sans-serif;
@@ -95,6 +98,18 @@ $docs = [
         .breaking {
             background-color: #fff3cd;
             border-left: 4px solid #ffc107;
+            padding: 15px;
+            margin: 15px 0;
+        }
+        .development {
+            background-color: #ffe6e6;
+            border-left: 4px solid #dc3545;
+            padding: 15px;
+            margin: 15px 0;
+        }
+        .stable {
+            background-color: #d4edda;
+            border-left: 4px solid #28a745;
             padding: 15px;
             margin: 15px 0;
         }
@@ -151,12 +166,29 @@ $docs = [
 </head>
 <body>
     <div class="container">
-        <h1>What is WOLFIE Headers? <span class="version-badge">v<?php echo htmlspecialchars($version); ?></span></h1>
+        <h1>What is WOLFIE Headers? <span class="version-badge">Stable: v<?php echo htmlspecialchars($version_stable); ?></span></h1>
+        
+        <div class="stable">
+            <h3>✅ Stable Release: v<?php echo htmlspecialchars($version_stable); ?></h3>
+            <p><strong>Released:</strong> <?php echo htmlspecialchars($stable_release_date); ?><br>
+            <strong>Status:</strong> Production-ready, fully tested<br>
+            <strong>Recommendation:</strong> <strong>Install v<?php echo htmlspecialchars($version_stable); ?> for production use</strong></p>
+        </div>
+
+        <div class="development">
+            <h3>🔧 In Development: v<?php echo htmlspecialchars($version_development); ?></h3>
+            <p><strong>Status:</strong> <strong>NOT READY</strong> - Bugs being fixed<br>
+            <strong>Required By:</strong> LUPOPEDIA_PLATFORM 1.0.0 (when complete)<br>
+            <strong>Dependencies:</strong> Crafty Syntax 3.8.0 + WOLFIE Headers 2.2.2<br>
+            <strong>Recommendation:</strong> <strong>Do NOT install yet</strong> - wait for stable release</p>
+        </div>
         
         <div class="info-box">
-            <strong>Current Version:</strong> v<?php echo htmlspecialchars($version); ?> (Released <?php echo htmlspecialchars($release_date); ?>)<br>
+            <strong>Stable Version:</strong> v<?php echo htmlspecialchars($version_stable); ?> (Released <?php echo htmlspecialchars($stable_release_date); ?>) - <strong>RECOMMENDED</strong><br>
+            <strong>Development Version:</strong> v<?php echo htmlspecialchars($version_development); ?> (<?php echo htmlspecialchars($development_date); ?>) - <strong>NOT READY</strong><br>
             <strong>Previous Version:</strong> v<?php echo htmlspecialchars($version_previous); ?> (Legacy - compatible with LUPOPEDIA_PLATFORM v0.0.8 and earlier)<br>
             <strong>Required By:</strong> <?php echo htmlspecialchars($required_by); ?><br>
+            <strong>Recommended For:</strong> <?php echo htmlspecialchars($recommended_for); ?><br>
             <strong>License:</strong> <?php echo htmlspecialchars($license); ?><br>
             <strong>Maintainer:</strong> <?php echo htmlspecialchars($maintainer); ?><br>
             <strong>GitHub:</strong> <a href="<?php echo htmlspecialchars($github_url); ?>" target="_blank"><?php echo htmlspecialchars($github_url); ?></a>
@@ -178,8 +210,8 @@ $docs = [
         </ul>
 
         <div class="breaking">
-            <h3>⚠️ Breaking Changes in v<?php echo htmlspecialchars($version); ?></h3>
-            <p><strong>v<?php echo htmlspecialchars($version); ?> is NOT backward compatible with v<?php echo htmlspecialchars($version_previous); ?>.</strong> All v<?php echo htmlspecialchars($version_previous); ?> headers must be migrated.</p>
+            <h3>⚠️ Breaking Changes (v2.0.0 from v<?php echo htmlspecialchars($version_previous); ?>)</h3>
+            <p><strong>v2.0.0+ is NOT backward compatible with v<?php echo htmlspecialchars($version_previous); ?>.</strong> All v<?php echo htmlspecialchars($version_previous); ?> headers must be migrated.</p>
             <ul>
                 <?php foreach ($breaking_changes as $change): ?>
                     <li><?php echo htmlspecialchars($change); ?></li>
@@ -188,8 +220,8 @@ $docs = [
             <p><strong>Migration Required:</strong> See <a href="docs/MIGRATION_1.4.2_TO_2.0.0.md">Migration Guide</a> for step-by-step instructions.</p>
         </div>
 
-        <h2>New Collections in v<?php echo htmlspecialchars($version); ?></h2>
-        <p>The following collections are new in v<?php echo htmlspecialchars($version); ?>:</p>
+        <h2>New Collections (v2.0.0+)</h2>
+        <p>The following collections were added in v2.0.0:</p>
         <ul class="collection-list">
             <?php foreach ($new_collections as $collection => $description): ?>
                 <li><strong><?php echo htmlspecialchars($collection); ?>:</strong> <?php echo htmlspecialchars($description); ?></li>
@@ -211,12 +243,12 @@ $docs = [
             <li><strong>TAGS</strong> - Categorization labels (NEW as collection)</li>
         </ul>
 
-        <h2>Required Fields (v<?php echo htmlspecialchars($version); ?>)</h2>
-        <p>The following fields are <strong>REQUIRED</strong> in v<?php echo htmlspecialchars($version); ?> headers:</p>
+        <h2>Required Fields (v2.0.0+)</h2>
+        <p>The following fields are <strong>REQUIRED</strong> in v2.0.0+ headers:</p>
         <ul>
             <li><code>agent_id</code> - Agent identifier (e.g., "008" for WOLFIE)</li>
             <li><code>channel_number</code> - Channel number as zero-padded string (000-999)</li>
-            <li><code>version</code> - Header format version (must be "<?php echo htmlspecialchars($version); ?>")</li>
+            <li><code>version</code> - Header format version (must be "2.0.0" or higher)</li>
             <li><code>title</code> - Document title</li>
             <li><code>date_created</code> - Creation date (YYYY-MM-DD)</li>
             <li><code>last_modified</code> - Last modification date (YYYY-MM-DD)</li>
@@ -238,7 +270,7 @@ $docs = [
         <ol>
             <li>Copy the template in <code>templates/header_template.yaml</code> to the top of any Markdown file</li>
             <li>Pick <code>tags</code> and <code>collections</code> from <code>docs/TAGS_REFERENCE.md</code> and <code>docs/CHANNELS_REFERENCE.md</code></li>
-            <li><strong>v<?php echo htmlspecialchars($version); ?> Required:</strong> Add <code>agent_id</code>, <code>channel_number</code> (zero-padded), and <code>version: <?php echo htmlspecialchars($version); ?></code></li>
+            <li><strong>v2.0.0+ Required:</strong> Add <code>agent_id</code>, <code>channel_number</code> (zero-padded), and <code>version: 2.0.0</code> (or higher)</li>
             <li>List the major sections in <code>in_this_file_we_have</code> so parsers can auto-build a table of contents</li>
             <li>Save the file inside the appropriate channel directory</li>
             <li>Optional: Run the validation checklist in <code>docs/QUICK_START_GUIDE.md</code></li>
@@ -249,21 +281,23 @@ $docs = [
         <pre style="background-color: #f8f9fa; padding: 15px; border-radius: 4px;">
 Crafty Syntax Live Help 3.8.0 (Foundation)
     ↓
-    └─> WOLFIE Headers <?php echo htmlspecialchars($version); ?> (REQUIRED - separate package)
+    └─> WOLFIE Headers v<?php echo htmlspecialchars($version_stable); ?> (RECOMMENDED - stable)
         GitHub: <?php echo htmlspecialchars($github_url); ?>
-        Current: v<?php echo htmlspecialchars($version); ?>
+        Stable: v<?php echo htmlspecialchars($version_stable); ?> (install this)
+        Development: v<?php echo htmlspecialchars($version_development); ?> (not ready yet)
         ↓
         └─> LUPOPEDIA_PLATFORM 1.0.0 (Layer 1)
-            Requires: WOLFIE Headers <?php echo htmlspecialchars($version); ?>
+            Currently: Use WOLFIE Headers v<?php echo htmlspecialchars($version_stable); ?>
+            Future: Will require WOLFIE Headers v<?php echo htmlspecialchars($version_development); ?> (when bugs fixed)
             ↓
             └─> Agent System (Layer 2)
                 Channels: 000-999 (maximum 999)
         </pre>
 
         <div class="footer">
-            <p><strong>WOLFIE Headers v<?php echo htmlspecialchars($version); ?></strong></p>
+            <p><strong>WOLFIE Headers</strong> - Stable: v<?php echo htmlspecialchars($version_stable); ?> | Development: v<?php echo htmlspecialchars($version_development); ?></p>
             <p>© <?php echo date('Y'); ?> Eric Robin Gerdes / LUPOPEDIA LLC — Dual licensed under GPL v3.0 + Apache 2.0.</p>
-            <p>Last Updated: <?php echo htmlspecialchars($release_date); ?></p>
+            <p>Stable Release: <?php echo htmlspecialchars($stable_release_date); ?> | Development: <?php echo htmlspecialchars($development_date); ?></p>
         </div>
     </div>
 </body>

@@ -28,13 +28,16 @@ WOLFIE Headers is the metadata system that powers LUPOPEDIA's documentation laye
 
 ### Version Information
 
-- **Current Version**: **v2.2.2** (Released 2025-11-19) – **REQUIRED** by LUPOPEDIA_PLATFORM 1.0.0  
-- **Previous Stable Versions**: v2.2.1, v2.2.0, v2.1.0, v2.0.9, v2.0.8, v2.0.7, v2.0.6, v2.0.5, v2.0.4, v2.0.3, v2.0.2, v2.0.1 (all backward compatible)  
+- **Stable Release**: **v2.1.0** (Released 2025-11-18) – **RECOMMENDED** for installation  
+- **In Development**: **v2.2.2** (2025-11-19) – **NOT READY** (bugs being fixed, required for LUPOPEDIA_PLATFORM when complete)  
+- **Previous Stable Versions**: v2.0.9, v2.0.8, v2.0.7, v2.0.6, v2.0.5, v2.0.4, v2.0.3, v2.0.2, v2.0.1 (all backward compatible)  
 - **Minimum Version**: v2.0.0 (required for LUPOPEDIA_PLATFORM)  
 - **Legacy Version**: v1.4.2 (Legacy) – compatible with LUPOPEDIA_PLATFORM v0.0.8 and earlier  
 - **License**: Dual GPL v3.0 + Apache 2.0 (see `LICENSE`).  
 - **Maintainer**: Captain WOLFIE (Agent 008, Eric Robin Gerdes).  
 - **GitHub**: https://github.com/lupopedia/WOLFIE_HEADERS
+
+**⚠️ Installation Recommendation**: Install **v2.1.0** (stable) while v2.2.2 is being finalized. v2.2.2 will be required for LUPOPEDIA_PLATFORM when all bugs are fixed.
 
 ### What's New in v2.2.2
 
@@ -224,11 +227,15 @@ WOLFIE Headers has **three distinct systems** for tracking and organizing inform
 
 WOLFIE Headers follows semantic versioning. 
 
-### Current Version: v2.2.2
+### Current Versions
 
-**✅ CURRENT RELEASE**: **v2.2.2** (Released 2025-11-19)  
-**📦 Required By**: LUPOPEDIA_PLATFORM 1.0.0  
-**🚀 Status**: **PRODUCTION-READY** - Fully released and stable
+**✅ STABLE RELEASE**: **v2.1.0** (Released 2025-11-18)  
+**📦 Recommended For**: Production installations  
+**🚀 Status**: **PRODUCTION-READY** - Fully tested and stable
+
+**🔧 IN DEVELOPMENT**: **v2.2.2** (2025-11-19)  
+**📦 Required By**: LUPOPEDIA_PLATFORM 1.0.0 (when complete)  
+**⚠️ Status**: **NOT READY** - Bugs being fixed, do not install yet
 
 **Key Features in v2.2.2**:
 - ✅ Advanced Search (full-text keyword search across logs)
@@ -354,19 +361,25 @@ WOLFIE Headers follows semantic versioning.
 ```
 Crafty Syntax Live Help 3.8.0 (Foundation)
     ↓
-    └─> WOLFIE Headers 2.0.0+ (REQUIRED - separate package)
+    └─> WOLFIE Headers 2.1.0 (RECOMMENDED - stable release)
         GitHub: https://github.com/lupopedia/WOLFIE_HEADERS
-        Current: v2.0.5 (v2.0.4 stable, v2.0.3 stable, v2.0.2 stable, v2.0.1 stable, v2.0.0 minimum)
+        Stable: v2.1.0 (recommended for installation)
+        In Development: v2.2.2 (required for LUPOPEDIA_PLATFORM when complete)
         ↓
         └─> LUPOPEDIA_PLATFORM 1.0.0 (Layer 1)
             GitHub: https://github.com/lupopedia/LUPOPEDIA_PLATFORM
-            Requires: WOLFIE Headers 2.0.0+ (v2.0.5 recommended, v2.0.4 stable)
+            Currently Requires: WOLFIE Headers 2.1.0 (stable)
+            Future Requires: WOLFIE Headers 2.2.2 (when bugs fixed)
             ↓
             └─> Agent System (Layer 2)
                 Channels: 000-999 (maximum 999)
 ```
 
-**Why This Matters**: LUPOPEDIA_PLATFORM 1.0.0 **REQUIRES** WOLFIE Headers 2.0.0 or higher (v2.0.2 recommended, v2.0.1 stable). WOLFIE Headers is a **separate package** and must be installed independently.
+**Why This Matters**: 
+- **For Production**: Install **WOLFIE Headers v2.1.0** (stable, recommended)
+- **For LUPOPEDIA_PLATFORM**: v2.2.2 will be required when all bugs are fixed
+- **Dependencies**: LUPOPEDIA_PLATFORM requires Crafty Syntax 3.8.0 + WOLFIE Headers 2.2.2 (when ready)
+- WOLFIE Headers is a **separate package** and must be installed independently
 
 ## V2.0.0_RELEASE
 
