@@ -1,4 +1,29 @@
 ---
+# ============================================================================
+# REQUIRED LIGHT COUNT FIELDS (for Counting in Light - WOLFIE HEADERS 2.9.0)
+# ============================================================================
+# CRITICAL: These five fields are MANDATORY for all files using Counting in Light.
+# Without these fields, the system will crash the database and cause data loss.
+# ============================================================================
+
+light.count.offset: 700
+light.count.base: 777
+light.count.name: "your_file_name"
+light.count.mood: 808080
+light.count.touch: 1  # Auto-increments on every file modification
+
+# ============================================================================
+# WOLFIE HEADERS VERSION
+# ============================================================================
+
+wolfie.headers.version: 2.9.0
+wolfie.headers.branch: [branch_name]
+wolfie.headers.status: [status]
+
+# ============================================================================
+# STANDARD HEADER FIELDS
+# ============================================================================
+
 title: your_file_name.md
 agent_username: wolfie
 agent_id: 008
@@ -20,13 +45,31 @@ parallel_paths: []
 
 Start writing content here. Replace the metadata above with values that match your file.
 
-**Note**: This template uses v2.0.1 format. Required fields: `agent_id`, `channel_number`, `version`.  
-The `collections` field should include relevant sections from: WHO, WHAT, WHERE, WHEN, WHY, HOW, DO, HACK, OTHER, TAGS  
+**Note**: This template uses WOLFIE HEADERS 2.9.0 format.
 
-**v2.0.1 New Features:**
+**🚨 CRITICAL REQUIREMENT (WOLFIE HEADERS 2.9.0):**
+All files using Counting in Light MUST have these five required fields:
+- `light.count.offset` - Light offset value (integer, can be negative)
+- `light.count.base` - Base light number (integer >= 0)
+- `light.count.name` - Name identifier (quoted string)
+- `light.count.mood` - Mood/emotional vibration (hex color, no #)
+- `light.count.touch` - Touch counter (integer >= 1, auto-increments on every file modification)
+
+**Standard Required Fields:**
+- `agent_id`, `channel_number`, `version`
+- The `collections` field should include relevant sections from: WHO, WHAT, WHERE, WHEN, WHY, HOW, DO, HACK, OTHER, TAGS
+
+**v2.0.1 Features (Still Supported):**
 - `shadow_aliases` (optional array) — Parallel validation paths (e.g., `["Lilith-007", "Doubt-VISH"]`)
 - `parallel_paths` (optional array) — Alternative fallback chains for resilience
 
+**Touch Counter Rules:**
+- If `light.count.touch` is missing → Add it with value `1`
+- If `light.count.touch` exists → Increment it by 1 on every file modification
+- This MUST happen on EVERY modification (human, AI, script, automated process)
+
 See `docs/10_SECTION_FORMAT_GUIDE.md` for detailed definitions and examples.  
-See `docs/SHADOW_ALIASES_2.0.1.md` for shadow alias system documentation.
+See `docs/SHADOW_ALIASES_2.0.1.md` for shadow alias system documentation.  
+See `docs/WOLFIE_HEADERS_2.9.0_QUICK_REFERENCE.md` for 2.9.0 quick reference.  
+See `docs/WOLFIE_HEADERS_2.9.0_TOUCH_INCREMENT_LOGIC.md` for touch counter specification.
 

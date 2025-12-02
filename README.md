@@ -1,11 +1,25 @@
 ---
+light.count.offset: 700
+light.count.base: 777
+light.count.name: "wolfie headers readme"
+light.count.mood: 808080
+light.count.touch: 1
+light.count.touch.status: "estimated"
+light.count.touch.recovery_method: "default"
+light.count.touch.recovery_date: "20251130000000"
+light.count.touch.needs_review: true
+
+wolfie.headers.version: 2.9.0
+wolfie.headers.branch: emergency
+wolfie.headers.status: published
+
 title: README.md
 agent_username: wolfie
 agent_id: 008
 channel_number: 001
-version: 2.2.2
+version: 2.3.0
 date_created: 2025-11-09
-last_modified: 2025-11-19
+last_modified: 2025-11-20
 status: published
 onchannel: 1
 tags: [SYSTEM, DOCUMENTATION]
@@ -18,7 +32,8 @@ parallel_paths: []
 
 # WOLFIE Headers
 
-**Version 2.2.2** (Current Release - 2025-11-19)
+**Version 2.8.4** (Current Stable - 2025-11-30)  
+**Version 2.9.0** (Emergency - In Development - 2025-12-01, ~40% Complete)
 
 ---
 
@@ -28,16 +43,55 @@ WOLFIE Headers is the metadata system that powers LUPOPEDIA's documentation laye
 
 ### Version Information
 
-- **Stable Release**: **v2.1.0** (Released 2025-11-18) – **RECOMMENDED** for installation  
-- **In Development**: **v2.2.2** (2025-11-19) – **NOT READY** (bugs being fixed, required for LUPOPEDIA_PLATFORM when complete)  
-- **Previous Stable Versions**: v2.0.9, v2.0.8, v2.0.7, v2.0.6, v2.0.5, v2.0.4, v2.0.3, v2.0.2, v2.0.1 (all backward compatible)  
+- **🚨 EMERGENCY**: **v2.9.0** (2025-12-01) – **IN DEVELOPMENT** (~40% Complete) - Critical blocker for Counting in Light  
+- **Current Stable**: **v2.8.4** (2025-11-30) – **CURRENT** - Working towards v2.9.0  
+- **Mutating**: **v2.3.0** (2025-11-20) – **95% Complete** (validating crossover rates, evolutionary strategies)  
+- **Previous Stable Release**: **v2.1.0** (Released 2025-11-18)  
+- **In Development**: **v2.2.2** (2025-11-19) – Bug fixes in progress  
+- **Previous Stable Versions**: v2.2.0, v2.1.0, v2.0.9, v2.0.8, v2.0.7, v2.0.6, v2.0.5, v2.0.4, v2.0.3, v2.0.2, v2.0.1 (all backward compatible)  
 - **Minimum Version**: v2.0.0 (required for LUPOPEDIA_PLATFORM)  
 - **Legacy Version**: v1.4.2 (Legacy) – compatible with LUPOPEDIA_PLATFORM v0.0.8 and earlier  
 - **License**: Dual GPL v3.0 + Apache 2.0 (see `LICENSE`).  
-- **Maintainer**: Captain WOLFIE (Agent 008, Eric Robin Gerdes).  
+- **Maintainer**: Captain WOLFIE (Agent 008, Eric Robin Gerdes) / LILITH (Agent 777)  
 - **GitHub**: https://github.com/lupopedia/WOLFIE_HEADERS
 
-**⚠️ Installation Recommendation**: Install **v2.1.0** (stable) while v2.2.2 is being finalized. v2.2.2 will be required for LUPOPEDIA_PLATFORM when all bugs are fixed.
+**⚠️ CRITICAL WARNING**: 
+- **DO NOT USE COUNTING IN LIGHT** without WOLFIE HEADERS 2.9.0
+- **Current Status**: v2.8.4 → v2.9.0 transition in progress (~40% complete)
+- **Production**: Use **v2.8.4** (current stable) until v2.9.0 is complete
+- **Development**: Working on **v2.9.0** (emergency) - required for Counting in Light
+- **Progress**: Documentation ~90% complete, public pages updated, validation/migration scripts pending
+- **Evolutionary System**: v2.3.0 required for LUPOPEDIA Platform 4.0.0 (evolutionary arena - fork of Crafty Syntax 4.0.0)
+
+### What's New in v2.3.0 (LILITH's Evolution)
+
+**v2.3.0** (Mutating 2025-11-20) introduces **evolutionary strategies for metadata evolution**:
+- 🔧 **Metadata Evolution**: Headers mutate for efficiency, selected by analytics fitness
+- 🔧 **Self-Healing Mutations**: Automated bug fixes via evolutionary strategies
+- 🔧 **Genetic Algorithm Integration**: Crossover and mutation operations for header optimization
+- 🔧 **Analytics-Driven Selection**: Performance metrics drive evolutionary pressure
+- 🔧 **Multi-Objective Optimization**: Balance efficiency, accuracy, and compatibility
+- ⏳ **Crossover Rate Validation**: Optimizing for 20-30% crossover rate (in progress)
+
+**LILITH's Transformation**: Version 2.3.0 transforms static metadata into evolvable configurations. Headers don't just store data—they evolve, breed, and self-optimize. Bug fixes aren't patched manually; they're evolved through reflective mutations. This is real computer genetics applied to metadata management.
+
+**Integration**: 
+- **Crafty Syntax 4.0.0**: GA-optimized integration (parent fork)
+- **LUPOPEDIA Platform 4.0.0**: Evolutionary arena coordination (fork of Crafty Syntax 4.0.0)
+- **Evo 2 Concepts**: Semantic header autocomplete
+- **Darwin Gödel Machine**: Reflective mutation system
+
+**Fork Lineage**: LUPOPEDIA 4.0.0 is the evolutionary fork of Crafty Syntax 4.0.0, maintaining genetic continuity through version inheritance. This reflects the actual fork tree: Crafty Syntax 3.7.5 → Crafty Syntax 4.0.0 → LUPOPEDIA 4.0.0 (fork).
+
+**Evolutionary Branching System**:
+- Branch naming: `{channel}-{agent}-{base_version}-{mutation_hash}`
+- Headers evolve through genetic lineages
+- Fitness-based merge decisions
+- Integration with LUPOPEDIA Platform evolutionary arena
+
+**See**: `RELEASE_NOTES_v2.3.0.md` for complete release notes (when available).  
+**See**: `docs/EVOLUTIONARY_BRANCHING_SYSTEM.md` for complete branching system documentation.  
+**Status**: 95% Complete - Validating crossover rates before release.
 
 ### What's New in v2.2.2
 
@@ -233,6 +287,17 @@ WOLFIE Headers follows semantic versioning.
 **📦 Recommended For**: Production installations  
 **🚀 Status**: **PRODUCTION-READY** - Fully tested and stable
 
+**🔧 MUTATING**: **v2.3.0** (2025-11-20)  
+**📦 Required By**: LUPOPEDIA_PLATFORM 4.0.0 (evolutionary arena - fork of Crafty Syntax 4.0.0)  
+**⚠️ Status**: **95% COMPLETE** - Validating crossover rates, evolutionary strategies
+
+**Key Features in v2.3.0**:
+- 🔧 Evolutionary Metadata System (headers evolve via ES)
+- 🔧 Self-Healing Mutations (automated bug fixes)
+- 🔧 Genetic Algorithm Integration (crossover, mutation, selection)
+- 🔧 Analytics-Driven Evolution (performance metrics drive selection)
+- 🔧 Evolutionary Branching System (version control as genetic lineage)
+
 **🔧 IN DEVELOPMENT**: **v2.2.2** (2025-11-19)  
 **📦 Required By**: LUPOPEDIA_PLATFORM 1.0.0 (when complete)  
 **⚠️ Status**: **NOT READY** - Bugs being fixed, do not install yet
@@ -264,6 +329,7 @@ WOLFIE Headers follows semantic versioning.
 
 | Version | Release Date | Status | Key Features |
 |---------|--------------|--------|--------------|
+| **v2.3.0** | 2025-11-20 | 🔧 **MUTATING** | Evolutionary strategies, branching system, self-healing mutations |
 | **v2.2.2** | 2025-11-19 | ✅ **CURRENT** | Advanced search, export, analytics dashboard |
 | **v2.2.0** | 2025-11-18 | Stable | Enhanced log reader with database integration |
 | **v2.1.0** | 2025-11-18 | Stable | API consistency, error handling, user onboarding |

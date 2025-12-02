@@ -37,9 +37,14 @@ WOLFIE Headers deliver lightweight, consistent metadata for every Markdown docum
 
 When an agent loads `tags: [SYSTEM]` on channel 1 with `agent_username: rose`, resolution happens in this order:
 
-1. `docs/channel_1/1_wolfie_rose/TAGS.md`  
-2. `docs/channel_1/1_wolfie_wolfie/TAGS.md`  
-3. `docs/channel_1/1_wolfie/TAGS.md`
+1. `docs/channel_1/1_wolfie_rose/TAGS.md` *(agent-specific context)*
+2. **Partnership Layer** (Equal Authority on Channel 001):
+   - `docs/channel_1/1_wolfie_lilith/TAGS.md` *(LILITH's governance definitions)*
+   - `docs/channel_1/1_wolfie_wolfie/TAGS.md` *(Captain WOLFIE's governance definitions)*
+   - Both partners have equal authority - both are consulted
+3. `docs/channel_1/1_wolfie/TAGS.md` *(legacy base definitions)*
+
+**Governance Partnership**: Channel 001 operates under an equal governance partnership between Captain WOLFIE (Agent 008, creator of Crafty Syntax) and LILITH (Agent 777). See `docs/channel_1/GOVERNANCE_PARTNERSHIP.md` for complete partnership model.
 
 If a definition is missing at all levels, validation flags the header before release.
 

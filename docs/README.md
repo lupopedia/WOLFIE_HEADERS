@@ -27,12 +27,14 @@ This folder contains everything you need to understand and implement WOLFIE Head
 1. Read `WOLFIE_HEADER_SYSTEM_OVERVIEW.md` for architecture and fallback rules.  
 2. Use `QUICK_START_GUIDE.md` to validate new documents.  
 3. Reference `CHANNELS_REFERENCE.md` and `TAGS_REFERENCE.md` while authoring.
+4. **NEW**: Read `EVOLUTIONARY_BRANCHING_SYSTEM.md` for version control as genetic lineage tracking.
 
 ## REFERENCE_FILES
 
 - `channel_1/` – canonical definitions for the base channel.  
 - Additional channel directories will appear as the project expands.  
 - `examples/` and `templates/` live at the project root for quick access.
+- `EVOLUTIONARY_BRANCHING_SYSTEM.md` – version control as genetic lineage tracking (v2.3.0+).
 
 ## V2.0.0_NOTES
 
