@@ -1,0 +1,41 @@
+{
+  "name": "wolfie-headers",
+  "version": "2.9.2",
+  "description": "YAML frontmatter parser and tracker for Wolfie Headers system - tracks collections, tags, file contents, channels, and Counting in Light",
+  "main": "index.js",
+  "scripts": {
+    "test": "node test.js",
+    "validate": "node validate.js"
+  },
+  "dependencies": {
+    "js-yaml": "4.1.0",
+    "glob": "10.3.10"
+  },
+  "keywords": [
+    "wolfie-headers",
+    "yaml",
+    "frontmatter",
+    "metadata",
+    "tracking",
+    "counting-in-light",
+    "ai-coordination",
+    "lupopedia"
+  ],
+  "author": "Eric Robin Gerdes (Captain WOLFIE)",
+  "license": "GPL-3.0 OR Apache-2.0",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/lupopedia/wolfie_headers.git"
+  },
+  "files": [
+    "index.js",
+    "validate.js",
+    "test.js",
+    "php-compat.php",
+    "organize.js",
+    "README.md",
+    "CHANGELOG.md",
+    "LICENSE"
+  ]
+}
+
