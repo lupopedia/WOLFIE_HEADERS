@@ -10,18 +10,19 @@
  */
 
 // Version information
-$version_stable = "2.1.0";
-$version_development = "2.2.2";
-$version_previous = "1.4.2";
-$stable_release_date = "2025-11-18";
-$development_date = "2025-11-19";
+$version_stable = "2.9.2";
+$version_development = "2.9.3";
+$version_previous = "2.9.0";
+$stable_release_date = "2025-12-06";
+$development_date = "2025-12-07";
 $github_url = "https://github.com/lupopedia/WOLFIE_HEADERS";
+$npm_package = "wolfie-headers";
 $license = "Dual GPL v3.0 + Apache 2.0";
 $maintainer = "Captain WOLFIE (Eric Robin Gerdes)";
 
 // Required by
-$required_by = "LUPOPEDIA_PLATFORM 1.0.0 (requires v2.2.2 when complete)";
-$recommended_for = "Production installations (use v2.1.0)";
+$required_by = "crafty_syntax@3.8.0 → lupopedia@4.1.0 (dependency chain)";
+$recommended_for = "Production installations (use v2.9.2 via npm)";
 
 // Breaking changes (from v1.4.2 to v2.0.0)
 $breaking_changes = [
@@ -199,14 +200,26 @@ $docs = [
             WOLFIE Headers is the metadata system that powers LUPOPEDIA's documentation layer. It replaces bulky legacy headers with concise YAML frontmatter plus channel-aware ontology lookups so humans and AI agents read the same files with the right context.
         </p>
 
+        <div class="stable" style="margin-top: 20px;">
+            <h3>📦 npm Package Available</h3>
+            <p><strong>Install via npm:</strong> <code>npm install wolfie-headers@2.9.2</code><br>
+            <strong>Package Name:</strong> <?php echo htmlspecialchars($npm_package); ?><br>
+            <strong>Version:</strong> 2.9.2<br>
+            <strong>Registry:</strong> <a href="https://www.npmjs.com/package/wolfie-headers" target="_blank">npmjs.com/package/wolfie-headers</a></p>
+        </div>
+
         <h2>Key Features</h2>
         <ul>
+            <li><strong>Universal Header Schema:</strong> Headers embedded as static metadata in comment blocks (Python, PHP, Markdown, JS) - portable and language-agnostic</li>
+            <li><strong>npm Package:</strong> JavaScript tracker for parsing, validation, and tracking (collections, tags, channels, Counting in Light)</li>
             <li><strong>YAML Frontmatter:</strong> Lightweight metadata at the top of each Markdown file</li>
             <li><strong>Channel Architecture:</strong> Documentation organized by channels (1_wolfie, 2_database, etc.)</li>
             <li><strong>Agent Overlays:</strong> Persona-specific vocab without copying files</li>
             <li><strong>Source-of-Truth References:</strong> Centralized tag/collection definitions</li>
             <li><strong>Fallback Philosophy:</strong> "Always works" design - graceful fallback to base definitions</li>
             <li><strong>10-Section Format:</strong> Standardized collections (WHO, WHAT, WHERE, WHEN, WHY, HOW, DO, HACK, OTHER, TAGS)</li>
+            <li><strong>Counting in Light:</strong> 5D resonance calculation with RGB coordinates and resonance levels</li>
+            <li><strong>Tracking System:</strong> Centralized index of collections, tags, file contents, channels, and light counts</li>
         </ul>
 
         <div class="breaking">
@@ -276,22 +289,64 @@ $docs = [
             <li>Optional: Run the validation checklist in <code>docs/QUICK_START_GUIDE.md</code></li>
         </ol>
 
+        <h2>What's New in v2.9.2</h2>
+        <div class="info-box">
+            <h3>🚀 v2.9.2 Features (December 6, 2025)</h3>
+            <ul>
+                <li><strong>Universal Header Schema:</strong> Headers work in Python, PHP, Markdown, JavaScript - embedded as static comment blocks</li>
+                <li><strong>npm Package:</strong> Install via <code>npm install wolfie-headers@2.9.2</code> - JavaScript tracker with parsing and validation</li>
+                <li><strong>Tracking System:</strong> Centralized index tracking collections, tags, file contents, channels, and Counting in Light fields</li>
+                <li><strong>5D Resonance:</strong> Full resonance calculation formula (RGB distance + base/real + imag) with resonance levels</li>
+                <li><strong>Enhanced Validation:</strong> Comprehensive validation with warn mode for legacy files</li>
+                <li><strong>PHP Compatibility Bridge:</strong> PHP wrapper for WOLFITH migration analysis</li>
+                <li><strong>Multi-File Type Support:</strong> Parses headers from .md, .py, .php, .js, .ts files</li>
+            </ul>
+        </div>
+
+        <h2>Universal Header Schema</h2>
+        <p>v2.9.2 introduces the Universal Header Schema - headers embedded as static metadata in comment blocks, making them portable and language-agnostic:</p>
+        <div class="info-box">
+            <h3>Example: Python File</h3>
+            <pre style="background-color: #1e293b; color: #fca5a5; padding: 15px; border-radius: 4px; overflow-x: auto;"><code># ---
+# wolfie.headers.version: 2.9.2
+# context.what.parent: "Counting in Light"
+# context.what.child: "Validation Protocols"
+# light.count.base: 777
+# light.count.mood: 00BFFF
+# ---</code></pre>
+        </div>
+        <div class="info-box">
+            <h3>Example: PHP File</h3>
+            <pre style="background-color: #1e293b; color: #fca5a5; padding: 15px; border-radius: 4px; overflow-x: auto;"><code>&lt;?php
+/*
+---
+wolfie.headers.version: 2.9.2
+context.what.parent: "Counting in Light"
+light.count.base: 777
+---
+*/
+?&gt;</code></pre>
+        </div>
+        <div class="info-box">
+            <h3>Example: Markdown File</h3>
+            <pre style="background-color: #1e293b; color: #fca5a5; padding: 15px; border-radius: 4px; overflow-x: auto;"><code>---
+wolfie.headers.version: 2.9.2
+context.what.parent: "Counting in Light"
+light.count.base: 777
+---</code></pre>
+        </div>
+
         <h2>Dependency Chain</h2>
-        <p>WOLFIE Headers is a required dependency for LUPOPEDIA_PLATFORM:</p>
+        <p>WOLFIE Headers is a required dependency for the LUPOPEDIA ecosystem:</p>
         <pre style="background-color: #f8f9fa; padding: 15px; border-radius: 4px;">
-Crafty Syntax Live Help 3.8.0 (Foundation)
+wolfie-headers@2.9.2 (npm package)
+    GitHub: <?php echo htmlspecialchars($github_url); ?>
+    npm: npm install wolfie-headers@2.9.2
     ↓
-    └─> WOLFIE Headers v<?php echo htmlspecialchars($version_stable); ?> (RECOMMENDED - stable)
-        GitHub: <?php echo htmlspecialchars($github_url); ?>
-        Stable: v<?php echo htmlspecialchars($version_stable); ?> (install this)
-        Development: v<?php echo htmlspecialchars($version_development); ?> (not ready yet)
+    └─> crafty-syntax@3.8.0 (depends on wolfie-headers@2.9.2)
         ↓
-        └─> LUPOPEDIA_PLATFORM 1.0.0 (Layer 1)
-            Currently: Use WOLFIE Headers v<?php echo htmlspecialchars($version_stable); ?>
-            Future: Will require WOLFIE Headers v<?php echo htmlspecialchars($version_development); ?> (when bugs fixed)
-            ↓
-            └─> Agent System (Layer 2)
-                Channels: 000-999 (maximum 999)
+        └─> lupopedia@4.1.0 (depends on crafty-syntax@3.8.0)
+            Channels: 000-999 (maximum 999)
         </pre>
 
         <div class="footer">

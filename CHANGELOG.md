@@ -3,25 +3,24 @@ light.count.offset: 700
 light.count.base: 777
 light.count.name: "wolfie headers changelog"
 light.count.mood: 808080
-light.count.touch: 3
-light.count.touch.status: "confirmed"
-light.count.touch.recovery_method: "manual_update"
-light.count.touch.recovery_date: "20251202124731"
-light.count.touch.needs_review: false
+light.count.touch: 4
 
-wolfie.headers.version: 2.9.0
-wolfie.headers.branch: emergency
+wolfie.headers.version: 2.9.2
+wolfie.headers.branch: production
 wolfie.headers.status: published
+
+context.what.parent: "Counting in Light"
+context.what.child: "Version History"
 
 title: CHANGELOG.md
 agent_username: wolfie
 agent_id: 008
 channel_number: 001
-version: 2.3.0
+version: 2.9.2
 date_created: 2025-11-09
-last_modified: 2025-12-02
+last_modified: 2025-12-10
 status: published
-onchannel: 1
+channel_mood: 9370DB
 tags: [SYSTEM, DOCUMENTATION, VERSIONING]
 collections: [WHO, WHAT, WHERE, WHEN, WHY, HOW, DO, HACK, OTHER]
 in_this_file_we_have: [VERSION_HISTORY, NOTES, THREE_LOG_SYSTEMS, V2.1.0_RELEASE]
@@ -35,6 +34,59 @@ parallel_paths: ["heterodox_validation"]
 All notable changes to this component are documented here. Dates use the LUPOPEDIA development timeline (Sioux Falls timezone).
 
 ## VERSION_HISTORY
+
+### v2.9.2 — 2025-12-10 (Stable - Minimal Viable Release)
+
+**Status**: ✅ **STABLE** - Published to npm  
+**Backward Compatible**: Yes — fully compatible with v2.9.0 and v2.8.4  
+**⚠️ Installation**: **Use v2.9.2** for all new projects via `npm install wolfie-headers@2.9.2`  
+**Required By**: crafty_syntax@3.8.0 → lupopedia@4.1.0 (dependency chain)  
+**Progress**: ✅ Complete - Minimal viable release published
+
+**Purpose**: Unblock dependency chain with minimal viable npm package for WOLFIE Headers 2.9.2.
+
+**New Features**:
+1. **npm Package Published** - Available as `wolfie-headers@2.9.2`
+2. **Universal Header Schema** - Headers embedded as static metadata in comment blocks (Python, PHP, Markdown, JavaScript)
+3. **JavaScript Tracker Module** - `WolfieHeadersTracker` class for scanning and tracking files
+4. **Multi-Format File Scanner** - Supports .md, .py, .php, .js, .ts files
+5. **Basic Validation** - `validate.js` script with warn mode for legacy files
+6. **5D Resonance Calculation** - Full formula (RGB distance + base/real + imag) with resonance levels
+7. **Comment Block Parsing** - Parses headers from Python `# ---`, PHP `/*---*/`, Markdown `---`, JavaScript `/*---*/`
+
+**Core Files**:
+- `index.js` - Main tracker module (`WolfieHeadersTracker` class)
+- `validate.js` - Validation script for CI/CD
+- `package.json` - npm package configuration (version 2.9.2)
+- `test.js` - Test script for tracker
+- `README.md` - Updated to show v2.9.2 as stable
+
+**Installation**:
+```bash
+npm install wolfie-headers@2.9.2
+```
+
+**Usage**:
+```javascript
+const Tracker = require('wolfie-headers');
+const tracker = new Tracker('./docs');
+const data = tracker.scan();
+console.log(tracker.getReport());
+```
+
+**Future Enhancements** (Planned for v2.9.3):
+- Agent coordination metrics tracking
+- Channel mood standardization (deprecate `onchannel`)
+- Light dictionary integration
+- Peer network awareness
+- Security metrics
+- Full validation/migration scripts
+- Database integration
+
+**See**: `RELEASE_NOTES_v2.9.2.md` for complete release notes  
+**See**: `TODO_2.9.3.md` for planned future features
+
+---
 
 ### v2.9.0 — 2025-11-30 (Emergency - Counting in Light Critical Fix)
 
