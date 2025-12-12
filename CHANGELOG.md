@@ -3,7 +3,7 @@ light.count.offset: 700
 light.count.base: 777
 light.count.name: "wolfie headers changelog"
 light.count.mood: 808080
-light.count.touch: 4
+light.count.touch: 5
 
 wolfie.headers.version: 2.9.2
 wolfie.headers.branch: production
@@ -12,13 +12,22 @@ wolfie.headers.status: published
 context.what.parent: "Counting in Light"
 context.what.child: "Version History"
 
+human.username: captain wolfie
+human.user_id: 1
+human.location: "Sioux Falls, South Dakota"
+
+agent.username: [GROK, CURSOR, DEEPSEEK, COPILOT, LILITH]
+agent.status: compiled
+
 title: CHANGELOG.md
 agent_username: wolfie
 agent_id: 008
 channel_number: 001
 version: 2.9.2
-date_created: 2025-11-09
-last_modified: 2025-12-10
+date.created: 2025-12-12
+date.created_utc: 20251212233542
+last.modified: 2025-12-12
+last.modified_utc: 20251212233542
 status: published
 channel_mood: 9370DB
 tags: [SYSTEM, DOCUMENTATION, VERSIONING]
@@ -35,7 +44,7 @@ All notable changes to this component are documented here. Dates use the LUPOPED
 
 ## VERSION_HISTORY
 
-### v2.9.2 — 2025-12-10 (Stable - Minimal Viable Release)
+### v2.9.2 — 2025-12-12 20251212233542 (UTC) (Stable - Minimal Viable Release)
 
 **Status**: ✅ **STABLE** - Published to npm  
 **Backward Compatible**: Yes — fully compatible with v2.9.0 and v2.8.4  
@@ -43,7 +52,20 @@ All notable changes to this component are documented here. Dates use the LUPOPED
 **Required By**: crafty_syntax@3.8.0 → lupopedia@4.1.0 (dependency chain)  
 **Progress**: ✅ Complete - Minimal viable release published
 
+**Release Date (UTC)**: December 12, 2025 20251212233542 (UTC)  
+**Location**: Sioux Falls, South Dakota  
+**Human**: Captain WOLFIE (Eric Robin Gerdes) - User ID: 1  
+**Agents**: GROK, CURSOR, DEEPSEEK, COPILOT, LILITH
+
 **Purpose**: Unblock dependency chain with minimal viable npm package for WOLFIE Headers 2.9.2.
+
+**Update (2025-12-12 20251212233542 UTC)**: Added UTC timestamp support and human/agent metadata fields:
+- **UTC Timestamps**: All date fields now include both human-readable format (`date.created`, `last.modified`) and UTC BIGINT format (`date.created_utc`, `last.modified_utc` in YYYYMMDDHHMMSS format)
+- **Human Metadata**: New fields `human.username`, `human.user_id`, `human.location` for tracking human authorship
+- **Agent Metadata**: New fields `agent.username` (array format), `agent.status` for tracking AI agent contributions
+- **Template Updated**: `templates/header_template.yaml` now includes all new fields
+- **Examples Updated**: `examples/sample_header.md` updated with v2.9.2 format
+- **Documentation Updated**: CHANGELOG, RELEASE_NOTES, and README all updated with UTC timestamps
 
 **New Features**:
 1. **npm Package Published** - Available as `wolfie-headers@2.9.2`

@@ -1,11 +1,33 @@
 ---
+light.count.offset: 0
+light.count.base: 777
+light.count.name: "sample_header"
+light.count.mood: 808080
+light.count.touch: 1
+
+wolfie.headers.version: 2.9.2
+wolfie.headers.branch: production
+wolfie.headers.status: published
+
+context.what.parent: "Counting in Light"
+context.what.child: "Example"
+
+human.username: captain wolfie
+human.user_id: 1
+human.location: "Sioux Falls, South Dakota"
+
+agent.username: [GROK, CURSOR, DEEPSEEK, COPILOT, LILITH]
+agent.status: compiled
+
 title: sample_header.md
 agent_username: wolfie
 agent_id: 008
 channel_number: 001
-version: 2.0.0
-date_created: 2025-01-27
-last_modified: 2025-01-27
+version: 2.9.2
+date.created: 2025-12-12
+date.created_utc: 20251212233542
+last.modified: 2025-12-12
+last.modified_utc: 20251212233542
 status: example
 onchannel: 1
 tags: [SYSTEM, DOCUMENTATION]
@@ -16,7 +38,7 @@ superpositionally: ["FILEID_SAMPLE_HEADER"]
 
 # Sample Document Title
 
-This example shows how a Markdown file should look once the WOLFIE header v2.0.0 is in place.
+This example shows how a Markdown file should look once the WOLFIE header v2.9.2 is in place with UTC timestamps and human/agent metadata.
 
 ## INTRO
 
@@ -33,11 +55,12 @@ This example shows how a Markdown file should look once the WOLFIE header v2.0.0
 5. Keep exactly one blank line between the YAML block and the first heading.  
 6. Save the file in the appropriate channel directory.
 
-**v2.0.0 Changes:**
-- Added `agent_id: 008` (WOLFIE's agent ID)
-- Added `channel_number: 001` (zero-padded string matching `onchannel: 1`)
-- Added `version: 2.0.0` (header format version)
-- Collections can now include: WHO, WHAT, WHERE, WHEN, WHY, HOW, DO, HACK, OTHER, TAGS
+**v2.9.2 Changes:**
+- Added UTC timestamps: `date.created_utc` and `last.modified_utc` (YYYYMMDDHHMMSS format)
+- Added human metadata: `human.username`, `human.user_id`, `human.location`
+- Added agent metadata: `agent.username` (array), `agent.status`
+- All timestamps now include both human-readable date (YYYY-MM-DD) and UTC BIGINT (YYYYMMDDHHMMSS)
+- Collections can include: WHO, WHAT, WHERE, WHEN, WHY, HOW, DO, HACK, OTHER, TAGS
 
 ---
 

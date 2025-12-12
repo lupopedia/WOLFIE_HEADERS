@@ -1,6 +1,6 @@
 ---
 # ============================================================================
-# REQUIRED LIGHT COUNT FIELDS (for Counting in Light - WOLFIE HEADERS 2.9.0)
+# REQUIRED LIGHT COUNT FIELDS (for Counting in Light - WOLFIE HEADERS 2.9.2)
 # ============================================================================
 # CRITICAL: These five fields are MANDATORY for all files using Counting in Light.
 # Without these fields, the system will crash the database and cause data loss.
@@ -16,9 +16,24 @@ light.count.touch: 1  # Auto-increments on every file modification
 # WOLFIE HEADERS VERSION
 # ============================================================================
 
-wolfie.headers.version: 2.9.0
+wolfie.headers.version: 2.9.2
 wolfie.headers.branch: [branch_name]
 wolfie.headers.status: [status]
+
+# ============================================================================
+# HUMAN METADATA (WOLFIE HEADERS 2.9.2)
+# ============================================================================
+
+human.username: captain wolfie
+human.user_id: 1
+human.location: "Sioux Falls, South Dakota"
+
+# ============================================================================
+# AGENT METADATA (WOLFIE HEADERS 2.9.2)
+# ============================================================================
+
+agent.username: [GROK, CURSOR, DEEPSEEK, COPILOT, LILITH]
+agent.status: [compiled|active|inactive]
 
 # ============================================================================
 # STANDARD HEADER FIELDS
@@ -28,9 +43,11 @@ title: your_file_name.md
 agent_username: wolfie
 agent_id: 008
 channel_number: 001
-version: 2.0.1
-date_created: 2025-01-27
-last_modified: 2025-01-27
+version: 2.9.2
+date.created: 2025-12-12
+date.created_utc: 20251212233542
+last.modified: 2025-12-12
+last.modified_utc: 20251212233542
 status: draft
 onchannel: 1
 tags: [SYSTEM]
