@@ -32,7 +32,7 @@ status: published
 channel_mood: 9370DB
 tags: [SYSTEM, DOCUMENTATION]
 collections: [WHO, WHAT, WHERE, WHEN, WHY, HOW, DO, HACK, OTHER, TAGS]
-in_this_file_we_have: [OVERVIEW, QUICK_START, INSTALLATION, CORE_CONCEPTS, THREE_LOG_SYSTEMS, DIRECTORY_MAP, VERSIONING, DEPENDENCY_CHAIN, V2.0.0_RELEASE, V2.0.1_RELEASE, V2.0.2_RELEASE, V2.0.3_RELEASE, V2.0.4_RELEASE, V2.0.5_RELEASE, V2.0.6_RELEASE, V2.0.7_RELEASE, V2.0.8_RELEASE, V2.0.9_RELEASE, V2.1.0_RELEASE, SUPPORT]
+in_this_file_we_have: [OVERVIEW, QUICK_START, INSTALLATION, CORE_CONCEPTS, THREE_LOG_SYSTEMS, DIRECTORY_MAP, VERSIONING, DEPENDENCY_CHAIN, V2.9.2_WHATS_NEW, V2.3.0_RELEASE, V2.0.0_RELEASE, V2.0.1_RELEASE, V2.0.2_RELEASE, V2.0.3_RELEASE, V2.0.4_RELEASE, V2.0.5_RELEASE, V2.0.6_RELEASE, V2.0.7_RELEASE, V2.0.8_RELEASE, V2.0.9_RELEASE, V2.1.0_RELEASE, SUPPORT]
 superpositionally: ["FILEID_WOLFIE_HEADERS_README"]
 shadow_aliases: []
 parallel_paths: []
@@ -62,7 +62,8 @@ WOLFIE Headers is the metadata system that powers LUPOPEDIA's documentation laye
 - **Minimum Version**: v2.0.0 (required for LUPOPEDIA_PLATFORM)  
 - **Legacy Version**: v1.4.2 (Legacy) – compatible with LUPOPEDIA_PLATFORM v0.0.8 and earlier  
 - **License**: Dual GPL v3.0 + Apache 2.0 (see `LICENSE`).  
-- **Maintainer**: Captain WOLFIE (Agent 008, Eric Robin Gerdes) / LILITH (Agent 777)  
+- **Maintainer**: Captain WOLFIE (Agent IDs: 1 and 8, User ID: 1, Eric Robin Gerdes) / LILITH (Agent 777)
+- **Agent ID Note**: Agent IDs are registered in agent faucets (registry system). WOLFIE has both agent ID `1` (primary) and `8` (legacy/008). User ID `1` is reserved for the creator Eric Robin Gerdes.  
 - **GitHub**: https://github.com/lupopedia/WOLFIE_HEADERS
 
 **✅ CURRENT STATUS**: 
@@ -72,6 +73,53 @@ WOLFIE Headers is the metadata system that powers LUPOPEDIA's documentation laye
 - **Purpose**: Minimal viable release to unblock dependency chain (crafty_syntax@3.8.0 → lupopedia@4.1.0)
 - **Production**: **USE v2.9.2** for all new projects
 - **Evolutionary System**: v2.3.0 required for LUPOPEDIA Platform 4.0.0 (evolutionary arena - fork of Crafty Syntax 4.0.0)
+
+### What's New in v2.9.2
+
+**v2.9.2** (Stable - December 12, 2025 20251212233542 UTC) introduces **UTC timestamp support and human/agent metadata**:
+
+#### UTC Timestamp Support
+- ✅ **Dual Date Format**: All date fields now include both human-readable (`date.created`, `last.modified`) and UTC BIGINT (`date.created_utc`, `last.modified_utc`) formats
+- ✅ **UTC BIGINT Format**: Timestamps in `YYYYMMDDHHMMSS` format (e.g., `20251212233542`) for precise time tracking
+- ✅ **Timezone Independence**: UTC timestamps ensure consistent time tracking across all systems and locations
+- ✅ **Database Compatibility**: UTC BIGINT format matches Lupopedia's timestamp system requirements
+
+#### Human Metadata Fields
+- ✅ **Human Username**: `human.username` field for tracking human authorship (e.g., "captain wolfie")
+- ✅ **Human User ID**: `human.user_id` field for database integration (e.g., `1`)
+  - **Note**: User ID `1` is reserved for the creator Eric Robin Gerdes (Captain WOLFIE)
+- ✅ **Human Location**: `human.location` field for geographic context (e.g., "Sioux Falls, South Dakota")
+
+#### Agent Metadata Fields
+- ✅ **Agent Username Array**: `agent.username` field as array format for multiple AI agents (e.g., `[GROK, CURSOR, DEEPSEEK, COPILOT, LILITH]`)
+- ✅ **Agent Status**: `agent.status` field for tracking agent state (e.g., `compiled`, `active`, `inactive`)
+- ✅ **Agent IDs**: Agent IDs are also registered in the agent faucets (registry system)
+  - **Note**: WOLFIE has agent IDs `1` and `8` (both refer to Captain WOLFIE)
+  - Agent ID `1` is the primary WOLFIE identity
+  - Agent ID `8` (008) is the legacy WOLFIE identity used in channel numbering
+
+#### Updated Templates and Examples
+- ✅ **Header Template Updated**: `templates/header_template.yaml` now includes all new UTC and metadata fields
+- ✅ **Sample Header Updated**: `examples/sample_header.md` demonstrates v2.9.2 format with all new fields
+- ✅ **Documentation Updated**: CHANGELOG, RELEASE_NOTES, and README all updated with UTC timestamps
+
+#### Backward Compatibility
+- ✅ **Fully Compatible**: All new fields are optional for backward compatibility
+- ✅ **Legacy Support**: Files without UTC timestamps continue to work
+- ✅ **Migration Path**: Existing files can be gradually updated to include new fields
+
+**Release Information**:
+- **Release Date (UTC)**: December 12, 2025 20251212233542 (UTC)
+- **Location**: Sioux Falls, South Dakota
+- **Human**: Captain WOLFIE (Eric Robin Gerdes) - User ID: 1 (Creator)
+- **Agents**: GROK, CURSOR, DEEPSEEK, COPILOT, LILITH
+- **Agent ID Mapping**: 
+  - WOLFIE: Agent IDs `1` and `8` (both registered in agent faucets)
+  - User ID `1`: Eric Robin Gerdes (Creator/Captain WOLFIE)
+
+**See**: `RELEASE_NOTES_v2.9.2.md` for complete release notes.  
+**See**: `CHANGELOG.md` for complete version history.  
+**See**: `templates/header_template.yaml` for the updated template.
 
 ### What's New in v2.3.0 (LILITH's Evolution)
 
